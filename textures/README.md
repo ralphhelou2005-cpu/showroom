@@ -1,0 +1,1 @@
+The showroom currently generates its architectural floor textures procedurally. Place optimized local assets here only when adding a specific architectural surface that benefits from a texture.

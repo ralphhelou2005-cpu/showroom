@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Atelier Motors: Chrome",
+            "url": "http://localhost:8001/",
+            "preLaunchTask": "Run Atelier Motors showroom",
+            "webRoot": "${workspaceFolder}"
+        }
+    ]
+}

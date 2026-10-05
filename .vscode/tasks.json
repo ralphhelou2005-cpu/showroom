@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Atelier Motors showroom",
+      "type": "shell",
+      "command": "powershell.exe",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "${workspaceFolder}/run-local.ps1"
+      ],
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "showroom-server",
+        "pattern": { "regexp": "^$" },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Serving Atelier Motors showroom",
+          "endsPattern": "^Server stopped$"
+        }
+      },
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": false }
+    }
+  ]
+}

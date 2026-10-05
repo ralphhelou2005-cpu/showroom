@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#bcd0e6" />
+    <meta name="description" content="Explore Atelier Motors from inside a cinematic luxury showroom." />
+    <title>Atelier Motors — The Showroom</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <script type="importmap">
+      {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/","gsap":"https://cdn.jsdelivr.net/npm/gsap@3.14.2/index.js"}}
+    </script>
+  </head>
+  <body>
+    <main class="showroom-app" id="showroom-app">
+      <canvas id="showroom-canvas" aria-label="Interactive 3D luxury showroom environment"></canvas>
+      <div class="world-overlay" aria-hidden="true"></div>
+
+      <section class="arrival-curtain" id="arrival-curtain" aria-label="Entering the showroom">
+        <a class="arrival-brand"><span class="brand-seal">A</span> ATELIER <i>MOTORS</i></a>
+        <div class="arrival-caption"><span class="eyebrow"><i></i> ENTERING SHOWROOM</span><h1>Come on <em>in.</em></h1><p>A considered collection awaits inside.</p></div>
+        <div class="arrival-status"><span id="arrival-status">Loading showroom...</span><b id="arrival-percentage">0%</b></div>
+        <div class="arrival-progress"><i id="arrival-progress"></i></div>
+        <button class="arrival-skip" id="arrival-skip">SKIP INTRO <span>↗</span></button>
+      </section>
+
+      <header class="world-header" id="world-header">
+        <a class="wordmark" href="#home"><span class="wordmark__symbol">A</span><span>ATELIER <i>MOTORS</i></span></a>
+        <nav class="showroom-nav" id="showroom-nav" aria-label="Showroom areas">
+          <button data-destination="home" class="is-active" aria-current="page">Home</button>
+          <button data-destination="inventory">Inventory</button>
+          <button data-destination="brands">Brands</button>
+          <button data-destination="services">Services</button>
+          <button data-destination="about">About</button>
+          <button data-destination="contact">Contact</button>
+        </nav>
+        <div class="world-location"><i></i><span id="world-location-label">MAIN SHOWROOM</span></div>
+      </header>
+
+      <div class="world-caption" id="world-caption"><span>ATELIER MOTORS</span><i></i><span>PRIVATE AUTOMOTIVE HOUSE</span></div>
+
+      <section class="display-surface display-surface--home" id="screen-home" aria-label="Welcome to Atelier Motors" aria-hidden="true">
+        <div class="surface-topline"><span>ATELIER MOTORS</span><span>PRIVATE AUTOMOTIVE HOUSE · EST. 1988</span></div>
+        <div class="home-display"><span class="eyebrow"><i></i> WELCOME</span><h2>Experience<br /><em>Automotive Excellence.</em></h2><p>A considered collection. A personal welcome.<br />Take a moment and look around.</p>
+          <div class="nav-choices">
+            <button data-destination="inventory"><span>01</span><strong>Inventory</strong><i>↗</i></button>
+            <button data-destination="brands"><span>02</span><strong>Brands</strong><i>↗</i></button>
+            <button data-destination="services"><span>03</span><strong>Services</strong><i>↗</i></button>
+            <button data-destination="about"><span>04</span><strong>About us</strong><i>↗</i></button>
+            <button data-destination="contact"><span>05</span><strong>Contact</strong><i>↗</i></button>
+          </div>
+        </div>
+        <div class="surface-footline"><span>STUTTGART</span><span>01 — THE WELCOME LOUNGE</span><span>OPEN TODAY · UNTIL 19:00</span></div>
+      </section>
+
+      <section class="display-surface display-surface--section" id="screen-section" aria-label="Showroom section" aria-hidden="true">
+        <div class="surface-topline"><button class="screen-back" id="screen-back">← HOME</button><span id="section-location">LEFT WING · INVENTORY</span></div>
+        <div class="section-screen-content" id="section-screen-content"><span id="screen-results-count" hidden></span></div>
+        <div class="surface-footline"><span>ATELIER MOTORS</span><span id="section-footnote">A CONSIDERED COLLECTION</span><span>STUTTGART</span></div>
+      </section>
+
+      <section class="vehicle-view" id="vehicle-view" aria-hidden="true">
+        <div class="vehicle-view__photo" id="detail-photo"></div><div class="vehicle-view__shade"></div>
+        <button class="detail-back" id="close-detail"><span>←</span> BACK TO INVENTORY</button>
+        <div class="detail-photo-credit" id="photo-credit"></div>
+        <button class="detail-next-photo" id="next-photo" aria-label="Next vehicle photograph">↗</button>
+        <div class="detail-pagination" id="detail-pagination"></div>
+        <aside class="vehicle-panel">
+          <button class="vehicle-panel__close" id="close-detail-panel" aria-label="Close vehicle details">×</button>
+          <div class="vehicle-panel__switch"><button id="previous-vehicle">← <span>PREVIOUS</span></button><button id="next-vehicle"><span>NEXT</span> →</button></div>
+          <span class="eyebrow" id="detail-kicker">BMW · 2021</span><h2 id="detail-name">M4 Competition</h2><p class="detail-price" id="detail-price">$95,000</p>
+          <div class="detail-model-status" id="detail-model-status">ORIGINAL VEHICLE PHOTOGRAPHY</div>
+          <div class="detail-specs" id="spec-grid"></div>
+          <div class="detail-gallery"><div class="detail-gallery__heading"><span>THE PHOTOGRAPHS</span><span id="gallery-count">01 / 05</span></div><div class="gallery-thumbs" id="gallery-thumbs"></div></div>
+          <div class="detail-contact"><button class="button button--light" id="request-drive">Request a private viewing <span>↗</span></button><button class="button button--outline" id="contact-dealer">Contact the house <span>↗</span></button></div>
+        </aside>
+      </section>
+
+      <div class="panel-scrim" id="panel-scrim"></div>
+      <aside class="inventory-panel" id="inventory-panel" aria-label="Vehicle inventory" aria-hidden="true">
+        <div class="panel-heading"><div><span class="eyebrow">THE COLLECTION</span><h2>Find your<br /><em>next drive.</em></h2></div><button class="icon-button panel-close" id="inventory-close" aria-label="Close inventory">×</button></div>
+        <div class="inventory-filters"><label class="search-field"><span>⌕</span><input id="search-input" type="search" placeholder="Search the collection" /></label><div class="filter-row"><select id="brand-filter" aria-label="Filter by brand"><option value="">All marques</option></select><select id="type-filter" aria-label="Filter by style"><option value="">All styles</option><option>Sedan</option><option>Coupe</option><option>SUV</option><option>Performance</option><option>Luxury</option></select></div><div class="filter-row"><select id="price-filter" aria-label="Filter by price"><option value="">Any price</option><option value="100000">Under $100,000</option><option value="150000">Under $150,000</option><option value="200000">Under $200,000</option></select><select id="sort-filter" aria-label="Sort vehicles"><option value="featured">Featured</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option><option value="year-desc">Newest first</option></select></div></div>
+        <div class="inventory-results" id="inventory-results"></div><div class="inventory-footer"><span id="results-count">06 vehicles</span><span>CURATED WITH CARE · STUTTGART</span></div>
+      </aside>
+      <section class="info-panel" id="info-panel" aria-hidden="true"><button class="icon-button panel-close" id="info-close" aria-label="Close information">×</button><span class="eyebrow" id="info-eyebrow">ATELIER MOTORS</span><h2 id="info-title">A different<br /><em>point of view.</em></h2><div id="info-content"></div></section>
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      <button class="image-credit" id="show-credits">IMAGE CREDITS ↗</button>
+    </main>
+    <script type="module" src="/js/main.js"></script>
+  </body>
+</html>
