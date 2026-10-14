@@ -1,0 +1,219 @@
+--- showroom.lf.js	2026-10-13 20:03:38.841340804 +0000
++++ showroom.patched.js	2026-10-13 20:09:46.210716889 +0000
+@@ -23,6 +23,21 @@
+ const wait = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
+ const CENTER_Z = -4.15;
+ 
++// Day -> golden hour -> evening. Each list is [day, golden, evening]; edit freely to change the mood.
++const EVENING = {
++  sunColor: ['#fff0dc', '#ffb36b', '#7f8fc8'],
++  sunIntensity: [2.6, 1.7, 0.3],
++  hemiSky: ['#e6eefa', '#c9b8ab', '#3a4470'],
++  hemiGround: ['#cfcac2', '#7a6657', '#1e2234'],
++  hemiIntensity: [0.28, 0.25, 0.22],
++  fog: ['#c9d7e6', '#dfb894', '#2b3254'],
++  fogDensity: [0.0036, 0.0042, 0.0046],
++  sky: ['#ffffff', '#ffb98c', '#6f86c8'], // multiplies the sky texture
++  envIntensity: [0.75, 0.62, 0.45],
++  ledBoost: [0, 0.5, 1], // extra emissive on LED strips and lamps
++  wakeLights: 34, // facade lights at full evening
++};
++
+ function scaleBoxUV(geometry, [w, h, d], tile, ox, oy) {
+   const uv = geometry.attributes.uv;
+   const faces = [[d, h], [d, h], [w, d], [w, d], [w, h], [w, h]];
+@@ -109,7 +124,10 @@
+     this.buildShell();
+     this.registerCameraColliders();
+     this.lib.onChange = () => this.requestRender();
++    this.post = null;
+     this.createResizeHandling();
++    this.initRealism();
++    this.loadLogo();
+     this.timings.stage1 = Math.round(performance.now() - t0);
+     this.tick = () => this.renderFrame();
+     gsap.ticker.add(this.tick);
+@@ -132,6 +150,103 @@
+     this.dirty = true;
+   }
+ 
++  /* ---------- realism, logo, evening, story ---------- */
++
++  // Post-processing, filmic tone mapping and glossier materials (js/realism-upgrade.js). Add ?fx=0 to the URL to switch it off.
++  async initRealism() {
++    if (new URLSearchParams(location.search).get('fx') === '0') return;
++    try {
++      const fx = await import('./realism-upgrade.js');
++      fx.upgradeRenderer(this.renderer);
++      fx.upgradeMaterials(this.m);
++      this.post = fx.createPostProcessing(this);
++      this.requestRender();
++    } catch (error) {
++      console.warn('Realism upgrade skipped', error);
++      this.post = null;
++    }
++  }
++
++  // The official logo (assets/logo/logo-white.png) replaces the text on the facade sign once it loads.
++  loadLogo() {
++    const image = new Image();
++    image.onload = () => { this.logoImage = image; this.applyLogo(); };
++    image.src = 'assets/logo/logo-white.png';
++  }
++
++  applyLogo() {
++    const image = this.logoImage;
++    if (!image || !this.logoPlates) return;
++    for (const plate of this.logoPlates) {
++      const { canvas, texture, aspect } = plate;
++      canvas.width = 3072;
++      canvas.height = Math.round(3072 / aspect);
++      const g = canvas.getContext('2d');
++      const { width: w, height: h } = canvas;
++      const bg = g.createLinearGradient(0, 0, 0, h);
++      bg.addColorStop(0, '#2a2e30');
++      bg.addColorStop(0.5, '#171a1c');
++      bg.addColorStop(1, '#25292b');
++      g.fillStyle = bg;
++      g.fillRect(0, 0, w, h);
++      const scale = Math.min((w * 0.72) / image.width, (h * 0.66) / image.height);
++      const dw = image.width * scale;
++      const dh = image.height * scale;
++      g.drawImage(image, (w - dw) / 2, (h - dh) / 2, dw, dh);
++      texture.dispose();
++      texture.needsUpdate = true;
++    }
++    this.requestRender();
++  }
++
++  // k = 0 daylight, 0.5 golden hour, 1 evening. Driven by the scroll story; call it yourself for a fixed mood.
++  setTimeOfDay(k) {
++    k = THREE.MathUtils.clamp(k, 0, 1);
++    if (this._tod !== undefined && k !== 0 && k !== 1 && Math.abs(this._tod - k) < 0.002) return;
++    this._tod = k;
++    const E = EVENING;
++    const cache = (this._eveningColors ??= Object.fromEntries(['sunColor', 'hemiSky', 'hemiGround', 'fog', 'sky'].map((key) => [key, E[key].map((c) => new THREE.Color(c))])));
++    const tmp = (this._eveningTmp ??= new THREE.Color());
++    const colour = (key) => {
++      const [a, b, c] = cache[key];
++      return k < 0.5 ? tmp.copy(a).lerp(b, k * 2) : tmp.copy(b).lerp(c, (k - 0.5) * 2);
++    };
++    const number = ([a, b, c]) => (k < 0.5 ? a + (b - a) * k * 2 : b + (c - b) * (k - 0.5) * 2);
++
++    if (this.sun) { this.sun.color.copy(colour('sunColor')); this.sun.intensity = number(E.sunIntensity); }
++    if (this.hemi) {
++      this.hemi.color.copy(colour('hemiSky'));
++      this.hemi.groundColor.copy(colour('hemiGround'));
++      this.hemi.intensity = number(E.hemiIntensity);
++    }
++    const fog = colour('fog');
++    this.scene.fog.color.copy(fog);
++    this.scene.fog.density = number(E.fogDensity);
++    this.scene.background.copy(fog);
++    this.skyDome?.material.color.copy(colour('sky'));
++    this.scene.environmentIntensity = number(E.envIntensity);
++
++    const boost = number(E.ledBoost);
++    const base = (this._ledBase ??= { ledWarm: this.m.ledWarm.emissiveIntensity, ledSoft: this.m.ledSoft.emissiveIntensity, lampShade: this.m.lampShade.emissiveIntensity });
++    for (const key of Object.keys(base)) this.m[key].emissiveIntensity = base[key] * (1 + boost * 0.9);
++    const wake = THREE.MathUtils.smoothstep(k, 0.25, 0.75);
++    for (const light of this.exteriorWakeLights) light.intensity = E.wakeLights * wake;
++    this.requestRender();
++  }
++
++  // Scroll-driven opening (js/story.js). Resolves true when the story took over; false means use the standard intro.
++  async startStory() {
++    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
++    try {
++      const { ScrollStory } = await import('./story.js');
++      this.story = new ScrollStory(this);
++      return this.story.begin();
++    } catch (error) {
++      console.warn('Scroll story unavailable', error);
++      return false;
++    }
++  }
++
+   /* ---------- helpers ---------- */
+ 
+   box(parent, size, position, material, options = {}) {
+@@ -330,9 +445,16 @@
+ 
+   sign(parent, text, position, width, height = 0.52) {
+     const frame = this.box(parent, [width, height, 0.05], position, this.m.darkSteel, { castShadow: false });
+-    const plate = new THREE.Mesh(new THREE.PlaneGeometry(width - 0.06, height - 0.06), this.screenMaterial(this.brandCanvas(text, '', (width - 0.06) / (height - 0.06), 0.52), 0.9));
++    const aspect = (width - 0.06) / (height - 0.06);
++    const canvas = this.brandCanvas(text, '', aspect, 0.52);
++    const material = this.screenMaterial(canvas, 0.9);
++    const plate = new THREE.Mesh(new THREE.PlaneGeometry(width - 0.06, height - 0.06), material);
+     plate.position.set(position[0], position[1], position[2] + 0.028);
+     parent.add(plate);
++    if (text === 'AUTO HAUS GROUP') {
++      (this.logoPlates ??= []).push({ canvas, texture: material.emissiveMap, aspect });
++      this.applyLogo();
++    }
+     return frame;
+   }
+ 
+@@ -351,14 +473,16 @@
+ 
+   buildLighting() {
+     const scene = this.scene;
+-    scene.add(new THREE.HemisphereLight('#e6eefa', '#cfcac2', 0.28));
++    this.hemi = new THREE.HemisphereLight('#e6eefa', '#cfcac2', 0.28);
++    scene.add(this.hemi);
+ 
+     // Daylight from the upper left; the ceiling casts shadows so sun only enters through the glass.
+     const sun = new THREE.DirectionalLight('#fff0dc', 2.6);
+     sun.position.copy(SUN_DIRECTION).multiplyScalar(60).add(new THREE.Vector3(0, 0, -3));
+     sun.target.position.set(0, 0, -3);
++    this.sun = sun;
+     sun.castShadow = true;
+-    sun.shadow.mapSize.set(2048, 2048);
++    sun.shadow.mapSize.setScalar(matchMedia('(pointer: coarse)').matches ? 2048 : 4096);
+     Object.assign(sun.shadow.camera, { left: -30, right: 30, top: 26, bottom: -26, near: 5, far: 130 });
+     sun.shadow.bias = -0.0004;
+     sun.shadow.normalBias = 0.04;
+@@ -477,6 +601,7 @@
+     this.skyTexture = canvasTexture(c, 4);
+     const dome = new THREE.Mesh(new THREE.SphereGeometry(220, 48, 24), new THREE.MeshBasicMaterial({ map: this.skyTexture, side: THREE.BackSide, fog: false, depthWrite: false }));
+     dome.renderOrder = -10;
++    this.skyDome = dome;
+     this.scene.add(dome);
+   }
+ 
+@@ -1308,6 +1433,7 @@
+     this.camera.updateProjectionMatrix();
+     this.renderer.setPixelRatio(Math.min(this.pixelRatio, width < 640 ? 1.15 : this.maxPixelRatio));
+     this.renderer.setSize(width, height, false);
++    this.post?.setSize(width, height, this.renderer.getPixelRatio());
+     this.dirty = true;
+   }
+ 
+@@ -1455,6 +1581,7 @@
+     if (dt < 250) t.average = t.average * 0.94 + dt * 0.06;
+     if (now - t.checked < 2000) return;
+     t.checked = now;
++    if (t.average > 30 && this.pixelRatio <= 0.95) this.post?.setQuality(true);
+     if (t.average > 26 && this.pixelRatio > 0.8) {
+       this.pixelRatio = Math.max(0.8, this.pixelRatio - 0.15);
+       this.resize();
+@@ -1479,7 +1606,17 @@
+       this.lastShadow = now;
+     }
+     if (this.transitioning) this.adaptQuality(now);
+-    this.renderer.render(this.scene, this.camera);
++    if (this.post) {
++      try {
++        this.post.render();
++      } catch (error) {
++        // A post-processing failure must never take the whole scene down: fall back to the plain renderer.
++        console.warn('Post-processing disabled', error);
++        this.post = null;
++        this.renderer.setRenderTarget(null);
++        this.renderer.render(this.scene, this.camera);
++      }
++    } else this.renderer.render(this.scene, this.camera);
+     if (this.shadowDirty) this.dirty = true;
+   }
+ 

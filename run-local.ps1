@@ -3,18 +3,6 @@ $root = [System.IO.Path]::GetFullPath($PSScriptRoot)
 $rootPrefix = $root.TrimEnd([System.IO.Path]::DirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar
 $port = 8001
 $listener = $null
-$mimeTypes = @{
-  '.css' = 'text/css; charset=utf-8'
-  '.html' = 'text/html; charset=utf-8'
-  '.jpeg' = 'image/jpeg'
-  '.jpg' = 'image/jpeg'
-  '.js' = 'text/javascript; charset=utf-8'
-  '.json' = 'application/json; charset=utf-8'
-  '.png' = 'image/png'
-  '.svg' = 'image/svg+xml'
-  '.webp' = 'image/webp'
-}
-
   if (-not ('ShowroomStaticServer' -as [type])) {
     $compilerLib = $env:LIB
     try {
@@ -69,7 +57,7 @@ $mimeTypes = @{
         string extension = Path.GetExtension(filePath).ToLowerInvariant();
         context.Response.StatusCode = 200;
         context.Response.ContentType = GetContentType(extension);
-        context.Response.Headers["Cache-Control"] = "no-store";
+        context.Response.Headers["Cache-Control"] = extension == ".html" || extension == ".css" || extension == ".js" ? "no-cache" : extension == ".mp4" ? "no-store" : "public, max-age=86400, stale-while-revalidate=604800";
         using (FileStream stream = File.OpenRead(filePath))
         {
           context.Response.ContentLength64 = stream.Length;
@@ -99,6 +87,7 @@ $mimeTypes = @{
         case ".jpg": return "image/jpeg";
         case ".js": return "text/javascript; charset=utf-8";
         case ".json": return "application/json; charset=utf-8";
+        case ".mp4": return "video/mp4";
         case ".png": return "image/png";
         case ".svg": return "image/svg+xml";
         case ".webp": return "image/webp";
@@ -128,7 +117,7 @@ while (-not $started -and $port -le 8010) {
   }
 }
 if (-not $started) { throw 'No available localhost port found between 8000 and 8010.' }
-Write-Host "Serving Atelier Motors showroom at http://localhost:$port/"
+Write-Host "Serving AUTO HAUS GROUP showroom at http://localhost:$port/"
 Write-Host 'Press Ctrl+C to stop the server.'
 
 try {

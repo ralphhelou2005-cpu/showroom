@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0c0e0d" />
+  <title>AUTO HAUS GROUP — The Arrival</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet" />
+  <style>
+    :root { --track: 700vh; --gold: #d4b97e; --ink: #f3efe6; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: #0c0e0d; color: var(--ink); font-family: 'Manrope', system-ui, sans-serif; }
+    #track { height: var(--track); }
+    .stage { position: fixed; inset: 0; overflow: hidden; background: #0c0e0d; }
+    video, .poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .poster { display: none; }
+    .stage.no-video .poster { display: block; }
+    .shade { position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(0,0,0,.45)),
+                  linear-gradient(0deg, rgba(8,10,9,.62), transparent 42%),
+                  linear-gradient(180deg, rgba(8,10,9,.4), transparent 22%); }
+    header { position: absolute; left: 5.2%; right: 5.2%; top: 28px; display: flex; justify-content: space-between; align-items: center; }
+    header img { height: 22px; }
+    header a { color: inherit; font-size: 11px; font-weight: 600; letter-spacing: .26em; text-transform: uppercase; text-decoration: none; opacity: .85; }
+    header a:hover { color: var(--gold); opacity: 1; }
+    .chapter { position: absolute; left: 5.2%; bottom: 15%; max-width: min(560px, 86vw); opacity: 0; transform: translateY(16px);
+      transition: opacity .7s, transform .7s; text-shadow: 0 2px 28px rgba(0,0,0,.6); }
+    .chapter.on { opacity: 1; transform: none; }
+    .chapter .no { display: block; margin-bottom: 14px; color: var(--gold); font-size: 11px; font-weight: 600; letter-spacing: .32em; text-transform: uppercase; }
+    .chapter h2 { margin: 0 0 12px; font: 500 clamp(38px, 6vw, 88px)/1.02 'Playfair Display', Georgia, serif; }
+    .chapter h2 em { font-style: italic; }
+    .chapter p { margin: 0; font-size: clamp(13px, 1.2vw, 16px); letter-spacing: .04em; opacity: .85; }
+    .cta { display: inline-block; margin-top: 26px; padding: 15px 26px; border: 1px solid var(--ink); color: var(--ink); text-decoration: none;
+      font-size: 11px; font-weight: 700; letter-spacing: .26em; text-transform: uppercase; background: rgba(10,12,11,.35); backdrop-filter: blur(6px);
+      transition: background .3s, color .3s, border-color .3s; pointer-events: none; }
+    .chapter.on .cta { pointer-events: auto; }
+    .cta:hover { background: var(--ink); color: #111; }
+    .rail { position: absolute; right: 28px; top: 50%; width: 2px; height: min(38vh, 320px); transform: translateY(-50%); background: rgba(243,239,230,.25); }
+    .rail i { position: absolute; left: 0; top: 0; width: 100%; height: 0; background: var(--gold); }
+    .hint { position: absolute; left: 50%; bottom: 30px; transform: translateX(-50%); display: flex; gap: 10px; font-size: 11px; font-weight: 600;
+      letter-spacing: .3em; text-transform: uppercase; transition: opacity .5s; }
+    .hint b { animation: bob 1.6s ease-in-out infinite; }
+    @keyframes bob { 50% { transform: translateY(6px); } }
+    .note { position: absolute; left: 50%; top: 74px; transform: translateX(-50%); max-width: min(620px, 90vw); padding: 10px 14px; font-size: 12px; line-height: 1.5;
+      background: rgba(10,12,11,.78); border: 1px solid rgba(212,185,126,.5); display: none; }
+    .note.show { display: block; }
+    .note button { margin-left: 10px; border: 0; background: none; color: var(--gold); font: inherit; cursor: pointer; }
+    @media (max-width: 640px) { .chapter { bottom: 19%; } .rail { right: 14px; } header img { height: 18px; } }
+    @media (prefers-reduced-motion: reduce) { :root { --track: 100vh; } .hint, .rail { display: none; } }
+  </style>
+</head>
+<body>
+  <div id="track"></div>
+  <div class="stage" id="stage">
+    <!-- Remove data-placeholder once assets/story.mp4 is your own generated footage. -->
+    <video id="film" src="assets/story.mp4" poster="assets/poster.jpg" muted playsinline preload="auto" data-placeholder="true"></video>
+    <img class="poster" src="assets/poster.jpg" alt="" />
+    <div class="shade"></div>
+    <header><img src="../assets/logo/logo-white.png" alt="AUTO HAUS GROUP" /><a href="../index.html#live">Live 3D showroom ↗</a></header>
+
+    <div class="chapter" data-from="0" data-to="0.2"><span class="no">01 / 05</span><h2>Arrival</h2><p>A considered collection.</p></div>
+    <div class="chapter" data-from="0.2" data-to="0.42"><span class="no">02 / 05</span><h2>The <em>house</em></h2><p>Independent by nature. Since 1988.</p></div>
+    <div class="chapter" data-from="0.42" data-to="0.64"><span class="no">03 / 05</span><h2>Evening</h2><p>As the day ends, the house comes alive.</p></div>
+    <div class="chapter" data-from="0.64" data-to="0.86"><span class="no">04 / 05</span><h2>Come on <em>in</em></h2><p>A personal welcome awaits inside.</p></div>
+    <div class="chapter" data-from="0.86" data-to="1.1"><span class="no">05 / 05</span><h2>The <em>collection</em></h2><p>Walk the showroom floor yourself.</p><a class="cta" href="../index.html#live">Enter the live showroom ↗</a></div>
+
+    <div class="rail"><i id="fill"></i></div>
+    <div class="hint" id="hint"><span>Scroll</span><b>↓</b></div>
+    <div class="note" id="note">Placeholder clip built from your two photos. Replace <code>assets/story.mp4</code> with your generated shots (see PROMPTS.md), then delete <code>data-placeholder</code> in index.html.<button id="noteClose" aria-label="Dismiss">×</button></div>
+  </div>
+
+  <script>
+    const $ = (s) => document.querySelector(s);
+    const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+    const film = $('#film'), stage = $('#stage'), fill = $('#fill'), hint = $('#hint');
+    const chapters = [...document.querySelectorAll('.chapter')];
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (film.dataset.placeholder === 'true') $('#note').classList.add('show');
+    $('#noteClose').addEventListener('click', () => $('#note').classList.remove('show'));
+
+    let duration = 0, target = 0, current = 0, lastSeek = -1;
+    film.addEventListener('loadedmetadata', () => { duration = film.duration; });
+    film.addEventListener('error', () => stage.classList.add('no-video'));
+
+    // iOS Safari only allows seeking once the video has been "played" by a user gesture.
+    const unlock = () => { film.play().then(() => film.pause()).catch(() => {}); removeEventListener('touchstart', unlock); removeEventListener('pointerdown', unlock); };
+    addEventListener('touchstart', unlock, { passive: true });
+    addEventListener('pointerdown', unlock, { passive: true });
+
+    function scrollProgress() {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      return max > 0 ? clamp(scrollY / max, 0, 1) : 0;
+    }
+
+    function setChapter(p) {
+      chapters.forEach((c) => c.classList.toggle('on', p >= +c.dataset.from && p < +c.dataset.to));
+    }
+
+    function frame() {
+      target = scrollProgress();
+      current += (target - current) * 0.12;
+      if (Math.abs(target - current) < 0.0003) current = target;
+      if (duration && !reduced) {
+        const t = current * (duration - 0.05);
+        // Only seek when the time moved by about a frame and the last seek has landed: avoids a seek queue.
+        if (Math.abs(t - lastSeek) > 1 / 60 && !film.seeking) { film.currentTime = t; lastSeek = t; }
+      }
+      fill.style.height = `${(current * 100).toFixed(1)}%`;
+      hint.style.opacity = String(clamp(1 - current * 14, 0, 1));
+      setChapter(reduced ? 1 : current);
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  </script>
+</body>
+</html>

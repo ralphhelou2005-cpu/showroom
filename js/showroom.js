@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { gsap } from 'gsap';
-import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { rng } from './textures.js';
@@ -15,13 +14,30 @@ const DESTINATIONS = {
   brands: { label: 'RIGHT WING · BRANDS', position: [5.3, 2.35, 1.7], target: [8, 2.1, -3.1], waypoints: [[0, 2.35, 4.7], [3.1, 2.35, 3.1], [5.3, 2.35, 1.7]], screenClass: 'screen-right' },
   services: { label: 'BACK LEFT · SERVICES', position: [-5.2, 2.4, -7.2], target: [-9, 2.25, -12.4], waypoints: [[0, 2.35, 4.7], [-4.2, 2.35, 2.8], [-6, 2.4, -2.8], [-5.2, 2.4, -7.2]], screenClass: 'screen-back-left' },
   about: { label: 'BACK RIGHT · ABOUT US', position: [5.2, 2.4, -7.2], target: [9, 2.25, -12.4], waypoints: [[0, 2.35, 4.7], [4.2, 2.35, 2.8], [6, 2.4, -2.8], [5.2, 2.4, -7.2]], screenClass: 'screen-back-right' },
-  contact: { label: 'FRONT RIGHT · RECEPTION', position: [4.4, 2.3, 3.1], target: [8.4, 1.8, 8.3], waypoints: [[0, 2.35, 4.7], [2.4, 2.3, 4.2], [4.4, 2.3, 3.1]], screenClass: 'screen-front' },
+  contact: { label: 'FRONT RIGHT · CONTACT', position: [4.4, 2.3, 3.1], target: [8.4, 2.95, 9.58], waypoints: [[0, 2.35, 4.7], [2.4, 2.3, 4.2], [4.4, 2.3, 3.1]], screenClass: 'screen-front' },
 };
 
 const UNIT_BOX = new THREE.BoxGeometry(1, 1, 1);
+UNIT_BOX.setAttribute('uv2', UNIT_BOX.attributes.uv.clone());
+const UNIT_PANE = new THREE.PlaneGeometry(1, 1);
+UNIT_PANE.setAttribute('uv2', UNIT_PANE.attributes.uv.clone());
 export const SUN_DIRECTION = new THREE.Vector3(-24, 21, 10).normalize();
 const wait = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
 const CENTER_Z = -4.15;
+
+const EVENING = {
+  sunColor: ['#fff0dc', '#ffb36b', '#7f8fc8'],
+  sunIntensity: [2.15, 1.95, 0.35],
+  hemiSky: ['#e6eefa', '#c9b8ab', '#3a4470'],
+  hemiGround: ['#cfcac2', '#7a6657', '#1e2234'],
+  hemiIntensity: [0.72, 0.68, 0.45],
+  fog: ['#c9d7e6', '#dfb894', '#2b3254'],
+  fogDensity: [0.0036, 0.0042, 0.0046],
+  sky: ['#ffffff', '#ffb98c', '#6f86c8'],
+  envIntensity: [0.8, 0.75, 0.55],
+  ledBoost: [0, 0.5, 1],
+  wakeLights: 34,
+};
 
 function scaleBoxUV(geometry, [w, h, d], tile, ox, oy) {
   const uv = geometry.attributes.uv;
@@ -53,13 +69,16 @@ export class Showroom {
     this.scene.background = new THREE.Color('#bcd0e6');
     this.scene.fog = new THREE.FogExp2('#c9d7e6', 0.0036);
     this.camera = new THREE.PerspectiveCamera(38, 1, 0.1, 400);
-    this.camera.position.set(0, 2.5, 20);
-    this.lookTarget = new THREE.Vector3(0, 2, -1.4);
+    this.camera.position.set(22, 104, 38);
+    this.lookTarget = new THREE.Vector3(0, 80, -70);
     this.camera.lookAt(this.lookTarget);
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
-    this.maxPixelRatio = Math.min(devicePixelRatio, 1.5);
+    const coarsePointer = matchMedia('(pointer: coarse)').matches;
+    this.highTier = !coarsePointer && innerWidth >= 1200 && (navigator.deviceMemory ?? 8) >= 8 && (navigator.hardwareConcurrency ?? 4) >= 12;
+    this.maxPixelRatio = Math.max(1, Math.min(devicePixelRatio, this.highTier ? 1.5 : coarsePointer ? 1.15 : 1.25));
     this.pixelRatio = this.maxPixelRatio;
     this.renderer.setPixelRatio(this.pixelRatio);
+    this.renderer.transmissionResolutionScale = 1;
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.NeutralToneMapping;
     this.renderer.toneMappingExposure = 0.68;
@@ -68,11 +87,14 @@ export class Showroom {
     // The room is static, so shadow maps are re-rendered only when content is added.
     this.renderer.shadowMap.autoUpdate = false;
     this.renderer.shadowMap.needsUpdate = true;
-    RectAreaLightUniformsLib.init();
 
     this.currentDestination = 'entrance';
+    this.startupPreparing = true;
+    this.outside = true;
+    this.fastEntrance = false;
     this.transitioning = false;
     this.entering = false;
+    this.isIntroPlaying = false;
     this.dirty = true;
     this.shadowDirty = true;
     this.lastShadow = 0;
@@ -85,43 +107,114 @@ export class Showroom {
     this._hi = new THREE.Vector3();
     this._startLook = new THREE.Vector3();
     this._endLook = new THREE.Vector3();
+    this._cameraClip = new THREE.Matrix4();
+    this._cameraFrustum = new THREE.Frustum();
+    this.cameraCullingEnabled = true;
+    this.cullingMeshes = [];
+    this.glassPlanes = [];
     this.timings = {};
     this.interiorReady = new Promise((resolve) => { this._resolveInterior = resolve; });
+    this.stagesReady = new Promise((resolve) => { this._resolveStages = resolve; });
+    this.sectionsReady = false;
     this.rand = rng(20240603);
     this.root = new THREE.Group();
     this.scene.add(this.root);
+    this.deferredGroups = [];
     this.contactMats = new Map();
     this.roundedGeo = new Map();
+    this.exteriorWakeLights = [];
     this.frameTimes = { average: 16, last: performance.now(), checked: performance.now() };
 
-    this.lib = new TextureLibrary(this.renderer);
+    this.lib = new TextureLibrary(this.renderer, { maxSize: this.highTier ? 2048 : 1024 });
     this.m = createMaterials(this.lib);
     this.plants = new PlantFactory(this.m);
+    this.compilationEnvironment = new THREE.Texture({ width: 1536, height: 2048 });
+    this.compilationEnvironment.mapping = THREE.CubeUVReflectionMapping;
+    this.compilationEnvironment.type = THREE.HalfFloatType;
+    this.compilationEnvironment.colorSpace = THREE.LinearSRGBColorSpace;
+    this.scene.environment = this.compilationEnvironment;
+    this.distantGlass = new THREE.MeshBasicMaterial({ color: '#ffffff', transparent: true, opacity: 0.02, depthWrite: false, side: THREE.DoubleSide });
+    this.distantGlass.forceSinglePass = true;
+    this.introGlassMeshes = new Map();
 
     // Stage 1: everything needed for the entrance (lighting, shell, glass, doors, central feature).
     const t0 = performance.now();
     this.buildLighting();
     this.buildSky();
-    this.buildEnvironmentMap();
+    this.buildClouds();
     this.buildShell();
     this.registerCameraColliders();
     this.lib.onChange = () => this.requestRender();
     this.createResizeHandling();
+    this.post = null;
+    const realismStarted = performance.now();
+    this.realismReady = this.initRealism().finally(() => { this.timings.realism = Math.round(performance.now() - realismStarted); });
+    this.storyModuleReady = import('./story.js');
+    const measure = (name, load) => {
+      const started = performance.now();
+      return load().finally(() => { this.timings[name] = Math.round(performance.now() - started); });
+    };
+    this.shaderAssetsReady = Promise.all([
+      measure('pbrMaps', () => this.lib.loadExternalMaps((loaded, total) => this.onLoadProgress?.('Loading showroom materials...', 4 + Math.round((loaded / Math.max(total, 1)) * 12))).catch((error) => console.warn('PBR maps unavailable; using compact procedural materials', error))),
+      measure('logo', () => this.loadLogo().catch((error) => console.warn('Official logo unavailable; keeping sign lettering', error))),
+    ]);
+    this.environmentReady = measure('hdri', () => this.loadEnvironment().catch((error) => {
+      console.warn('HDRI unavailable; using the procedural environment', error);
+      if (!this.scene.environment || this.scene.environment === this.compilationEnvironment) this.buildEnvironmentMap();
+    }));
+    this.criticalAssetsReady = Promise.all([this.shaderAssetsReady, this.environmentReady]);
     this.timings.stage1 = Math.round(performance.now() - t0);
-    this.tick = () => this.renderFrame();
-    gsap.ticker.add(this.tick);
+    this.animationTime = performance.now();
+    this.onVisibilityChange = () => { this.animationTime = performance.now(); };
+    document.addEventListener('visibilitychange', this.onVisibilityChange);
+    this.tick = () => {
+      const now = performance.now();
+      const delta = now - this.animationTime;
+      this.animationTime = now;
+      this.story?.update(delta);
+      this.renderFrame();
+      this.animationFrame = requestAnimationFrame(this.tick);
+    };
+    this.animationFrame = requestAnimationFrame(this.tick);
     // Compile shaders without blocking, then stream the rest in while the doors open.
     this.ready = this.start();
   }
 
   async start() {
-    try {
-      await this.renderer.compileAsync(this.scene, this.camera);
-    } catch (error) {
-      console.warn('Shader precompile skipped', error);
+    const started = performance.now();
+    await Promise.all([this.runStages(), this.shaderAssetsReady, this.realismReady, this.storyModuleReady]);
+    if (this.lib.sets.wood.ao) {
+      this.m.wood.aoMap = this.lib.sets.wood.ao;
+      this.m.wood.aoMapIntensity = 0.3;
+      this.m.wood.needsUpdate = true;
     }
+    this.prepareCameraCulling();
+    const compileStarted = performance.now();
+    try {
+      await this.compilePasses(this.scene);
+    } catch (error) {
+      console.warn('Final shader precompile skipped', error);
+    }
+    this.timings.shaderCompilation = Math.round(performance.now() - compileStarted);
+    await this.criticalAssetsReady;
+    if (this.scene.environment.image.height !== this.compilationEnvironment.image.height) await this.compilePasses(this.scene);
+    this.compilationEnvironment.dispose();
+    this.timings.programsBeforePrewarm = this.renderer.info.programs.length;
+    const prewarmStarted = performance.now();
+    await this.prewarm();
+    this.prepareCameraCulling();
+    this.timings.prewarm = Math.round(performance.now() - prewarmStarted);
+    this.timings.programsAfterPrewarm = this.renderer.info.programs.length;
+    const firstUseStarted = performance.now();
+    for (const program of this.renderer.info.programs) program.getUniforms();
+    this.timings.shaderFirstUse = Math.round(performance.now() - firstUseStarted);
+    this.startupPreparing = false;
+    this.sectionsReady = true;
+    this._resolveInterior();
+    this._resolveStages();
     this.requestRender();
-    this.stagesReady = this.runStages();
+    this.timings.criticalReady = Math.round(performance.now() - started);
+    this.onLoadProgress?.('Showroom ready', 100);
     return true;
   }
 
@@ -129,14 +222,135 @@ export class Showroom {
     this.dirty = true;
   }
 
+  async initRealism() {
+    if (new URLSearchParams(location.search).get('fx') === '0') return;
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 0.95;
+    const lowPower = matchMedia('(pointer: coarse)').matches || innerWidth < 640 || (navigator.deviceMemory ?? 8) <= 4;
+    const enableEffects = new URLSearchParams(location.search).get('fx') === '1';
+    if (lowPower || !enableEffects) return;
+    try {
+      const fx = await import('./realism-upgrade.js');
+      fx.upgradeRenderer(this.renderer);
+      fx.upgradeMaterials(this.m);
+      this.post = fx.createPostProcessing(this);
+      this.requestRender();
+    } catch (error) {
+      console.warn('Realism upgrade skipped', error);
+      this.post = null;
+    }
+  }
+
+  loadLogo() {
+    const logo = document.querySelector('#arrival-curtain img');
+    this.logoURL = logo?.currentSrc || logo?.src || new URL('assets/logo/logo-white.png', document.baseURI).href;
+    return this.logoLoading ??= this.lib.loadImage(this.logoURL).then((image) => {
+      this.logoImage = image;
+      this.applyLogo();
+    });
+  }
+
+  async loadEnvironment() {
+    return this.environmentLoading ??= (async () => {
+      const { HDRLoader } = await import('three/addons/loaders/HDRLoader.js');
+      const texture = await this.lib.cachedAsset('assets/environment/urban_street_01_2k.hdr', (url) => new HDRLoader().setDataType(THREE.HalfFloatType).loadAsync(url));
+      texture.mapping = THREE.EquirectangularReflectionMapping;
+      const pmrem = new THREE.PMREMGenerator(this.renderer);
+      const environment = pmrem.fromEquirectangular(texture).texture;
+      const previous = this.scene.environment;
+      this.scene.environment = environment;
+      this.scene.environmentIntensity = 0.62;
+      texture.dispose();
+      pmrem.dispose();
+      previous?.dispose();
+      this.requestRender();
+    })();
+  }
+
+  applyLogo() {
+    const image = this.logoImage;
+    if (!image || !this.logoPlates) return;
+    for (const plate of this.logoPlates) {
+      const { canvas, texture, aspect, fillWidth = 0.72, fillHeight = 0.66 } = plate;
+      canvas.width = this.highTier ? 2048 : 1024;
+      canvas.height = Math.round(canvas.width / aspect);
+      const g = canvas.getContext('2d');
+      const { width, height } = canvas;
+      const bg = g.createLinearGradient(0, 0, 0, height);
+      bg.addColorStop(0, '#2a2e30');
+      bg.addColorStop(0.5, '#171a1c');
+      bg.addColorStop(1, '#25292b');
+      g.fillStyle = bg;
+      g.fillRect(0, 0, width, height);
+      const scale = Math.min((width * fillWidth) / image.width, (height * fillHeight) / image.height);
+      const drawWidth = image.width * scale;
+      const drawHeight = image.height * scale;
+      g.drawImage(image, (width - drawWidth) / 2, (height - drawHeight) / 2, drawWidth, drawHeight);
+      texture.dispose();
+      texture.needsUpdate = true;
+    }
+    this.requestRender();
+  }
+
+  setTimeOfDay(k) {
+    k = THREE.MathUtils.clamp(k, 0, 1);
+    if (this._tod !== undefined && k !== 0 && k !== 1 && Math.abs(this._tod - k) < 0.002) return;
+    this._tod = k;
+    const colors = (this._eveningColors ??= Object.fromEntries(['sunColor', 'hemiSky', 'hemiGround', 'fog', 'sky'].map((key) => [key, EVENING[key].map((color) => new THREE.Color(color))])));
+    const temp = (this._eveningTmp ??= new THREE.Color());
+    const colorAt = (key) => {
+      const [day, golden, night] = colors[key];
+      return k < 0.5 ? temp.copy(day).lerp(golden, k * 2) : temp.copy(golden).lerp(night, (k - 0.5) * 2);
+    };
+    const numberAt = ([day, golden, night]) => (k < 0.5 ? day + (golden - day) * k * 2 : golden + (night - golden) * (k - 0.5) * 2);
+
+    if (this.sun) { this.sun.color.copy(colorAt('sunColor')); this.sun.intensity = numberAt(EVENING.sunIntensity); }
+    if (this.hemi) {
+      this.hemi.color.copy(colorAt('hemiSky'));
+      this.hemi.groundColor.copy(colorAt('hemiGround'));
+      this.hemi.intensity = numberAt(EVENING.hemiIntensity);
+    }
+    this.scene.fog.color.copy(colorAt('fog'));
+    this.scene.fog.density = numberAt(EVENING.fogDensity);
+    this.scene.background.copy(colorAt('fog'));
+    this.skyDome?.material.color.copy(colorAt('sky'));
+    this.scene.environmentIntensity = numberAt(EVENING.envIntensity);
+
+    const boost = numberAt(EVENING.ledBoost);
+    const base = (this._ledBase ??= { ledWarm: this.m.ledWarm.emissiveIntensity, ledSoft: this.m.ledSoft.emissiveIntensity, lampShade: this.m.lampShade.emissiveIntensity });
+    for (const key of Object.keys(base)) this.m[key].emissiveIntensity = base[key] * (1 + boost * 0.9);
+    const wake = THREE.MathUtils.smoothstep(k, 0.25, 0.75);
+    for (const light of this.exteriorWakeLights) light.intensity = EVENING.wakeLights * wake;
+    this.requestRender();
+  }
+
+  async startStory() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
+    try {
+      await this.ready;
+      const { ScrollStory } = await this.storyModuleReady;
+      if (this.isIntroPlaying) return true;
+      if (this.entering || this.transitioning) return false;
+      this.story?.dispose();
+      this.story = new ScrollStory(this, DESTINATIONS.home);
+      return this.story.begin();
+    } catch (error) {
+      console.warn('Scroll story unavailable', error);
+      return false;
+    }
+  }
+
   /* ---------- helpers ---------- */
 
   box(parent, size, position, material, options = {}) {
-    const geometry = new THREE.BoxGeometry(...size);
+    const glazing = material.transmission > 0.9;
+    const geometry = glazing ? new THREE.PlaneGeometry(Math.max(size[0], size[2]), size[1]) : new THREE.BoxGeometry(...size);
     const tile = material.userData.tile;
     if (tile) scaleBoxUV(geometry, size, tile, this.rand(), this.rand());
+    geometry.setAttribute('uv2', geometry.attributes.uv.clone());
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(...position);
+    if (glazing && size[0] < size[2]) mesh.rotation.y = Math.PI / 2;
     mesh.castShadow = options.castShadow ?? true;
     mesh.receiveShadow = options.receiveShadow ?? true;
     parent.add(mesh);
@@ -145,7 +359,11 @@ export class Showroom {
 
   rbox(parent, size, radius, position, material, options = {}) {
     const key = `${size.join(',')}:${radius}`;
-    if (!this.roundedGeo.has(key)) this.roundedGeo.set(key, new RoundedBoxGeometry(size[0], size[1], size[2], 3, radius));
+    if (!this.roundedGeo.has(key)) {
+      const geometry = new RoundedBoxGeometry(size[0], size[1], size[2], 3, radius);
+      geometry.setAttribute('uv2', geometry.attributes.uv.clone());
+      this.roundedGeo.set(key, geometry);
+    }
     const mesh = new THREE.Mesh(this.roundedGeo.get(key), material);
     mesh.position.set(...position);
     if (options.rotation) mesh.rotation.set(...options.rotation);
@@ -156,17 +374,40 @@ export class Showroom {
   }
 
   instancedBoxes(parent, material, items, { castShadow = true } = {}) {
-    const mesh = new THREE.InstancedMesh(UNIT_BOX, material, items.length);
+    const glazing = material.transmission > 0.9;
+    if (glazing) {
+      const planes = new Map();
+      for (const item of items) {
+        const axis = item[0] < item[2] ? 3 : 5;
+        const key = `${axis}:${item[axis]}`;
+        if (!planes.has(key)) planes.set(key, []);
+        planes.get(key).push(item);
+      }
+      for (const panes of planes.values()) {
+        const paneMaterial = material.clone();
+        paneMaterial.side = THREE.FrontSide;
+        this.createBoxInstances(parent, paneMaterial, panes, castShadow);
+      }
+      return;
+    }
+    return this.createBoxInstances(parent, material, items, castShadow);
+  }
+
+  createBoxInstances(parent, material, items, castShadow) {
+    const glazing = material.transmission > 0.9;
+    const mesh = new THREE.InstancedMesh(glazing ? UNIT_PANE : UNIT_BOX, material, items.length);
     const d = new THREE.Object3D();
     items.forEach(([sx, sy, sz, x, y, z], i) => {
       d.position.set(x, y, z);
-      d.scale.set(sx, sy, sz);
+      d.rotation.set(0, glazing && sx < sz ? Math.PI / 2 : 0, 0);
+      d.scale.set(glazing ? Math.max(sx, sz) : sx, sy, glazing ? 1 : sz);
       d.updateMatrix();
       mesh.setMatrixAt(i, d.matrix);
     });
     mesh.castShadow = castShadow;
     mesh.receiveShadow = true;
     parent.add(mesh);
+    return mesh;
     return mesh;
   }
 
@@ -230,7 +471,7 @@ export class Showroom {
     parent.add(mesh);
   }
 
-  screenCanvas(title, lines, aspect, small = 'ATELIER MOTORS  /  STUTTGART') {
+  screenCanvas(title, lines, aspect, small = 'AUTO HAUS GROUP  /  LEBANON') {
     const w = 1536;
     const h = Math.round(w / aspect);
     const c = document.createElement('canvas');
@@ -276,7 +517,7 @@ export class Showroom {
     return c;
   }
 
-  brandCanvas(text, sub, aspect) {
+  brandCanvas(text, sub, aspect, titleScale = 0.25) {
     const w = 1536;
     const h = Math.round(w / aspect);
     const c = document.createElement('canvas');
@@ -292,13 +533,14 @@ export class Showroom {
     g.textAlign = 'center';
     g.textBaseline = 'middle';
     g.fillStyle = '#ffffff';
-    g.font = `700 ${h * 0.2}px Manrope, sans-serif`;
-    g.fillText(text, w / 2, h * 0.46);
+    g.font = `700 ${h * titleScale}px Manrope, sans-serif`;
+    const largeTitle = titleScale > 0.3;
+    g.fillText(text, w / 2, h * (largeTitle ? 0.43 : 0.46));
     g.fillStyle = '#d4b97e';
     g.font = `600 ${h * 0.07}px Manrope, sans-serif`;
-    g.fillText(sub, w / 2, h * 0.68);
-    g.fillRect(w * 0.3, h * 0.28, w * 0.4, Math.max(2, h * 0.006));
-    g.fillRect(w * 0.3, h * 0.8, w * 0.4, Math.max(2, h * 0.006));
+    g.fillText(sub, w / 2, h * (largeTitle ? 0.75 : 0.68));
+    g.fillRect(w * 0.3, h * (largeTitle ? 0.08 : 0.28), w * 0.4, Math.max(2, h * 0.006));
+    g.fillRect(w * 0.3, h * (largeTitle ? 0.92 : 0.8), w * 0.4, Math.max(2, h * 0.006));
     return c;
   }
 
@@ -308,7 +550,7 @@ export class Showroom {
       tex.repeat.x = -1;
       tex.offset.x = 1;
     }
-    return new THREE.MeshPhysicalMaterial({ color: '#050606', roughness: 0.32, metalness: 0, emissive: '#ffffff', emissiveMap: tex, emissiveIntensity: intensity * 0.6, clearcoat: 0.3, clearcoatRoughness: 0.15 });
+    return new THREE.MeshStandardMaterial({ color: '#050606', roughness: 0.32, metalness: 0, emissive: '#ffffff', emissiveMap: tex, emissiveIntensity: intensity * 0.6 });
   }
 
   digitalPanel(parent, position, rotationY, w, h, title, lines) {
@@ -324,37 +566,136 @@ export class Showroom {
     return panel;
   }
 
-  sign(parent, text, position, width, height = 0.52) {
+  sign(parent, text, position, width, height = 0.52, options = {}) {
     const frame = this.box(parent, [width, height, 0.05], position, this.m.darkSteel, { castShadow: false });
-    const plate = new THREE.Mesh(new THREE.PlaneGeometry(width - 0.06, height - 0.06), this.screenMaterial(this.brandCanvas(text, '', (width - 0.06) / (height - 0.06)), 0.9));
+    const aspect = (width - 0.06) / (height - 0.06);
+    const canvas = this.brandCanvas(text, '', aspect, 0.52);
+    const material = this.screenMaterial(canvas, 0.9);
+    const plate = new THREE.Mesh(new THREE.PlaneGeometry(width - 0.06, height - 0.06), material);
     plate.position.set(position[0], position[1], position[2] + 0.028);
     parent.add(plate);
+    if (text === 'AUTO HAUS GROUP') {
+      (this.logoPlates ??= []).push({ canvas, texture: material.emissiveMap, aspect, fillWidth: options.fillWidth ?? 0.72, fillHeight: options.fillHeight ?? 0.66 });
+      this.applyLogo();
+    }
     return frame;
   }
 
-  async commit(group) {
-    try {
-      await this.renderer.compileAsync(group, this.camera, this.scene);
-    } catch (error) {
-      console.warn('Shader precompile skipped', error);
-    }
+  commit(group) {
+    this.batchStaticMeshes(group, true);
     this.root.add(group);
+    if (this.distantGlazingActive) this.applyDistantGlazing(group);
     this.shadowDirty = true;
+    if (!this.startupPreparing) this.prepareCameraCulling();
     this.requestRender();
+  }
+
+  prepareCameraCulling() {
+    for (const { object, visible } of this.cullingMeshes) object.visible = visible;
+    this.cullingMeshes.length = 0;
+    this.glassPlanes.length = 0;
+    this.root.updateWorldMatrix(true, true);
+    const movingRoots = new Set([this.cloudLayer, ...(this.doors ?? []).map(door => door.pivot)]);
+    this.root.traverse((object) => {
+      if (!object.isMesh || object.isSkinnedMesh) return;
+      let moving = false;
+      for (let parent = object; parent; parent = parent.parent) {
+        if (parent.isLOD) return;
+        if (movingRoots.has(parent)) moving = true;
+      }
+      if (object.isInstancedMesh) object.computeBoundingBox();
+      else if (!object.geometry.boundingBox) object.geometry.computeBoundingBox();
+      const localBounds = object.isInstancedMesh ? object.boundingBox : object.geometry.boundingBox;
+      if (!localBounds || localBounds.isEmpty()) return;
+      if (!moving) this.cullingMeshes.push({ object, visible: object.visible, bounds: localBounds.clone().applyMatrix4(object.matrixWorld) });
+      if (object.geometry.type === 'PlaneGeometry' && object.material?.transmission > 0) {
+        if (!object.userData.cameraGlassMaterial) {
+          object.material = object.material.clone();
+          object.material.side = THREE.FrontSide;
+          object.userData.cameraGlassMaterial = true;
+        }
+        const localMatrix = new THREE.Matrix4();
+        if (object.isInstancedMesh) object.getMatrixAt(0, localMatrix);
+        const worldMatrix = new THREE.Matrix4().multiplyMatrices(object.matrixWorld, localMatrix);
+        const normal = new THREE.Vector3(0, 0, 1).applyNormalMatrix(new THREE.Matrix3().getNormalMatrix(worldMatrix));
+        const point = new THREE.Vector3().setFromMatrixPosition(worldMatrix);
+        this.glassPlanes.push({ object, plane: new THREE.Plane().setFromNormalAndCoplanarPoint(normal, point) });
+      }
+    });
+  }
+
+  updateCameraCulling() {
+    this.camera.updateMatrixWorld();
+    this._cameraClip.multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse);
+    this._cameraFrustum.setFromProjectionMatrix(this._cameraClip, this.camera.coordinateSystem);
+    const retainAll = !this.cameraCullingEnabled || this.renderer.shadowMap.needsUpdate;
+    for (const entry of this.cullingMeshes) {
+      entry.object.visible = entry.visible && (retainAll || this._cameraFrustum.intersectsBox(entry.bounds));
+    }
+    for (const { object, plane } of this.glassPlanes) {
+      const side = plane.distanceToPoint(this.camera.position) >= 0 ? THREE.FrontSide : THREE.BackSide;
+      if (object.material.side !== side) {
+        object.material.side = side;
+        object.material.needsUpdate = true;
+      }
+    }
+  }
+
+  batchStaticMeshes(group, flatten = false) {
+    if (!flatten) for (const child of group.children) if (child.isGroup) this.batchStaticMeshes(child);
+    group.updateWorldMatrix(true, false);
+    const inverse = flatten ? group.matrixWorld.clone().invert() : null;
+    const candidates = [];
+    const movingRoots = new Set((this.doors ?? []).map((door) => door.pivot));
+    if (flatten) group.traverse((object) => {
+      if (!object.isMesh) return;
+      for (let parent = object.parent; parent && parent !== group; parent = parent.parent) {
+        if (parent.isLOD || movingRoots.has(parent)) return;
+      }
+      candidates.push(object);
+    });
+    else candidates.push(...group.children);
+    const buckets = new Map();
+    for (const mesh of candidates) {
+      if (!mesh.isMesh || mesh.isInstancedMesh || Array.isArray(mesh.material) || mesh.material.transparent || mesh.material.transmission > 0) continue;
+      const attributes = Object.keys(mesh.geometry.attributes).sort().join(',');
+      const key = `${mesh.material.uuid}:${mesh.castShadow}:${mesh.receiveShadow}:${!!mesh.geometry.index}:${attributes}`;
+      if (!buckets.has(key)) buckets.set(key, []);
+      buckets.get(key).push(mesh);
+    }
+    for (const meshes of buckets.values()) {
+      if (meshes.length < 2) continue;
+      const geometries = meshes.map((mesh) => {
+        mesh.updateWorldMatrix(true, false);
+        const matrix = inverse ? inverse.clone().multiply(mesh.matrixWorld) : mesh.matrix;
+        return mesh.geometry.clone().applyMatrix4(matrix);
+      });
+      const geometry = mergeGeometries(geometries);
+      geometries.forEach((item) => item.dispose());
+      if (!geometry) continue;
+      const merged = new THREE.Mesh(geometry, meshes[0].material);
+      merged.castShadow = meshes[0].castShadow;
+      merged.receiveShadow = meshes[0].receiveShadow;
+      meshes.forEach((mesh) => mesh.parent.remove(mesh));
+      group.add(merged);
+    }
   }
 
   /* ---------- stage 1: lighting, environment, shell ---------- */
 
   buildLighting() {
     const scene = this.scene;
-    scene.add(new THREE.HemisphereLight('#e6eefa', '#cfcac2', 0.28));
+    this.hemi = new THREE.HemisphereLight('#e6eefa', '#cbd0c8', 0.72);
+    scene.add(this.hemi);
 
     // Daylight from the upper left; the ceiling casts shadows so sun only enters through the glass.
-    const sun = new THREE.DirectionalLight('#fff0dc', 2.6);
+    const sun = new THREE.DirectionalLight('#fff0dc', 2.15);
     sun.position.copy(SUN_DIRECTION).multiplyScalar(60).add(new THREE.Vector3(0, 0, -3));
     sun.target.position.set(0, 0, -3);
+    this.sun = sun;
     sun.castShadow = true;
-    sun.shadow.mapSize.set(2048, 2048);
+    const highTier = this.highTier;
+    sun.shadow.mapSize.setScalar(highTier ? 1024 : 512);
     Object.assign(sun.shadow.camera, { left: -30, right: 30, top: 26, bottom: -26, near: 5, far: 130 });
     sun.shadow.bias = -0.0004;
     sun.shadow.normalBias = 0.04;
@@ -372,22 +713,9 @@ export class Showroom {
       }
       scene.add(l, l.target);
     };
-    spot('#ffe3bd', 160, [0, 8.5, CENTER_Z + 0.25], [0, 0.9, CENTER_Z], Math.PI / 6, 0.65, true);
-    spot('#ffdcb0', 70, [-8.6, 6.9, -5.45], [-14.8, 2.9, -5.45], 0.55, 0.7);
-    spot('#ffdcb0', 70, [8.6, 6.9, -5.45], [14.8, 2.9, -5.45], 0.55, 0.7);
-    spot('#ffe0b8', 60, [-8.2, 8.4, -10], [-8.2, 2.6, -14.8], 0.6, 0.7);
-    spot('#ffe0b8', 60, [8.2, 8.4, -10], [8.2, 2.6, -14.8], 0.6, 0.7);
-    spot('#ffe0b8', 70, [8.4, 8.4, 5.2], [8.4, 1.2, 8.6], 0.6, 0.7);
-    spot('#fff0d6', 70, [0, 8.3, 9.6], [0, 0.2, 11.6], 0.9, 0.8);
-
-    const rect = (color, intensity, w, h, pos, look) => {
-      const l = new THREE.RectAreaLight(color, intensity, w, h);
-      l.position.set(...pos);
-      l.lookAt(...look);
-      scene.add(l);
-    };
-    rect('#e4eeff', 1.6, 24, 6.5, [-15.3, 4.4, -3], [0, 3, -3]);
-    rect('#fff0dc', 0.45, 12, 20, [0, 8.6, -3], [0, 0, -3]);
+    spot('#ffe3bd', 160, [0, 8.5, CENTER_Z + 0.25], [0, 0.9, CENTER_Z], Math.PI / 6, 0.65);
+    spot('#ffe6c8', 190, [0, 14.75, 6], [0, 9.4, 4.2], 1.15, 0.9);
+    spot('#ffe6c8', 150, [0, 19.7, 6], [0, 15.5, 4.2], 1.2, 0.9);
   }
 
   // Procedural HDR-style environment for PMREM: the same daylight sky, a bright sun, a warm ceiling, a pale floor and a city ring.
@@ -473,7 +801,73 @@ export class Showroom {
     this.skyTexture = canvasTexture(c, 4);
     const dome = new THREE.Mesh(new THREE.SphereGeometry(220, 48, 24), new THREE.MeshBasicMaterial({ map: this.skyTexture, side: THREE.BackSide, fog: false, depthWrite: false }));
     dome.renderOrder = -10;
+    this.skyDome = dome;
     this.scene.add(dome);
+  }
+
+  buildClouds() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 256;
+    const context = canvas.getContext('2d');
+    const random = rng(641);
+    for (let puff = 0; puff < 36; puff++) {
+      const x = 86 + random() * 340;
+      const y = 88 + random() * 86;
+      const radius = 35 + random() * 58;
+      const shade = context.createRadialGradient(x, y, radius * 0.06, x, y, radius);
+      shade.addColorStop(0, 'rgba(255,255,255,0.94)');
+      shade.addColorStop(0.42, 'rgba(247,250,253,0.84)');
+      shade.addColorStop(0.74, 'rgba(217,230,242,0.38)');
+      shade.addColorStop(1, 'rgba(217,230,242,0)');
+      context.fillStyle = shade;
+      context.fillRect(x - radius, y - radius, radius * 2, radius * 2);
+    }
+    context.save();
+    context.globalCompositeOperation = 'destination-in';
+    context.translate(256, 128);
+    context.scale(1, 0.5);
+    const edge = context.createRadialGradient(0, 0, 120, 0, 0, 256);
+    edge.addColorStop(0, 'rgba(255,255,255,1)');
+    edge.addColorStop(1, 'rgba(255,255,255,0)');
+    context.fillStyle = edge;
+    context.fillRect(-256, -256, 512, 512);
+    context.restore();
+    const texture = canvasTexture(canvas, 2);
+    const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, opacity: 0.94, depthWrite: false, side: THREE.DoubleSide, fog: false, alphaTest: 0.015, toneMapped: false });
+    material.forceSinglePass = true;
+    material.onBeforeCompile = (shader) => {
+      shader.vertexShader = shader.vertexShader.replace('#include <project_vertex>', `
+        vec4 mvPosition = modelViewMatrix * vec4(instanceMatrix[3].xyz, 1.0);
+        vec2 cloudSize = vec2(length(instanceMatrix[0].xyz), length(instanceMatrix[1].xyz));
+        mvPosition.xy += position.xy * cloudSize;
+        gl_Position = projectionMatrix * mvPosition;
+      `);
+    };
+    material.customProgramCacheKey = () => 'arrival-cloud-billboards';
+    const clouds = new THREE.InstancedMesh(new THREE.PlaneGeometry(1, 1), material, 24);
+    clouds.name = 'visible-layered-arrival-clouds';
+    const transform = new THREE.Object3D();
+    const heights = [94, 78, 62];
+    for (let index = 0; index < clouds.count; index++) {
+      const layer = Math.floor(index / 8);
+      const angle = index * Math.PI * 0.25 + random() * 0.3;
+      const radius = 18 + layer * 7 + random() * 12;
+      transform.position.set(22 - layer * 3 + Math.cos(angle) * radius, heights[layer] + random() * 4, 12 + Math.sin(angle) * radius);
+      transform.scale.set(28 + random() * 14, 16 + random() * 8, 1);
+      transform.updateMatrix();
+      clouds.setMatrixAt(index, transform.matrix);
+    }
+    clouds.frustumCulled = false;
+    this.cloudLayer = clouds;
+    this.scene.add(clouds);
+  }
+
+  updateClouds(progress = 0) {
+    if (!this.cloudLayer) return;
+    this.cloudLayer.material.opacity = 0.94 * THREE.MathUtils.smoothstep(this.camera.position.y, 30, 46);
+    this.cloudLayer.visible = this.cloudLayer.material.opacity > 0.01;
+    this.cloudLayer.position.x = progress * 1.5;
   }
 
   buildShell() {
@@ -481,7 +875,8 @@ export class Showroom {
     const root = this.root;
 
     const floorGeo = new THREE.PlaneGeometry(32, 27);
-    scaleUV(floorGeo, 32 / 11, 27 / 11);
+    scaleUV(floorGeo, 32 / 6, 27 / 6);
+    floorGeo.setAttribute('uv2', floorGeo.attributes.uv.clone());
     const floor = new THREE.Mesh(floorGeo, m.floor);
     floor.rotation.x = -Math.PI / 2;
     floor.position.set(0, 0, -2.25);
@@ -515,32 +910,408 @@ export class Showroom {
     this.instancedBoxes(root, m.glass, glass, { castShadow: false });
     this.instancedBoxes(root, m.darkSteel, frame);
 
+    this.buildExteriorFacade(root);
+    this.buildUpperLevels(root);
     this.buildEntrance(root);
     this.buildCeiling(root);
     this.buildColumns(root);
     this.buildCentralFeature(root);
   }
 
+  buildExteriorFacade(root) {
+    const stone = this.m.concrete.clone();
+    stone.color.set('#e0e2de');
+    stone.roughness = 0.72;
+    stone.normalScale.setScalar(0.2);
+    const silver = this.m.steel.clone();
+    silver.color.set('#c5c9ca');
+    silver.roughness = 0.36;
+    silver.metalness = 0.58;
+    const charcoal = this.m.darkstone.clone();
+    charcoal.color.set('#171a1c');
+    charcoal.roughness = 0.48;
+    charcoal.metalness = 0.12;
+    charcoal.normalScale.setScalar(0.06);
+    this.facadeMaterials = { stone, silver, charcoal };
+    const facade = new THREE.Group();
+    facade.name = 'unified-building-envelope';
+    root.add(facade);
+    const front = 11.4;
+    const slabs = new THREE.Group();
+    slabs.name = 'continuous-floor-plates';
+    facade.add(slabs);
+    this.box(slabs, [32, 0.46, 27.4], [0, 9.15, -2.25], stone);
+    this.box(slabs, [32, 0.46, 27.4], [0, 15.27, -2.25], stone);
+    for (const levelY of [9.15, 15.27, 20.22]) {
+      this.box(facade, [32.5, 0.56, 1.05], [0, levelY, front + 0.12], stone);
+      this.box(facade, [32.5, 0.08, 1.14], [0, levelY - 0.28, front + 0.16], silver, { castShadow: false });
+      this.box(facade, [30.8, 0.035, 0.055], [0, levelY - 0.33, front + 0.63], this.m.ledSoft, { castShadow: false });
+      for (const side of [-1, 1]) this.box(facade, [0.72, 0.56, 27.5], [side * 15.78, levelY, -2.25], stone);
+    }
+    const panes = [];
+    const mullions = [];
+    const sidePanes = [];
+    const sideFrames = [];
+    const sideWalls = [];
+    for (const [floor, top] of [[9.38, 14.98], [15.5, 19.94]]) {
+      const height = top - floor;
+      for (let bay = 0; bay < 8; bay++) {
+        const x = -13.7375 + bay * 3.925;
+        panes.push([3.82, height, 0.02, x, floor + height / 2, front]);
+      }
+      for (let bay = 0; bay <= 8; bay++) mullions.push([0.085, height, 0.15, -15.7 + bay * 3.925, floor + height / 2, front + 0.04]);
+      for (const y of [floor + 0.035, top - 0.035]) mullions.push([31.4, 0.07, 0.15, 0, y, front + 0.04]);
+      this.box(facade, [31.5, height, 0.3], [0, floor + height / 2, -15.7], stone);
+      for (const side of [-1, 1]) {
+        sideWalls.push([0.35, height, 3.7, side * 15.72, floor + height / 2, -13.92]);
+        for (let bay = 0; bay < 5; bay++) {
+          const z = -9.68 + bay * 4.65;
+          sidePanes.push([0.02, height, 4.54, side * 15.72, floor + height / 2, z]);
+        }
+        for (let bay = 0; bay <= 5; bay++) sideFrames.push([0.15, height, 0.085, side * 15.76, floor + height / 2, -12.005 + bay * 4.65]);
+        for (const y of [floor + 0.035, top - 0.035]) sideFrames.push([0.15, 0.07, 23.25, side * 15.76, y, -0.38]);
+        for (let fin = 0; fin < 8; fin++) sideFrames.push([0.35, height * 0.86, 0.055, side * 15.98, floor + height / 2, -11.7 + fin * 0.38]);
+      }
+    }
+    const curtain = new THREE.Group();
+    curtain.name = 'continuous-center-and-wing-glazing';
+    facade.add(curtain);
+    this.instancedBoxes(curtain, this.m.glass, panes, { castShadow: false });
+    this.instancedBoxes(curtain, silver, mullions, { castShadow: false });
+    const sides = new THREE.Group();
+    sides.name = 'designed-side-facades';
+    facade.add(sides);
+    this.instancedBoxes(sides, this.m.glass, sidePanes, { castShadow: false });
+    this.instancedBoxes(sides, silver, sideFrames, { castShadow: false });
+    this.instancedBoxes(sides, stone, sideWalls);
+    const centralFrame = new THREE.Group();
+    centralFrame.name = 'reference-black-central-facade';
+    facade.add(centralFrame);
+    const floorDrop = 15.27 - 9.15;
+    const headerY = 18.65 - floorDrop;
+    const panelJoints = [];
+    for (const side of [-1, 1]) {
+      this.box(centralFrame, [2.0, 18.62 - floorDrop, 1.15], [side * 6.3, 10.51 - floorDrop / 2, 11.92], charcoal);
+      this.box(centralFrame, [2.06, 0.22, 1.25], [side * 6.3, 1.27, 11.92], charcoal);
+      for (const y of [3.35, 6.55, 9.35, 12.55]) panelJoints.push([1.9, 0.012, 0.025, side * 6.3, y, 12.5]);
+    }
+    this.box(centralFrame, [14.6, 2.4, 1.26], [0, headerY, 11.98], charcoal);
+    this.box(centralFrame, [14.65, 0.09, 1.28], [0, 19.9 - floorDrop, 11.98], silver, { castShadow: false });
+    this.instancedBoxes(centralFrame, this.m.darkSteel, panelJoints, { castShadow: false });
+    this.sign(centralFrame, 'AUTO HAUS GROUP', [0, headerY, 12.63], 12.5, 2.03, { fillWidth: 0.94, fillHeight: 0.9 });
+    for (const side of [-1, 1]) {
+      this.box(sides, [0.3, 20.0, 0.35], [side * 15.7, 10.12, -15.7], charcoal);
+      this.box(sides, [1.1, 0.6, 18], [side * 16.8, 0.3, -1.2], stone, { castShadow: false });
+      for (const z of [-7.5, -1.2, 5.1]) {
+        const { group } = this.plants.build('olive', 140 + Math.round(z * 10) + side, { pot: 'ceramic', potRadius: 0.42, potHeight: 0.6, scale: 0.7 });
+        group.position.set(side * 16.8, 0.6, z);
+        group.traverse((object) => { object.castShadow = false; });
+        sides.add(group);
+      }
+    }
+    const stairs = new THREE.Group();
+    stairs.name = 'solid-entrance-stair-and-landing';
+    root.add(stairs);
+    const nosings = [];
+    for (let step = 0; step < 11; step++) {
+      const height = 0.12 * (step + 1);
+      this.box(stairs, [10.7, height, 0.56], [0, height / 2, 18.0 - step * 0.56], stone);
+      nosings.push([10.3, 0.015, 0.045, 0, height + 0.008, 18.24 - step * 0.56]);
+    }
+    this.box(stairs, [10.7, 1.38, 1.54], [0, 0.69, 11.93], stone);
+    this.instancedBoxes(stairs, silver, nosings, { castShadow: false });
+    for (const side of [-1, 1]) {
+      const from = new THREE.Vector3(side * 5.12, 1.14, 18.2);
+      const to = new THREE.Vector3(side * 5.12, 2.4, 11.95);
+      const delta = to.clone().sub(from);
+      const handrail = new THREE.Mesh(new THREE.CylinderGeometry(0.028, 0.028, delta.length(), 8), silver);
+      handrail.position.copy(from).add(to).multiplyScalar(0.5);
+      handrail.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), delta.normalize());
+      stairs.add(handrail);
+      for (let post = 0; post < 4; post++) this.box(stairs, [0.035, 1.04, 0.035], [side * 5.12, 0.62 + post * 0.4, 18.2 - post * 2.08], silver, { castShadow: false });
+    }
+    this.buildRoof(facade);
+    this.batchStaticMeshes(facade);
+    this.batchStaticMeshes(sides);
+    this.batchStaticMeshes(stairs);
+  }
+
+  buildUpperLevels(root) {
+    const materials = this.m;
+    const interiors = new THREE.Group();
+    interiors.name = 'furnished-upper-showrooms';
+    root.add(interiors);
+    const wall = materials.concrete.clone();
+    wall.color.set('#e0e3df');
+    wall.roughness = 0.78;
+    wall.emissive.set('#d9c2a0');
+    wall.emissiveIntensity = 0.04;
+    const officeStone = materials.floor.clone();
+    officeStone.name = 'light-polished-stone-office-worktops';
+    const officeBrand = this.screenMaterial(this.brandCanvas('PRIVATE SALES', 'AUTO HAUS GROUP', 5.6 / 1.15), 0.8);
+    const officePanes = [];
+    const frames = [];
+    const worktops = [];
+    const cabinetry = [];
+    const leatherSeats = [];
+    const cognacSeats = [];
+    const woodSlats = [];
+    const lightBars = [];
+    const papers = [];
+    const monitors = [];
+    interiors.userData.rooms = [];
+    const levels = [
+      { floor: 9.38, ceiling: 14.98, name: 'sales-consultation-level' },
+      { floor: 15.5, ceiling: 19.94, name: 'private-sales-and-delivery-level' },
+    ];
+
+    const addChair = (x, z, floor, facing = 1, width = 0.9) => {
+      leatherSeats.push([width, 0.16, 0.86, x, floor + 0.51, z]);
+      leatherSeats.push([width, 0.77, 0.14, x, floor + 1.01, z - facing * 0.4]);
+      for (const side of [-1, 1]) {
+        leatherSeats.push([0.09, 0.1, 0.65, x + side * (width / 2 - 0.02), floor + 0.76, z]);
+        frames.push([0.035, 0.25, 0.035, x + side * (width / 2 - 0.02), floor + 0.61, z + 0.18]);
+      }
+      frames.push([0.08, 0.4, 0.08, x, floor + 0.26, z]);
+      frames.push([0.66, 0.055, 0.07, x, floor + 0.07, z]);
+      frames.push([0.07, 0.055, 0.66, x, floor + 0.07, z]);
+    };
+    const addDesk = (x, z, floor) => {
+      worktops.push([3.35, 0.13, 1.6, x, floor + 0.8, z]);
+      cabinetry.push([0.85, 0.69, 1.4, x - 1.08, floor + 0.37, z]);
+      frames.push([0.075, 0.72, 1.35, x + 1.25, floor + 0.38, z]);
+      for (const y of [0.22, 0.43, 0.64]) frames.push([0.46, 0.025, 0.025, x - 1.08, floor + y, z + 0.71]);
+      frames.push([1.05, 0.63, 0.07, x + 0.4, floor + 1.25, z - 0.35]);
+      frames.push([0.07, 0.25, 0.07, x + 0.4, floor + 0.97, z - 0.35]);
+      frames.push([0.44, 0.035, 0.32, x + 0.4, floor + 0.88, z - 0.35]);
+      monitors.push([0.93, 0.51, 0.012, x + 0.4, floor + 1.25, z - 0.306]);
+      papers.push([0.52, 0.018, 0.38, x - 0.45, floor + 0.875, z + 0.15]);
+      addChair(x, z - 1.55, floor, 1, 0.95);
+      for (const side of [-1, 1]) addChair(x + side * 0.78, z + 1.5, floor, -1);
+    };
+    const addLounge = (x, floor, ceiling, cognac) => {
+      const upholstery = cognac ? cognacSeats : leatherSeats;
+      const sofaZ = -1.65;
+      const tableZ = -3.7;
+      upholstery.push([5.5, 0.34, 1.2, x, floor + 0.35, sofaZ]);
+      upholstery.push([5.5, 0.8, 0.22, x, floor + 0.93, sofaZ + 0.53]);
+      for (const side of [-1, 1]) upholstery.push([0.22, 0.73, 1.2, x + side * 2.65, floor + 0.68, sofaZ]);
+      for (const cushion of [-1.75, 0, 1.75]) upholstery.push([1.68, 0.15, 1.0, x + cushion, floor + 0.59, sofaZ - 0.05]);
+      for (const side of [-1, 1]) {
+        frames.push([0.09, 0.16, 0.78, x + side * 2.35, floor + 0.09, sofaZ]);
+        addChair(x + side * 2.0, -5.25, floor, 1, 1.12);
+      }
+      worktops.push([2.7, 0.12, 1.35, x, floor + 0.48, tableZ]);
+      cabinetry.push([1.9, 0.37, 0.95, x, floor + 0.235, tableZ]);
+      const pendant = new THREE.Mesh(new THREE.TorusGeometry(0.98, 0.032, 6, 40), materials.ledWarm);
+      pendant.rotation.x = Math.PI / 2;
+      pendant.position.set(x, ceiling - 0.85, -3.3);
+      interiors.add(pendant);
+      frames.push([0.016, 0.78, 0.016, x, ceiling - 0.42, -3.3]);
+    };
+
+    for (const level of levels) {
+      const { floor, ceiling } = level;
+      const levelGroup = new THREE.Group();
+      levelGroup.name = level.name;
+      interiors.add(levelGroup);
+      const floorGeometry = new THREE.PlaneGeometry(31.3, 26.8);
+      scaleUV(floorGeometry, 31.3 / 6, 26.8 / 6);
+      floorGeometry.setAttribute('uv2', floorGeometry.attributes.uv.clone());
+      const floorMesh = new THREE.Mesh(floorGeometry, materials.floor);
+      floorMesh.rotation.x = -Math.PI / 2;
+      floorMesh.position.set(0, floor + 0.012, -2.25);
+      floorMesh.receiveShadow = true;
+      levelGroup.add(floorMesh);
+      const partitionHeight = ceiling - floor - 0.65;
+      this.box(levelGroup, [31.3, 0.08, 26.6], [0, ceiling - 0.03, -2.25], materials.ceiling, { castShadow: false });
+      const rooms = [{ x: 0, z: -1.55, width: 8.6, depth: 8.2, purpose: floor < 12 ? 'client-meeting-boardroom' : 'vehicle-delivery-suite' }];
+      for (const side of [-1, 1]) {
+        rooms.push({ x: side * 10.25, z: 3.95, width: 8.0, depth: 8.2, purpose: floor < 12 ? 'sales-consultation-office' : 'private-client-office' });
+        rooms.push({ x: side * 10.25, z: -10.25, width: 8.0, depth: 7.3, purpose: side < 0 ? 'ownership-and-finance-office' : 'configuration-workspace' });
+        addLounge(side * 10.25, floor, ceiling, side > 0);
+        for (const z of [3.95, -10.25]) addDesk(side * 10.25, z, floor);
+        const backdropHeight = partitionHeight - 0.85;
+        this.box(levelGroup, [6.8, backdropHeight, 0.2], [side * 10.25, floor + backdropHeight / 2 + 0.04, -0.36], wall, { castShadow: false });
+        const brand = new THREE.Mesh(new THREE.PlaneGeometry(5.6, 1.15), officeBrand);
+        brand.position.set(side * 10.25, floor + 2.55, -0.245);
+        levelGroup.add(brand);
+        for (const edge of [-1, 1]) {
+          woodSlats.push([0.2, backdropHeight, 0.22, side * 10.25 + edge * 3.28, floor + backdropHeight / 2 + 0.04, -0.22]);
+          lightBars.push([0.028, backdropHeight - 0.24, 0.04, side * 10.25 + edge * 3.13, floor + backdropHeight / 2 + 0.04, -0.24]);
+        }
+        cabinetry.push([5.7, 0.95, 0.55, side * 10.25, floor + 0.49, -13.5]);
+        for (let slat = 0; slat < 20; slat++) woodSlats.push([0.055, partitionHeight * 0.84, 0.11, side * 10.25 - 2.85 + slat * 0.3, floor + partitionHeight * 0.5, -13.9]);
+        this.digitalPanel(levelGroup, [side * 10.25, floor + 2.55, -13.76], 0, 5.35, 1.65, side < 0 ? 'PRIVATE SALES' : 'CONFIGURATION', ['AUTO HAUS GROUP', floor < 12 ? 'OWNERSHIP & FINANCE' : 'PERSONAL DELIVERY']);
+      }
+
+      for (const room of rooms) {
+        const frontZ = room.z + room.depth / 2;
+        const rearZ = room.z - room.depth / 2;
+        const paneWidth = room.width / 3;
+        const doorSide = room.x < 0 ? 1 : -1;
+        interiors.userData.rooms.push({ ...room, floor, height: partitionHeight });
+        for (const z of [frontZ, rearZ]) {
+          for (let bay = 0; bay < 3; bay++) officePanes.push([paneWidth - 0.075, partitionHeight, 0.02, room.x - room.width / 2 + paneWidth * (bay + 0.5), floor + partitionHeight / 2, z]);
+          for (let bay = 0; bay <= 3; bay++) frames.push([0.055, partitionHeight, 0.075, room.x - room.width / 2 + paneWidth * bay, floor + partitionHeight / 2, z]);
+          for (const y of [floor + 0.035, floor + partitionHeight]) frames.push([room.width, 0.07, 0.075, room.x, y, z]);
+        }
+        for (const side of [-1, 1]) {
+          const x = room.x + side * room.width / 2;
+          if (side === doorSide) {
+            const entryStart = room.z - 0.75;
+            const entryEnd = room.z + 0.65;
+            for (const [start, end] of [[rearZ, entryStart], [entryEnd, frontZ]]) officePanes.push([0.02, partitionHeight, end - start - 0.06, x, floor + partitionHeight / 2, (start + end) / 2]);
+            officePanes.push([0.02, 2.7, 1.3, x, floor + 1.35, room.z - 0.05]);
+            officePanes.push([0.02, partitionHeight - 2.8, 1.34, x, floor + 2.8 + (partitionHeight - 2.8) / 2, room.z - 0.05]);
+            for (const z of [entryStart, entryEnd]) frames.push([0.075, partitionHeight, 0.06, x, floor + partitionHeight / 2, z]);
+            frames.push([0.08, 0.07, 1.4, x, floor + 2.76, room.z - 0.05]);
+            frames.push([0.04, 0.62, 0.035, x + side * 0.05, floor + 1.25, entryEnd - 0.16]);
+          } else {
+            officePanes.push([0.02, partitionHeight, room.depth - 0.06, x, floor + partitionHeight / 2, room.z]);
+            for (const z of [rearZ + room.depth / 3, rearZ + room.depth * 2 / 3]) frames.push([0.075, partitionHeight, 0.055, x, floor + partitionHeight / 2, z]);
+          }
+          for (const y of [floor + 0.035, floor + partitionHeight]) frames.push([0.075, 0.07, room.depth, x, y, room.z]);
+        }
+        const lightY = floor + Math.min(3.85, partitionHeight - 0.18);
+        lightBars.push([room.width * 0.68, 0.05, 0.14, room.x, lightY, room.z]);
+        frames.push([room.width * 0.7, 0.07, 0.19, room.x, lightY + 0.05, room.z]);
+        const hangingHeight = ceiling - 0.12 - lightY;
+        for (const side of [-1, 1]) frames.push([0.014, hangingHeight, 0.014, room.x + side * room.width * 0.26, lightY + hangingHeight / 2, room.z]);
+      }
+
+      this.box(levelGroup, [8.6, partitionHeight, 0.16], [0, floor + partitionHeight / 2, -5.77], wall, { castShadow: false });
+      this.sign(levelGroup, 'AUTO HAUS GROUP', [0, floor + 2.75, -5.665], 6.8, 0.9);
+      worktops.push([4.8, 0.13, 1.9, 0, floor + 0.81, -1.55]);
+      for (const side of [-1, 1]) frames.push([0.16, 0.74, 1.3, side * 1.65, floor + 0.39, -1.55]);
+      for (const x of [-1.6, 0, 1.6]) {
+        addChair(x, 0.15, floor, -1, 0.98);
+        addChair(x, -3.25, floor, 1, 0.98);
+      }
+      cabinetry.push([4.2, 0.88, 0.55, 0, floor + 0.46, -4.92]);
+      this.box(levelGroup, [7.4, partitionHeight, 0.22], [0, floor + partitionHeight / 2, -13.78], wall, { castShadow: false });
+      for (const x of [-1.85, 1.85]) {
+        frames.push([1.68, 2.55, 0.06, x, floor + 1.275, -13.63]);
+        frames.push([0.022, 2.45, 0.015, x, floor + 1.275, -13.585]);
+        lightBars.push([1.85, 0.035, 0.08, x, floor + 2.72, -13.55]);
+      }
+      lightBars.push([24, 0.035, 0.07, 0, ceiling - 0.2, 10.35]);
+      const welcome = new THREE.Group();
+      welcome.name = `${level.name}-client-lounge`;
+      welcome.position.set(0, floor, 7.1);
+      this.rbox(welcome, [4.5, 0.32, 1.18], 0.08, [0, 0.34, 0.95], materials.leather, { castShadow: false });
+      this.rbox(welcome, [4.5, 0.78, 0.24], 0.07, [0, 0.92, 1.46], materials.leather, { castShadow: false });
+      for (const side of [-1, 1]) this.rbox(welcome, [0.22, 0.7, 1.18], 0.06, [side * 2.14, 0.65, 0.95], materials.leather, { castShadow: false });
+      this.rbox(welcome, [2.9, 0.12, 1.25], 0.04, [0, 0.48, -1.15], materials.counter, { castShadow: false });
+      this.box(welcome, [2.2, 0.36, 0.8], [0, 0.24, -1.15], materials.wood, { castShadow: false });
+      levelGroup.add(welcome);
+      for (const side of [-1, 1]) {
+        for (const z of [9.1, -12.6]) {
+          const { group } = this.plants.build('monstera', Math.round(floor * 10 + z * 3 + side), { pot: 'ceramic', potRadius: 0.4, potHeight: 0.58, scale: 0.7 });
+          group.position.set(side * 13.65, floor, z);
+          group.traverse((object) => { object.castShadow = false; });
+          levelGroup.add(group);
+        }
+      }
+    }
+
+    const partitions = new THREE.Group();
+    partitions.name = 'upper-glass-office-partitions';
+    interiors.add(partitions);
+    this.instancedBoxes(partitions, materials.glass, officePanes, { castShadow: false });
+    this.instancedBoxes(interiors, materials.darkSteel, frames, { castShadow: false });
+    this.instancedBoxes(interiors, officeStone, worktops, { castShadow: false });
+    this.instancedBoxes(interiors, materials.wood, [...cabinetry, ...woodSlats], { castShadow: false });
+    this.instancedBoxes(interiors, materials.leather, leatherSeats, { castShadow: false });
+    this.instancedBoxes(interiors, materials.leatherCognac, cognacSeats, { castShadow: false });
+    this.instancedBoxes(interiors, materials.ledWarm, lightBars, { castShadow: false });
+    this.instancedBoxes(interiors, materials.paper, papers, { castShadow: false });
+    this.instancedBoxes(interiors, materials.smoked, monitors, { castShadow: false });
+    this.batchStaticMeshes(interiors);
+  }
+
+  buildRoof(parent) {
+    const roof = new THREE.Group();
+    roof.name = 'complete-roof-and-screened-services';
+    parent.add(roof);
+    const { stone, silver, charcoal } = this.facadeMaterials;
+    const membrane = new THREE.MeshStandardMaterial({ color: '#a6afac', roughness: 0.92, metalness: 0 });
+    this.box(roof, [32.5, 0.46, 27.8], [0, 20.22, -2.25], stone);
+    this.box(roof, [31.9, 0.06, 27.2], [0, 20.48, -2.25], membrane, { castShadow: false });
+    const parapets = [];
+    const caps = [];
+    for (const x of [-16.1, 16.1]) {
+      parapets.push([0.2, 0.65, 27.8, x, 20.79, -2.25]);
+      caps.push([0.3, 0.05, 27.9, x, 21.14, -2.25]);
+    }
+    for (const z of [-16.05, 11.55]) {
+      parapets.push([32.4, 0.65, 0.2, 0, 20.79, z]);
+      caps.push([32.6, 0.05, 0.3, 0, 21.14, z]);
+    }
+    this.instancedBoxes(roof, stone, parapets);
+    this.instancedBoxes(roof, silver, caps, { castShadow: false });
+    this.box(roof, [8.2, 0.1, 6.8], [8.6, 20.57, -10], charcoal, { castShadow: false });
+    const louvers = [];
+    for (let row = 0; row < 9; row++) {
+      const y = 20.72 + row * 0.15;
+      for (const z of [-13.4, -6.6]) louvers.push([8.2, 0.075, 0.08, 8.6, y, z]);
+      for (const x of [4.5, 12.7]) louvers.push([0.08, 0.075, 6.8, x, y, -10]);
+    }
+    this.instancedBoxes(roof, charcoal, louvers, { castShadow: false });
+    for (const x of [6.5, 10.5]) {
+      this.box(roof, [2.8, 1.0, 3.4], [x, 21.1, -10], silver);
+      for (const z of [-10.75, -9.25]) {
+        const fan = new THREE.Mesh(new THREE.CylinderGeometry(0.52, 0.52, 0.06, 20), charcoal);
+        fan.position.set(x, 21.63, z);
+        roof.add(fan);
+        const grille = new THREE.Mesh(new THREE.TorusGeometry(0.46, 0.018, 4, 20), silver);
+        grille.rotation.x = Math.PI / 2;
+        grille.position.set(x, 21.67, z);
+        roof.add(grille);
+      }
+    }
+    this.box(roof, [3.4, 1.7, 3.8], [-10.4, 21.38, -10.5], stone);
+    this.box(roof, [3.6, 0.14, 4.0], [-10.4, 22.28, -10.5], silver);
+    this.box(roof, [1.0, 1.5, 0.04], [-10.4, 21.31, -8.58], charcoal, { castShadow: false });
+    this.box(roof, [1.6, 0.12, 1.9], [-4.1, 20.62, -9.5], silver, { castShadow: false });
+    const seams = [];
+    for (let x = -14; x <= 14; x += 3.5) seams.push([0.015, 0.008, 26.8, x, 20.516, -2.25]);
+    for (const x of [-15.4, 15.4]) seams.push([0.12, 0.02, 26.6, x, 20.525, -2.25]);
+    this.instancedBoxes(roof, charcoal, seams, { castShadow: false });
+    for (const x of [-14.9, 14.9]) for (const z of [-14.7, 10.2]) this.box(roof, [0.34, 0.025, 0.34], [x, 20.54, z], charcoal, { castShadow: false });
+    for (const x of [-2.0, 1.2]) {
+      const vent = new THREE.Mesh(new THREE.CylinderGeometry(0.14, 0.18, 0.65, 12), silver);
+      vent.position.set(x, 20.86, -13.7);
+      roof.add(vent);
+      this.box(roof, [0.45, 0.045, 0.45], [x, 21.21, -13.7], charcoal, { castShadow: false });
+    }
+    this.batchStaticMeshes(roof);
+  }
+
   buildEntrance(root) {
     const m = this.m;
     const z = 11.2;
-    this.box(root, [6.8, 0.26, 0.66], [0, 6.52, z], m.steel);
+    this.box(root, [10.3, 0.3, 0.66], [0, 7.73, z], m.steel);
+    this.box(root, [10.15, 1.08, 0.025], [0, 8.42, z], m.glass, { castShadow: false });
+    const stairRise = 1.38;
     for (const x of [-1.8, 1.8]) {
-      this.box(root, [0.18, 6.35, 0.38], [x, 3.2, z], m.steel);
-      this.box(root, [0.7, 0.13, 0.7], [x, 0.065, z], m.darkstone);
+      this.box(root, [0.18, 6.35, 0.38], [x, stairRise + 3.2, z], m.steel);
+      this.box(root, [0.7, 0.13, 0.7], [x, stairRise + 0.065, z], m.darkstone);
     }
     for (const x of [-3.45, 3.45]) {
-      this.box(root, [3.3, 6.1, 0.05], [x, 3.12, z], m.glass, { castShadow: false });
-      for (const y of [0.07, 6.17]) this.box(root, [3.3, 0.1, 0.1], [x, y, z], m.darkSteel);
+      this.box(root, [3.3, 6.1, 0.05], [x, stairRise + 3.12, z], m.glass, { castShadow: false });
+      for (const y of [0.07, 6.17]) this.box(root, [3.3, 0.1, 0.1], [x, stairRise + y, z], m.darkSteel);
     }
-    this.box(root, [10.3, 2.15, 0.3], [0, 7.72, z + 0.15], m.board);
-    this.sign(root, 'ATELIER MOTORS', [0, 7.6, z + 0.33], 4.6, 0.58);
     this.box(root, [3.6, 0.02, 0.5], [0, 0.01, z + 0.2], m.steel, { castShadow: false });
+    for (let step = 0; step < 11; step++) {
+      const height = stairRise * (step + 1) / 11;
+      this.box(root, [3.22, height, 0.4], [0, height / 2, 6.95 + step * 0.4], m.counter, { castShadow: false });
+    }
 
     this.doors = [];
     for (const side of [-1, 1]) {
       const pivot = new THREE.Group();
-      pivot.position.set(0, 0, z + 0.22);
+      pivot.position.set(0, stairRise, z + 0.22);
       const part = (size, pos, mat) => this.box(pivot, size, pos, mat, { castShadow: false });
       part([1.62, 6.1, 0.05], [side * 0.81, 3.1, 0], m.doorGlass);
       for (const y of [0.06, 6.14]) part([1.62, 0.12, 0.08], [side * 0.81, y, 0], m.darkSteel);
@@ -553,7 +1324,7 @@ export class Showroom {
 
   buildCeiling(root) {
     const m = this.m;
-    this.box(root, [32, 0.45, 34], [0, 9, -3], m.ceiling, { castShadow: true });
+    this.box(root, [31.4, 0.1, 26.8], [0, 8.88, -2.25], m.ceiling, { castShadow: false });
     const beams = [];
     for (let x = -12; x <= 12; x += 4) beams.push([0.15, 0.22, 28, x, 8.62, -3]);
     for (const z of [-13, -7, -1, 5]) beams.push([29, 0.14, 0.16, 0, 8.66, z]);
@@ -613,56 +1384,61 @@ export class Showroom {
   }
 
   buildCentralFeature(root) {
-    const m = this.m;
-    const island = new THREE.Group();
-    island.position.set(0, 0, CENTER_Z);
-
-    for (const [radius, tube] of [[4.45, 0.014], [3.92, 0.008], [2.9, 0.006]]) {
-      const ring = new THREE.Mesh(new THREE.TorusGeometry(radius, tube, 6, 160), m.brass);
+    const materials = this.m;
+    const reception = new THREE.Group();
+    reception.name = 'main-center-reception';
+    reception.position.set(0, 0, CENTER_Z);
+    reception.userData.counterSize = [6.76, 1.195, 2.38];
+    root.add(reception);
+    for (const radius of [4.45, 3.92]) {
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(radius, 0.008, 6, 96), materials.brass);
       ring.rotation.x = Math.PI / 2;
       ring.position.y = 0.004;
-      island.add(ring);
+      reception.add(ring);
     }
-    this.contact(island, 0, 0, 5.6, 5.6, { round: true, opacity: 0.3 });
-
-    for (let i = 0; i < 8; i++) {
-      const a = (i / 8) * Math.PI * 2;
-      const post = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.065, 0.92, 14), m.brass);
-      post.position.set(Math.cos(a) * 1.96, 0.46, Math.sin(a) * 1.96);
-      post.castShadow = true;
-      island.add(post);
-      const foot = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.14, 0.035, 24), m.brass);
-      foot.position.set(Math.cos(a) * 1.96, 0.018, Math.sin(a) * 1.96);
-      island.add(foot);
+    const counter = new THREE.Group();
+    counter.name = 'stone-and-oak-reception-counter';
+    reception.add(counter);
+    this.rbox(counter, [5.9, 0.95, 0.34], 0.06, [0, 0.59, 0.64], materials.wood);
+    this.rbox(counter, [6.76, 0.13, 0.79], 0.035, [0, 1.13, 0.56], materials.counter);
+    this.box(counter, [5.65, 0.1, 0.26], [0, 0.09, 0.6], materials.darkSteel, { castShadow: false });
+    this.box(counter, [5.6, 0.025, 0.035], [0, 0.165, 0.792], materials.ledWarm, { castShadow: false });
+    this.box(counter, [5.85, 0.022, 0.025], [0, 1.048, 0.831], materials.brass, { castShadow: false });
+    const slats = [];
+    for (let index = 0; index < 42; index++) slats.push([0.035, 0.73, 0.035, -2.82 + index * 0.138, 0.64, 0.824]);
+    this.instancedBoxes(counter, materials.wood, slats, { castShadow: false });
+    for (const side of [-1, 1]) {
+      this.rbox(counter, [0.52, 0.95, 1.84], 0.06, [side * 3.0, 0.59, -0.1], materials.counter);
+      this.rbox(counter, [0.87, 0.13, 1.6], 0.035, [side * 2.93, 1.13, -0.625], materials.counter);
+      this.box(counter, [0.025, 0.025, 1.35], [side * 3.22, 0.17, -0.12], materials.ledWarm, { castShadow: false });
+      this.box(counter, [0.81, 0.52, 0.055], [side * 1.35, 1.2, -0.13], materials.darkSteel, { castShadow: false });
+      this.box(counter, [0.045, 0.24, 0.045], [side * 1.35, 0.96, -0.13], materials.steel, { castShadow: false });
+      this.box(counter, [0.38, 0.025, 0.26], [side * 1.35, 0.88, -0.13], materials.darkSteel, { castShadow: false });
+      const chair = new THREE.Group();
+      chair.name = 'reception-staff-chair';
+      chair.position.set(side * 1.35, 0, -1.63);
+      this.rbox(chair, [0.9, 0.17, 0.82], 0.06, [0, 0.53, 0], materials.leather);
+      this.rbox(chair, [0.9, 0.79, 0.14], 0.06, [0, 1.0, -0.37], materials.leather);
+      for (const arm of [-1, 1]) this.box(chair, [0.08, 0.09, 0.65], [arm * 0.44, 0.76, 0], materials.leather, { castShadow: false });
+      this.box(chair, [0.08, 0.41, 0.08], [0, 0.29, 0], materials.steel, { castShadow: false });
+      this.box(chair, [0.68, 0.05, 0.07], [0, 0.075, 0], materials.darkSteel, { castShadow: false });
+      this.box(chair, [0.07, 0.05, 0.68], [0, 0.075, 0], materials.darkSteel, { castShadow: false });
+      reception.add(chair);
     }
-    const counter = new THREE.Mesh(new THREE.TorusGeometry(1.92, 0.14, 20, 120), m.counter);
-    counter.rotation.x = Math.PI / 2;
-    counter.position.y = 0.96;
-    counter.castShadow = true;
-    counter.receiveShadow = true;
-    island.add(counter);
-    const edge = new THREE.Mesh(new THREE.TorusGeometry(1.92, 0.018, 8, 120), m.brass);
-    edge.rotation.x = Math.PI / 2;
-    edge.position.y = 1.105;
-    island.add(edge);
-    const underglow = new THREE.Mesh(new THREE.TorusGeometry(1.92, 0.02, 8, 120), m.ledWarm);
-    underglow.rotation.x = Math.PI / 2;
-    underglow.position.y = 0.82;
-    island.add(underglow);
-
-    const column = new THREE.Group();
-    column.position.y = 0.28;
-    const support = new THREE.Mesh(new THREE.CylinderGeometry(0.68, 0.76, 1.75, 96), m.steel);
-    support.position.y = 1.15;
-    support.castShadow = true;
-    support.receiveShadow = true;
-    column.add(support);
-    this.box(column, [2.75, 1.52, 0.16], [0, 1.72, 0.68], m.darkSteel);
-    const screen = new THREE.Mesh(new THREE.PlaneGeometry(2.58, 1.35), this.screenMaterial(this.brandCanvas('WELCOME', 'INFORMATION  ·  APPOINTMENTS  ·  ENQUIRIES', 2.58 / 1.35), 1));
-    screen.position.set(0, 1.72, 0.77);
-    column.add(screen);
-    island.add(column);
-    root.add(island);
+    this.box(counter, [5.0, 0.09, 1.1], [0, 0.81, -0.5], materials.wood);
+    this.box(counter, [0.46, 0.02, 0.34], [0, 0.867, -0.8], materials.paper, { castShadow: false });
+    this.sign(counter, 'AUTO HAUS GROUP', [0, 0.64, 0.86], 4.25, 0.54);
+    this.contact(reception, 0, 0, 7.4, 3.2, { opacity: 0.22 });
+    const backdrop = new THREE.Group();
+    backdrop.name = 'reception-brand-and-enquiries-wall';
+    this.box(backdrop, [5.95, 3.05, 0.22], [0, 1.64, -2.75], materials.darkstone);
+    for (const side of [-1, 1]) {
+      this.box(backdrop, [0.12, 2.8, 0.09], [side * 2.83, 1.63, -2.60], materials.wood, { castShadow: false });
+      this.box(backdrop, [0.025, 2.65, 0.035], [side * 2.72, 1.61, -2.58], materials.ledWarm, { castShadow: false });
+    }
+    this.box(backdrop, [5.5, 0.035, 0.05], [0, 3.11, -2.58], materials.ledSoft, { castShadow: false });
+    reception.add(backdrop);
+    this.batchStaticMeshes(reception);
   }
 
   registerCameraColliders() {
@@ -672,7 +1448,9 @@ export class Showroom {
     add('west perimeter wall', [-16.35, 0, -20], [-15.25, 9.4, 15]);
     add('east perimeter wall', [15.25, 0, -20], [16.35, 9.4, 15]);
     add('rear perimeter wall', [-16.4, 0, -16.55], [16.4, 9.4, -15.35]);
-    add('ceiling', [-16.2, 8.75, -20], [16.2, 9.45, 15]);
+    add('ceiling', [-16.2, 8.75, -16], [16.2, 9.45, 11.8]);
+    add('upper building and roof', [-16.45, 8.92, -16.4], [16.45, 22.5, 12.72]);
+    for (const side of [-1, 1]) add('black facade pier', [side * 6.3 - 1.03, 1.16, 11.295], [side * 6.3 + 1.03, 13.74, 12.545]);
     add('left front glass', [-16.35, 0, 11.05], [-5.12, 9.4, 11.4]);
     add('right front glass', [5.12, 0, 11.05], [16.35, 9.4, 11.4]);
     add('entrance fascia', [-5.1, 6.2, 11.0], [5.1, 9.4, 11.6]);
@@ -689,7 +1467,9 @@ export class Showroom {
     add('left coffee table', [-11.4, 0, -1.75], [-9.4, 1.24, -0.24]);
     add('right coffee table', [9.4, 0, -1.75], [11.4, 1.24, -0.24]);
     add('rear digital brand display', [-4.2, 3.35, -15.35], [4.2, 6.65, -14.75]);
-    add('central information island', [-2.4, 0, -6.6], [2.4, 3.25, -1.7]);
+    add('central reception counter', [-3.45, 0, -5.65], [3.45, 1.5, -3.16]);
+    add('reception brand partition', [-3.05, 0, -7.05], [3.05, 3.3, -6.72]);
+    for (const side of [-1, 1]) add('central reception staff chair', [side * 1.35 - 0.52, 0, -6.25], [side * 1.35 + 0.52, 1.55, -5.32]);
     add('left curved gallery wall', [-15.25, 0, -8.05], [-13.4, 5.7, -2.85]);
     add('right curved gallery wall', [13.4, 0, -8.05], [15.25, 5.7, -2.85]);
     add('rear gallery staircase', [-5.2, 0, -15.3], [1.4, 3.0, -13.6]);
@@ -708,14 +1488,18 @@ export class Showroom {
   /* ---------- stage 2/3 orchestration ---------- */
 
   async runStages() {
+    const stagesStarted = performance.now();
     await wait(30);
-    const build = async (name, job) => {
+    const build = async (name, job, secondary) => {
       const t = performance.now();
       try {
         const group = new THREE.Group();
         group.name = name;
         job(group);
-        await this.commit(group);
+        if (secondary) {
+          this.batchStaticMeshes(group);
+          this.deferredGroups.push(group);
+        } else this.commit(group);
       } catch (error) {
         console.error(`Showroom stage (${name}) failed`, error);
       }
@@ -724,48 +1508,195 @@ export class Showroom {
     };
     // Geometry visible from the entrance is committed first; the entrance camera waits for it (with a cap).
     const interior = [
+      ['district', (g) => buildDistrict(this, g)],
       ['wings', (g) => this.buildWings(g)],
       ['panels', (g) => this.buildPanels(g)],
       ['reception', (g) => this.buildReception(g)],
       ['lounge', (g) => this.buildLounge(g)],
       ['stair', (g) => this.buildStair(g)],
       ['plants', (g) => this.buildPlants(g)],
-      ['district', (g) => buildDistrict(this, g)],
     ];
     let done = 0;
-    for (const [name, job] of interior) {
-      await build(name, job);
+    for (const [name, job, secondary] of interior) {
+      await build(name, job, secondary);
       done += 1;
       this.onLoadProgress?.('Furnishing the interior...', 10 + Math.round((done / interior.length) * 50));
     }
-    this._resolveInterior();
-    this.onStage?.(2);
+    for (const group of this.root.children) if (group.isGroup) this.batchStaticMeshes(group, true);
+    this.batchStaticMeshes(this.root);
+    this.timings.criticalScene = Math.round(performance.now() - stagesStarted);
+    this.onLoadProgress?.('Preparing the lighting...', 96);
+  }
 
-    await build('decor', (g) => this.buildDecor(g));
-    this.onLoadProgress?.('Refining materials...', 66);
+  prepareSections() {
+    if (this.sectionsReady) return Promise.resolve();
+    if (this.sectionsLoading) return this.sectionsLoading;
+    this.sectionsLoading = (async () => {
+      await this.ready;
+      const started = performance.now();
+      for (const group of this.deferredGroups) {
+        await new Promise((resolve) => {
+          if ('requestIdleCallback' in window) requestIdleCallback(resolve, { timeout: 100 });
+          else setTimeout(resolve, 0);
+        });
+        await this.compilePasses(group);
+        this.uploadTextures(group);
+        this.commit(group);
+      }
+      this.deferredGroups.length = 0;
+      await this.prewarm();
+      this._resolveInterior();
+      this.onStage?.(2);
+      this.sectionsReady = true;
+      this.timings.backgroundSections = Math.round(performance.now() - started);
+      this._resolveStages();
+      this.onStage?.(3);
+    })();
+    return this.sectionsLoading;
+  }
 
-    // Full-size textures are generated in workers and swapped in as they arrive.
-    const t = performance.now();
-    await this.lib.upgrade();
-    this.timings.textures = Math.round(performance.now() - t);
-    this.onLoadProgress?.('Preparing the lighting...', 90);
-    await this.prewarm();
-    this.onLoadProgress?.('Ready', 100);
-    this.onStage?.(3);
+  prepareDecor() {
+    return this.decorLoading ??= (async () => {
+      await this.stagesReady;
+      await new Promise((resolve) => {
+        if ('requestIdleCallback' in window) requestIdleCallback(resolve, { timeout: 1000 });
+        else setTimeout(resolve, 16);
+      });
+      const group = new THREE.Group();
+      group.name = 'decor';
+      this.buildDecor(group);
+      await this.compilePasses(group);
+      this.uploadTextures(group);
+      this.commit(group);
+    })();
+  }
+
+  async compilePasses(group) {
+    if (!this.startupPreparing) {
+      group = group.clone(true);
+      const copies = new Map();
+      const copy = (material) => {
+        if (!copies.has(material)) {
+          const prepared = material.clone();
+          prepared.onBeforeCompile = material.onBeforeCompile;
+          prepared.customProgramCacheKey = material.customProgramCacheKey;
+          copies.set(material, prepared);
+        }
+        return copies.get(material);
+      };
+      group.traverse((object) => {
+        if (object.material) object.material = Array.isArray(object.material) ? object.material.map(copy) : copy(object.material);
+      });
+      (this.compilationMaterials ??= []).push(...copies.values());
+    }
+    await this.renderer.compileAsync(group, this.camera, this.scene);
+    const renderer = this.renderer;
+    const target = renderer.getRenderTarget();
+    const toneMapping = renderer.toneMapping;
+    this.linearCompileTarget ??= new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, colorSpace: THREE.LinearSRGBColorSpace });
+    const prepare = (backFaces) => {
+      const materials = new Map();
+      group.traverse((object) => {
+        const material = object.material;
+        if (backFaces && material?.transmission > 0) materials.set(material, material.side);
+      });
+      renderer.setRenderTarget(this.linearCompileTarget);
+      renderer.toneMapping = THREE.NoToneMapping;
+      for (const material of materials.keys()) { material.side = THREE.BackSide; material.needsUpdate = true; }
+      let pending;
+      try {
+        pending = renderer.compileAsync(group, this.camera, this.scene);
+      } finally {
+        for (const [material, side] of materials) { material.side = side; material.needsUpdate = true; }
+        renderer.toneMapping = toneMapping;
+        renderer.setRenderTarget(target);
+      }
+      return pending;
+    };
+    await prepare(false);
+    await prepare(true);
+  }
+
+  uploadTextures(group) {
+    const textures = new Set();
+    group.traverse((object) => {
+      for (const material of object.material ? [].concat(object.material) : []) {
+        for (const value of Object.values(material)) if (value?.isTexture) textures.add(value);
+      }
+    });
+    for (const texture of textures) this.renderer.initTexture(texture);
   }
 
   // Uploads every texture and renders the shadows once so the entrance never pays first-use costs.
   async prewarm() {
-    this.scene.traverse((object) => {
-      for (const material of object.material ? [].concat(object.material) : []) {
-        for (const value of Object.values(material)) if (value?.isTexture) this.renderer.initTexture(value);
+    if (this.isIntroPlaying) return;
+    const target = this.renderer.getRenderTarget();
+    this.warmCamera ??= this.camera.clone();
+    this.warmTarget ??= new THREE.WebGLRenderTarget(64, 64, { type: THREE.HalfFloatType, colorSpace: THREE.SRGBColorSpace });
+    const uploadStarted = performance.now();
+    this.uploadTextures(this.scene);
+    this.timings[this.startupPreparing ? 'textureUploads' : 'backgroundTextureUploads'] = Math.round(performance.now() - uploadStarted);
+    this.renderer.shadowMap.needsUpdate = this.startupPreparing;
+    if (this.startupPreparing) this.shadowDirty = false;
+    const frameStarted = performance.now();
+    const hidden = this.root.children.filter((group) => !group.visible);
+    const meshStates = [];
+    const lodStates = [];
+    try {
+      if (this.startupPreparing && this.shaderWarmup) this.scene.add(this.shaderWarmup);
+      for (const group of hidden) group.visible = true;
+      this.renderer.setRenderTarget(this.warmTarget);
+      this.warmCamera.position.set(24, 32, 35);
+      this.warmCamera.lookAt(0, 10, 0);
+      this.renderer.render(this.scene, this.warmCamera);
+      this.scene.traverse((object) => {
+        if (object.isMesh) {
+          meshStates.push({ object, frustumCulled: object.frustumCulled });
+          object.frustumCulled = false;
+        }
+        if (object.isLOD) {
+          lodStates.push({ object, autoUpdate: object.autoUpdate, visible: object.levels.map(level => level.object.visible) });
+          object.autoUpdate = false;
+          for (const level of object.levels) level.object.visible = true;
+        }
+      });
+      this.warmCamera.position.copy(this.camera.position);
+      this.warmCamera.quaternion.copy(this.camera.quaternion);
+      this.renderer.render(this.scene, this.warmCamera);
+      this.warmCamera.position.set(0, 2.35, 4.7);
+      this.warmCamera.lookAt(0, 2, -1.4);
+      for (const { object } of this.glassPlanes) {
+        object.material.side = THREE.BackSide;
+        object.material.needsUpdate = true;
       }
-    });
-    this.renderer.shadowMap.needsUpdate = true;
-    this.shadowDirty = false;
-    this.renderer.render(this.scene, this.camera);
-    this.renderer.getContext().finish();
-    await wait(30);
+      this.renderer.render(this.scene, this.warmCamera);
+    } finally {
+      this.updateCameraCulling();
+      for (const { object, frustumCulled } of meshStates) object.frustumCulled = frustumCulled;
+      for (const { object, autoUpdate, visible } of lodStates) {
+        object.autoUpdate = autoUpdate;
+        object.levels.forEach((level, index) => { level.object.visible = visible[index]; });
+      }
+      if (this.shaderWarmup) { this.scene.remove(this.shaderWarmup); this.shaderWarmup = null; }
+      for (const group of hidden) group.visible = false;
+      this.renderer.setRenderTarget(target);
+    }
+    if (this.startupPreparing) {
+      const position = this.camera.position.clone();
+      const rotation = this.camera.quaternion.clone();
+      try {
+        this.camera.position.set(0, 2.35, 4.7);
+        this.camera.lookAt(0, 2, -1.4);
+        this.updateCameraCulling();
+        this.renderer.render(this.scene, this.camera);
+      } finally {
+        this.camera.position.copy(position);
+        this.camera.quaternion.copy(rotation);
+        this.updateCameraCulling();
+      }
+      this.renderer.render(this.scene, this.camera);
+    }
+    this.timings[this.startupPreparing ? 'prewarmFrame' : 'backgroundPrewarmFrame'] = Math.round(performance.now() - frameStarted);
   }
 
   /* ---------- stage 2 ---------- */
@@ -826,15 +1757,18 @@ export class Showroom {
   buildPanels(g) {
     const m = this.m;
     this.box(g, [7.9, 2.9, 0.2], [0, 5.05, -15.2], m.darkSteel);
-    const brand = new THREE.Mesh(new THREE.PlaneGeometry(7.5, 2.5), this.screenMaterial(this.brandCanvas('ATELIER MOTORS', 'PRIVATE AUTOMOTIVE HOUSE  ·  EST. 1988  ·  STUTTGART', 7.5 / 2.5), 1));
+    const brand = new THREE.Mesh(new THREE.PlaneGeometry(7.5, 2.5), this.screenMaterial(this.brandCanvas('AUTO HAUS GROUP', 'LEBANON', 7.5 / 2.5), 1));
     brand.position.set(0, 5.05, -15.09);
     g.add(brand);
     this.box(g, [5.8, 0.035, 0.035], [0, 3.45, -15.0], m.ledWarm, { castShadow: false });
     for (const x of [-10.5, -5.4, 5.4, 10.5]) this.box(g, [4.5, 2.9, 0.12], [x, 4.5, -15.4], m.board);
 
     this.digitalPanel(g, [-8.25, 3.4, -14.72], 0, 5.2, 2.75, 'SERVICES', ['Vehicle sales and trade-in', 'Financing · Inspection', 'Maintenance · After-sales']);
-    this.digitalPanel(g, [8.25, 3.4, -14.72], 0, 5.2, 2.75, 'OUR STORY', ['Independent by nature · Since 1988', 'A considered collection', 'A personal welcome in Stuttgart']);
-    this.digitalPanel(g, [8.4, 2.95, 9.66], Math.PI, 4.35, 1.95, 'CONTACT', ['WhatsApp · +49 (0)00 0000 0000', 'hello@example.com · Mon–Sat 09:00–19:00']);
+    this.digitalPanel(g, [8.25, 3.4, -14.72], 0, 5.2, 2.75, 'OUR STORY', ['Independent by nature · Since 1988', 'A considered collection', 'A personal welcome in Lebanon']);
+    const contactScreen = this.digitalPanel(g, [8.4, 2.95, 9.58], Math.PI, 4.35, 1.95, 'CONTACT', ['Appointments & enquiries', 'Telephone  |  Email  |  Showroom hours']);
+    contactScreen.name = 'contact-section-screen';
+    this.sign(g, 'AUTO HAUS GROUP', [0, 2.3, CENTER_Z - 2.595], 4.6, 0.78);
+    this.box(g, [3.65, 0.024, 0.035], [0, 1.65, CENTER_Z - 2.555], m.brass, { castShadow: false });
   }
 
   buildReception(g) {
@@ -843,6 +1777,7 @@ export class Showroom {
     this.box(g, [5.5, 0.04, 0.05], [8.4, 4.45, 9.6], m.ledSoft, { castShadow: false });
 
     const desk = new THREE.Group();
+    desk.name = 'side-client-consultation-counter';
     desk.position.set(8.4, 0, 8.35);
     desk.rotation.y = Math.PI / 2;
     const front = new THREE.Mesh(new THREE.CylinderGeometry(2.18, 2.35, 1.08, 72, 1, false, Math.PI * 0.12, Math.PI * 0.76), m.wood);
@@ -1129,8 +2064,12 @@ export class Showroom {
 
   /* ---------- camera, navigation, collisions ---------- */
 
+  get navigationLocked() {
+    return this.isIntroPlaying || this.entering;
+  }
+
   cameraCollisionAt(position) {
-    if (position.y < 0.85 || position.y > 8.3) return { name: position.y < 0.85 ? 'floor clearance' : 'ceiling clearance' };
+    if (position.y < 0.85) return { name: 'floor clearance' };
     const r = this.cameraRadius;
     const box = this._camBox.set(this._lo.set(position.x - r, position.y - r, position.z - r), this._hi.set(position.x + r, position.y + r, position.z + r));
     for (const collider of this.cameraColliders) {
@@ -1180,6 +2119,7 @@ export class Showroom {
 
   // Glides along a pre-validated curve with a single tween; no allocations or collision work per frame.
   followCameraPath(points, targetPosition, duration, onComplete, onProgress, ease = 'sine.inOut') {
+    if (this.isIntroPlaying) return null;
     this.motion?.kill();
     this.motion = null;
     const built = this.buildPath(points);
@@ -1195,6 +2135,9 @@ export class Showroom {
     const { curve } = built;
     const startLook = this._startLook.copy(this.lookTarget);
     const endLook = this._endLook.set(...targetPosition);
+    const endPosition = new THREE.Vector3(...points.at(-1));
+    const startRotation = this.camera.quaternion.clone();
+    const endRotation = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().lookAt(endPosition, endLook, this.camera.up));
     const state = { t: 0 };
     this.motion = gsap.to(state, {
       t: 1,
@@ -1203,12 +2146,17 @@ export class Showroom {
       onUpdate: () => {
         curve.getPointAt(state.t, this.camera.position);
         this.lookTarget.lerpVectors(startLook, endLook, state.t);
-        this.camera.lookAt(this.lookTarget);
+        this.camera.quaternion.slerpQuaternions(startRotation, endRotation, state.t);
+        this.updateCameraFraming();
         this.lastSafeCameraPosition.copy(this.camera.position);
         this.dirty = true;
         onProgress?.(state.t);
       },
       onComplete: () => {
+        this.camera.position.copy(endPosition);
+        this.lookTarget.copy(endLook);
+        this.camera.quaternion.copy(endRotation);
+        this.lastSafeCameraPosition.copy(this.camera.position);
         this.motion = null;
         this.dirty = true;
         onComplete?.(true);
@@ -1223,28 +2171,65 @@ export class Showroom {
     this.resize();
   }
 
+  updateCameraFraming() {
+    const width = this.viewportWidth ?? this.canvas.clientWidth;
+    const interiorFov = width < 640 ? 54 : width < 960 ? 46 : 38;
+    const exteriorFov = width < 640 ? Math.min(108, THREE.MathUtils.radToDeg(2 * Math.atan(Math.tan(THREE.MathUtils.degToRad(32.5)) / this.camera.aspect))) : 50;
+    const exterior = THREE.MathUtils.smoothstep(this.camera.position.z, 20, 32);
+    const fov = THREE.MathUtils.lerp(interiorFov, exteriorFov, exterior);
+    if (Math.abs(this.camera.fov - fov) < 0.025) return;
+    this.camera.fov = fov;
+    this.camera.updateProjectionMatrix();
+  }
+
   resize() {
     const width = this.canvas.clientWidth;
     const height = this.canvas.clientHeight;
     if (!width || !height) return;
+    this.viewportWidth = width;
     this.camera.aspect = width / height;
-    this.camera.fov = width < 640 ? 54 : width < 960 ? 46 : 38;
+    this.updateCameraFraming();
     this.camera.updateProjectionMatrix();
     this.renderer.setPixelRatio(Math.min(this.pixelRatio, width < 640 ? 1.15 : this.maxPixelRatio));
     this.renderer.setSize(width, height, false);
+    this.post?.setSize(width, height, this.renderer.getPixelRatio());
     this.dirty = true;
   }
 
+  introduce(skip = false) {
+    if (this.isIntroPlaying) return;
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (skip || reducedMotion) {
+      this.cloudLayer.visible = false;
+      this.exteriorWakeLights.forEach((light) => { light.intensity = 34; });
+      this.camera.position.set(0, 2.5, 20);
+      this.lookTarget.set(0, 6, 11);
+      this.camera.lookAt(this.lookTarget);
+      this.requestRender();
+      this.fastEntrance = skip;
+      this.enter();
+      return;
+    }
+    this.startStory().then((started) => {
+      if (!started) this.introduce(true);
+      else document.getElementById('arrival-curtain').hidden = true;
+    });
+  }
+
   enter() {
-    if (this.entering) return;
+    if (this.navigationLocked) return;
     this.entering = true;
     this.transitioning = true;
     this.currentDestination = 'home';
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const route = [[0, 2.5, 20], [0, 2.5, 14.2], [0, 2.35, 10], [0, 2.35, 7], [0, 2.35, 4.7]];
+    const outsideStart = this.camera.position.toArray();
+    const approach = outsideStart[2] > 22 ? [outsideStart, [0, 7, 28], [0, 2.5, 20]] : [outsideStart];
+    const route = [...approach, [0, 2.72, 18], [0, 3.22, 15.7], [0, 3.82, 12.4], [0, 3.82, 10], [0, 2.35, 7], [0, 2.35, 4.7]];
     const finish = (safe) => {
       this.entering = false;
       this.transitioning = false;
+      this.outside = false;
+      this.fastEntrance = false;
       this.onEntered?.(Boolean(safe));
     };
     if (this.buildPath(route).blocked) {
@@ -1252,23 +2237,33 @@ export class Showroom {
       finish(false);
       return;
     }
-    const openDoor = (door, x) => gsap.to(door.pivot.position, { x, duration: reducedMotion ? 0.15 : 2.1, delay: 0.15, ease: 'power2.inOut', onUpdate: () => { this.dirty = true; } });
+    const openDoor = (door, x) => gsap.to(door.pivot.position, { x, duration: reducedMotion || this.fastEntrance ? 0.15 : 2.1, delay: 0.15, ease: 'power2.inOut', onUpdate: () => { this.dirty = true; } });
     this.entranceTweens = [openDoor(this.doors[0], -3.4), openDoor(this.doors[1], 3.4)];
     this.onEntranceProgress?.('Opening glass doors...', 24);
-    // Everything is already built and uploaded; a lighter render resolution keeps the glide smooth on integrated GPUs.
-    const fullRatio = this.pixelRatio;
-    this.pixelRatio = Math.min(this.pixelRatio, 1);
-    this.resize();
     this.skipEntrance = () => { this.entranceTweens.forEach((t) => t.timeScale(6)); this.motion?.timeScale(6); };
-    wait(reducedMotion ? 0 : 1100).then(() => {
-      this.followCameraPath(route, [0, 1.9, -1.4], reducedMotion ? 0.15 : 5.2, (safe) => {
-        this.pixelRatio = Math.max(this.pixelRatio, Math.min(fullRatio, this.maxPixelRatio));
-        this.resize();
+    this.prepareSections().then(() => wait(reducedMotion || this.fastEntrance ? 0 : 1100)).then(() => {
+      this.followCameraPath(route, DESTINATIONS.home.target, reducedMotion || this.fastEntrance ? 0.2 : 5.2, (safe) => {
         finish(safe);
+        if (safe) this.prepareDecor().catch((error) => console.warn('Background ornaments unavailable', error));
       }, (progress) => {
         const label = progress > 0.88 ? 'Almost ready...' : progress > 0.2 ? 'Entering showroom...' : 'Opening glass doors...';
         this.onEntranceProgress?.(label, Math.min(99, Math.round(24 + progress * 74)));
       });
+    });
+  }
+
+  exit() {
+    if (this.navigationLocked || this.transitioning || this.outside) return;
+    this.transitioning = true;
+    const route = [this.camera.position.toArray(), [0, 2.35, 7], [0, 2.35, 10], [0, 3.82, 12.4], [0, 3.22, 15.7], [0, 2.5, 20], [0, 5.2, 27], [0, 9.8, 39.5]];
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.followCameraPath(route, [0, 10.5, 11], reducedMotion ? 0.2 : 6.2, (safe) => {
+      this.transitioning = false;
+      this.outside = true;
+      for (const door of this.doors) {
+        gsap.to(door.pivot.position, { x: 0, duration: reducedMotion ? 0.1 : 1.8, ease: 'power2.inOut', onUpdate: () => { this.dirty = true; } });
+      }
+      this.onExited?.(Boolean(safe));
     });
   }
 
@@ -1293,7 +2288,7 @@ export class Showroom {
   }
 
   moveTo(destination, onComplete) {
-    if (this.entering) return false;
+    if (this.navigationLocked) return false;
     const route = DESTINATIONS[destination] ?? DESTINATIONS.home;
     const plan = this.planRoute(route, destination === 'home');
     if (!plan) {
@@ -1312,22 +2307,57 @@ export class Showroom {
     return true;
   }
 
-  // Lower the render resolution on slow GPUs and restore it when there is headroom.
+  beginIntroQuality() {
+    this.introRendering = true;
+  }
+
+  applyDistantGlazing(group) {
+    group.traverse((object) => {
+      if (object.material?.transmission > 0) {
+        this.introGlassMeshes.set(object, object.material);
+        object.material = this.distantGlass;
+      }
+    });
+  }
+
+  setDistantGlazing(active) {
+    if (active === this.distantGlazingActive) return;
+    this.distantGlazingActive = active;
+    if (active) this.applyDistantGlazing(this.root);
+    else {
+      for (const [mesh, material] of this.introGlassMeshes) mesh.material = material;
+      this.introGlassMeshes.clear();
+    }
+  }
+
+  updateIntroQuality() {}
+
+  finishIntroQuality() {
+    this.setDistantGlazing(false);
+    this.introRendering = false;
+    this.cloudLayer.visible = false;
+    for (const name of ['furnished-upper-showrooms', 'panels', 'reception', 'lounge']) {
+      const group = this.scene.getObjectByName(name);
+      if (group) group.visible = true;
+    }
+  }
+
   adaptQuality(now) {
     const t = this.frameTimes;
+    if (this.introRendering) { t.last = now; return; }
+    if (!this.entering && !this.transitioning) {
+      t.last = now;
+      t.checked = now;
+      return;
+    }
     const dt = now - t.last;
     t.last = now;
-    if (document.hidden || !document.hasFocus()) { t.checked = now; return; }
+    if (document.hidden) { t.checked = now; return; }
     if (dt < 250) t.average = t.average * 0.94 + dt * 0.06;
-    if (now - t.checked < 2000) return;
+    if (now - t.checked < 500) return;
     t.checked = now;
-    if (t.average > 26 && this.pixelRatio > 0.8) {
-      this.pixelRatio = Math.max(0.8, this.pixelRatio - 0.15);
-      this.resize();
-    } else if (t.average < 17.5 && this.pixelRatio < this.maxPixelRatio) {
-      this.pixelRatio = Math.min(this.maxPixelRatio, this.pixelRatio + 0.1);
-      this.resize();
-    }
+    if (t.average > 30) this.post?.setQuality(true);
+    else if (t.average < 18) this.post?.setQuality(false);
   }
 
   render() {
@@ -1336,22 +2366,40 @@ export class Showroom {
 
   // Renders only when something changed; the scene is static between camera moves, so idle frames cost nothing.
   renderFrame() {
+    if (this.startupPreparing || document.hidden) return;
+    const now = performance.now();
+    this.adaptQuality(now);
     if (!this.dirty) return;
     this.dirty = false;
-    const now = performance.now();
-    if (this.shadowDirty && now - this.lastShadow > 500) {
+    if (this.shadowDirty && !this.introRendering && now - this.lastShadow > 500) {
       this.renderer.shadowMap.needsUpdate = true;
       this.shadowDirty = false;
       this.lastShadow = now;
     }
-    if (this.transitioning) this.adaptQuality(now);
-    this.renderer.render(this.scene, this.camera);
-    if (this.shadowDirty) this.dirty = true;
+    this.updateCameraCulling();
+    if (this.post && !this.introRendering) {
+      try {
+        this.post.render();
+      } catch (error) {
+        console.warn('Post-processing disabled', error);
+        this.post = null;
+        this.renderer.setRenderTarget(null);
+        this.renderer.render(this.scene, this.camera);
+      }
+    } else this.renderer.render(this.scene, this.camera);
+    if (this.shadowDirty && !this.introRendering) this.dirty = true;
   }
 
   dispose() {
-    gsap.ticker.remove(this.tick);
+    cancelAnimationFrame(this.animationFrame);
     this.motion?.kill();
+    this.introTimeline?.kill();
+    this.story?.dispose();
+    document.removeEventListener('visibilitychange', this.onVisibilityChange);
+    this.warmTarget?.dispose();
+    this.linearCompileTarget?.dispose();
+    this.distantGlass.dispose();
+    this.compilationMaterials?.forEach((material) => material.dispose());
     this.resizeObserver.disconnect();
     this.renderer.dispose();
   }

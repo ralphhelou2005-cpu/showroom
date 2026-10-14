@@ -4,9 +4,9 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Atelier Motors: Chrome",
+            "name": "AUTO HAUS GROUP: Chrome",
             "url": "http://localhost:8001/",
-            "preLaunchTask": "Run Atelier Motors showroom",
+            "preLaunchTask": "Run AUTO HAUS GROUP showroom",
             "webRoot": "${workspaceFolder}"
         }
     ]

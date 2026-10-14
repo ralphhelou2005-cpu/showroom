@@ -1,0 +1,139 @@
+# AUTO HAUS GROUP: realism + cinematic arrival upgrade
+
+The camera-only audit at the end of this file describes the current implementation. Earlier performance sections record historical configurations, including temporary quality reductions that are no longer active. Current intro DPR is not reduced, and physical glass uses full-resolution transmission throughout.
+
+Two routes, both included. They link to each other.
+
+**Route A: live 3D (your existing Three.js showroom)**
+Automatic cloud-layer arrival, aerial roof reveal, frontal approach, and sliding-door entry. The facade, floor plates, sides, roof, upper-floor furnishings, glazing, stone floor, landscaping, and loading gate have been reworked without replacing the website.
+
+**Route B: scroll-scrubbed video (`video-story/`)**
+Separate scroll-scrubbed route, currently using placeholder footage made from the supplied photos. Ends on an "Enter the live showroom" button that opens Route A.
+
+## Exterior and Interior Design Pass
+
+- Reference-inspired black central piers reach the entrance landing and connect to a satin-black fascia. Its header and logo are lowered one 6.12 m storey to a center height of 12.53 m; width, style, logo resolution, glass, and exterior rendering settings are unchanged.
+- Ten large glazed office/meeting rooms replace the sparse upper-floor islands. Four front-facing offices, larger stone desks, client seating, storage, display backdrops, lounges, and planted corners read through the facade.
+- A 6.76 m central stone-and-oak reception replaces the circular information island. It has practical staff worktops, two chairs, a quiet branded backdrop, and subtle brass/light detailing. Home owns this reception. Contact has its own front-right screen and look target; the shared navigation controller and other destinations are unchanged.
+- Existing floor maps, slab scale, roughness and reflection settings remain unchanged. New furniture reuses existing materials and shared instances; no external model downloads or additional lighting passes were added.
+- Logo GPU uploads follow the 1K/2K device tier. The critical loading gate prepares the entrance scene and shader programs; secondary geometry uploads run during the cloud sequence, behind a readiness cap before the building reveal.
+
+## Current Files
+
+- `js/showroom.js`: connected facade, side glazing, upper rooms, roof services, cloud geometry, lighting, collision bounds, loading, and responsive framing.
+- `js/story.js`: one automatic, timestamp-driven cinematic route, sampled safety check, visible cloud reveal, door timing, control ownership, and Skip.
+- `js/materials.js`, `js/textures.js`, `js/texture-library.js`: thin clear glass, coherent polished stone, seven critical downloaded maps, and simpler PBR finishes.
+- `js/district.js`: volumetric branched trees, distance detail, clear entrance axis, and surrounding-building collision bounds.
+- `js/main.js`, `js/cars3d.js`: preserved navigation with deferred decor and optional model helpers.
+- `js/realism-upgrade.js`: optional effects/model helpers without overrides that undo clear glass or stone settings.
+- `index.html`, `sw.js`: eliminate duplicate preload downloads and use current code with reusable asset caching.
+- `css/style.css`: preserve the existing design with a two-row phone navigation that keeps all six tabs visible.
+- `.gitignore`: exclude `node_modules/` and `dist/`.
+- `assets/logo/` and the separate `video-story/` route remain in place. Archived `patches/` are historical, not the current implementation.
+
+## URL switches
+
+| URL | Effect |
+|-----|--------|
+| `/` | automatic cloud arrival, then the normal showroom; other camera inputs are suspended during arrival |
+| `/?nostory` or `/#live` | skip the story (also used when "skip intro" is remembered) |
+| `/?fx=1` | enable optional GTAO/bloom post-processing on supported desktop devices |
+| `/?fx=0` | turn off the realism upgrade |
+| `/?layout` | skip the story and enable car placement keys (Tab, arrows, `[` `]`, `-` `+`, `P` logs the slot) |
+| `/?debug` | exposes `window.__showroom` (your existing switch) |
+
+## Tuning
+
+- Story length, door timing, camera/look path, chapter text: top of `js/story.js`.
+- Evening colours, sun, fog, sky tint, facade light strength: the `EVENING` table near the top of `js/showroom.js`.
+- Base lighting/tone mapping and framing: `js/showroom.js`; glass/stone settings: `js/materials.js`; optional ambient occlusion/bloom: `js/realism-upgrade.js`.
+- Car positions: `CAR_SLOTS` in `js/cars3d.js`.
+
+## What is NOT included, and why
+
+- **3D car models.** None can be produced here, and the project deliberately avoids fabricated cars. Put `.glb` files in `assets/models/` (names in `cars3d.js`); missing files are skipped.
+- **Additional heavy models.** Upper floors use shared/instanced office and meeting furniture, planted corners, large stone desks, branded display walls, glazed rooms, lounges, and suspended lights. Street trees use irregular canopy volumes rather than crossed flat cards. Existing asphalt/oak/HDR assets remain; worn-concrete maps are not applied to marble.
+- **Final video footage.** `video-story/assets/story.mp4` is a placeholder built from your two photos. See `video-story/PROMPTS.md`.
+
+## Cloud, Camera and Loading Performance Pass
+
+The current facade, lowered black feature, logo, floors, reception, furniture, destination targets and permanent glass/lighting settings are unchanged. This pass changes scheduling, batching, temporary distant-intro rendering and asset reuse only.
+
+- Clouds previously occupied a narrow 59-66 m layer under a 104 m starting camera. There are now 24 camera-facing instances across approximately 62-97 m, with a feathered generated 512x256 atlas and one draw call. Cloud pixels affect about 72% of the starting desktop canvas; screenshots also verify cloud passage and the below-cloud building reveal. Clouds are disabled after arrival.
+- One native `requestAnimationFrame` loop owns the cinematic and renderer. Navigation retains its existing GSAP curve tweens, but cannot run while the intro owns the camera. Wheel/touch/keyboard no longer scrub the cinematic. Timestamp/delta-based 30/60/120 FPS simulations all complete in 18.4 seconds, excluding the brief opening cloud hold for background readiness.
+- The measured transmission bottleneck doubled opaque draws: an approach probe took 51.4 ms with transmission versus 23.8 ms without that pass. Only the distant cinematic uses clear alpha glazing; original physical glass and full transmission resolution return before door entry. Half-second adaptive DPR changes also produced allocation pauses during flight, so intro DPR is fixed at a device-capped 0.7 conservative / 1 high-tier and restored normally at arrival. Static scene batches stay within architectural groups to preserve useful culling. Existing instanced plants, distant-tree detail and shared 256 px district facades remain in use.
+- The original loading gate warmed the whole scene and missed linear/transmission and first-draw shader variants. Important variants are now precompiled and warmed with shared tiny placeholders and a separate offscreen camera. Secondary geometry uploads start during the opening clouds; a readiness gate prevents entry/reveal pop-in. Tiny ornaments wait until arrival. No all-asset cache invalidation was added.
+- The conservative image/HDR payload falls from 13,822,000 to 12,732,918 bytes. Measured production critical resources, including compressed code/CSS, fall from approximately 14.08 MB to 12.97 MB. Only the two color maps use new 1K quality-95 variants; the 2K originals, 1K normal/ARM/AO maps and 2K HDRI are retained. The official logo uses the already-loaded HTML URL instead of a second production path. Every initial asset size is listed in `README.md`.
+
+### Native GPU Measurements
+
+Windows Edge/Chromium, Intel UHD 620 via ANGLE D3D11, 1280x800, default effects off. The native profiler is in `scripts/profile-intro.mjs`; the integrated editor browser is background-throttled and is not used as the FPS benchmark.
+
+| Metric | Original built site | Final native-rAF built site |
+|--------|--------------------:|--------------------------------:|
+| Critical readiness | 30.36 s | 8.58 s |
+| First critical prewarm render | 18.02 s | 0.75 s |
+| Full intro average FPS | 31.9 | 45.0 |
+| Aerial average FPS | 29.4 | 53.2 |
+| Approach average FPS | 30.7 | 39.9 |
+| Entrance average FPS | 38.2 | 34.5 |
+| Peak draw calls | 701 | 388 |
+| Camera/render intervals over 100 ms | One 100.1 ms interval | None |
+
+The final primary run's worst camera interval was 56.1 ms; background sections prepared in 133 ms during the opening clouds. A same-browser repeat reached readiness in 2.64 seconds, averaged 48 FPS and recorded zero transferred bytes for all critical resources. It also recorded four isolated 110-244 ms scheduling intervals, without matching main-thread long tasks or repeated DPR changes; completely stutter-free behavior is not guaranteed. The independent final source primary/repeat runs had no intervals over 100 ms.
+
+These are local native GPU measurements, not a universal loading/FPS guarantee or a pristine driver-cache benchmark. Shader cache, thermals and browser scheduling influence repeatability. The approximately-30-FPS lower-end phase target is met in the final primary run; 50-60 FPS is reached aerially, not throughout close-up entry on this integrated GPU. The remaining expensive close-up physical-glass pass is deliberately preserved. The unchanged 7.3 MB HDRI and shader preparation still make cold startup noticeable. Historical design-pass editor-browser timings were 8.1-10.0 seconds warm and 11.4 seconds with the app asset cache cleared, and are not directly comparable to a native graphics context.
+
+## Verification
+
+The production build succeeds with the existing main-chunk size warning. Checks cover desktop/390x844 cloud screenshots and nonblank canvas pixels, cloud passage, the building reveal, a 1,800-sample collision-free route, input isolation, identical 30/60/120 FPS timing, pre-door physical-glass restoration, disabled post-arrival clouds, restored device DPR, all six section buttons, distinct Home/Contact targets, ten retained upper rooms, and no WebGL errors. Earlier design-pass checks also covered inventory filtering, eight-photo gallery paging and 320x568 facade framing. No commit, push or remote deployment has been made.
+
+## Camera-Only Audit: 2026-10-14
+
+### Camera Writers and Ownership
+
+| File and function | Responsibility before this pass | Current behavior |
+|---|---|---|
+| `js/showroom.js`: constructor | Initial position and `lookAt` | Unchanged bootstrap pose; explicit `isIntroPlaying` state |
+| `js/showroom.js`: `prewarm` | Warm-camera poses and temporary saved/restored live-camera poses before readiness | Same preparation; cannot run during the intro |
+| `js/story.js`: `ScrollStory.apply`, called by `begin`, `update`, `finish` | Intro position/look curves and per-frame `lookAt` | Sole intro writer; same position path and precomputed quaternion interpolation |
+| `js/showroom.js`: `followCameraPath` | Single GSAP progress tween writes route position and per-frame `lookAt` | Same routes/durations, quaternion interpolation, exact endpoint, blocked during intro |
+| `js/showroom.js`: `introduce` | Direct initial pose for skipped/reduced-motion entry | Cannot overwrite an active intro |
+| `js/showroom.js`: `enter`, `exit`, `moveTo` | Dispatch route camera tweens | Intro-locked; entry now shares the exact Home target |
+| `js/showroom.js`: `resize`, `updateCameraFraming` | Aspect, FOV, projection and renderer dimensions only | No position/rotation/target reset; regression-tested during and after intro |
+
+`js/main.js` dispatches navigation but does not write camera transforms. No OrbitControls, pointer-follow, wheel/scroll camera, competing correction system, or camera-owning second render loop was found. There is one primary showroom rAF loop and one stored GSAP route tween; replacement already killed the previous tween. The profiler's observer loop reads poses, and the standalone video route has a separate video-scrub loop, neither of which writes or renders the live camera. Optional postprocessing consumes the same camera without controlling it.
+
+### Confirmed Defects and Changes
+
+- The former intro filter depended on frame-step size: equal-time 30 and 120 FPS poses differed by up to 0.212228 scene units. Its exact elapsed-time solution now agrees within 0.000001 units at 30/60/120 FPS, including Skip. The authored cloud/descent/building/stairs/doors/interior position path remains unchanged.
+- Route `lookAt` interpolation accelerated rotation sharply on Home/Contact travel. Actual-tween tests reduce the peak sampled angular step from 0.018622 to 0.006781 radians, without changing route geometry, timing, destination, or final orientation.
+- Intro/re-entry previously ended at target `[0, 1.9, -1.4]`, while Home used `[0, 2, -1.4]`. All now finish at exact position `[0, 2.35, 4.7]` and Home target `[0, 2, -1.4]`, with no active tween and an unlocked controller.
+- Native WebGL tracing found deferred `getProgramInfoLog` / `getShaderInfoLog` calls blocking for up to 64.4 ms each around 16-22% intro progress, with doors still closed. Three.js `compileAsync` had completed, but `WebGLProgram.onFirstUse` diagnostics/uniform/attribute caching remained deferred. `start` now calls `getUniforms` on already compiled programs before releasing readiness. Repeated tracing found zero shader-log stalls during movement.
+- Tracing found zero mid-intro shader compilations, program links, texture uploads, buffer uploads, or resource loads. Geometry/texture/program counts remain stable. Camera updates average approximately 0.07-0.08 ms. Existing HDRI, scene initialization and shader compilation stay before movement; no unrelated loading change was made.
+
+### Measured Limits
+
+Windows native Edge, Intel UHD 620 / ANGLE D3D11, 1280x800, default effects off, full current quality. Heavy WebGL tracing is disabled for these before/after measurements.
+
+| Run | Before maximum interval | After maximum interval | Before average FPS | After average FPS |
+|---|---:|---:|---:|---:|
+| Fresh browser context | 284.1 ms | 300.9 ms | 17.7 | 16.8 |
+| Same-browser reload | 153.6 ms | 303.8 ms | 18.6 | 24.2 |
+
+These runs do not establish improved maximum frame time or a stutter-free result. The remaining largest intervals occurred between animation callbacks without matching >100 ms renderer calls or recorded JavaScript long tasks. GPU rendering still averages approximately 55 ms overall and 73 ms during approach; scheduling/driver outliers remain. A camera conflict is not the cause of that sustained GPU cost. No quality reduction or graphics redesign was used to hide it.
+
+### Reproducible Checks
+
+Use the existing development Node environment:
+
+```powershell
+node scripts/profile-intro.mjs --camera-check
+node scripts/profile-intro.mjs --camera-regression --summary
+node scripts/profile-intro.mjs --trace-gl --summary
+node scripts/profile-intro.mjs --repeat --summary
+```
+
+The camera regression covers fresh/reload completion, cache- and service-worker-bypassed hard reload with Skip, intro navigation lock, duplicate intro requests, transform-preserving resize during/after intro, exact stopped handoff, Inventory/Home, and Exterior-to-interior. Reports are written separately in the OS temporary directory. Full WebGL tracing and >40 ms warnings are opt-in test instrumentation, not a second production render loop.
+
+Protected-file hashes verify that UI, WhatsApp, inventory, assets/material helpers, lighting helpers, cache behavior and renderer/DPR settings remain unchanged. Scene-building code and cloud visuals are unchanged. Glass remains transmission 1, roughness 0.006, thickness 0.008, transmission scale 1. No commit or push was made.

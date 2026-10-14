@@ -30,7 +30,8 @@ function scaleBoxUV(geometry, [w, h, d], tile) {
   for (let f = 0; f < 6; f++) {
     for (let i = 0; i < 4; i++) {
       const k = f * 4 + i;
-      uv.setXY(k, (uv.getX(k) * faces[f][0]) / tile, (uv.getY(k) * faces[f][1]) / tile);
+      if (f === 2 || f === 3) uv.setXY(k, 0.005, 0.005);
+      else uv.setXY(k, (uv.getX(k) * faces[f][0]) / tile, (uv.getY(k) * faces[f][1]) / tile);
     }
   }
 }
@@ -53,6 +54,7 @@ function ringGeometry([x0, z0, x1, z1], [hx0, hz0, hx1, hz1], tile) {
   const geometry = new THREE.ShapeGeometry(shape);
   const uv = geometry.attributes.uv;
   for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) / tile, uv.getY(i) / tile);
+  geometry.setAttribute('uv2', uv.clone());
   geometry.rotateX(-Math.PI / 2);
   return geometry;
 }
@@ -203,16 +205,16 @@ function facadeStorefront() {
 function foliageCanvas(opaque) {
   const [c, g] = canvas(256, 256);
   const r = rng(opaque ? 53 : 59);
-  const greens = ['#2f5524', '#3f6a2b', '#4f7d33', '#5e8f3b', '#6f9c45', '#27491f'];
+  const greens = ['#304934', '#405b39', '#536b42', '#657c4b', '#758754', '#2c422e'];
   if (opaque) {
     g.fillStyle = '#2b4d21';
     g.fillRect(0, 0, 256, 256);
   }
-  for (let i = 0; i < (opaque ? 520 : 340); i++) {
+  for (let i = 0; i < (opaque ? 3400 : 340); i++) {
     const x = r() * 256;
     const y = r() * 256;
     const rot = r() * Math.PI;
-    const size = 9 + r() * 12;
+    const size = opaque ? 2 + r() * 3 : 9 + r() * 12;
     g.fillStyle = greens[Math.floor(r() * greens.length)];
     g.globalAlpha = 0.92;
     g.beginPath();
@@ -255,6 +257,7 @@ export function buildGround(s, root) {
   const asphaltGeo = new THREE.PlaneGeometry(roadW, roadD);
   const au = asphaltGeo.attributes.uv;
   for (let i = 0; i < au.count; i++) au.setXY(i, (au.getX(i) * roadW) / 5, (au.getY(i) * roadD) / 5);
+  asphaltGeo.setAttribute('uv2', au.clone());
   const asphalt = new THREE.Mesh(asphaltGeo, m.asphalt);
   asphalt.rotation.x = -Math.PI / 2;
   asphalt.position.set(0, -0.15, (ROAD.zMax + ROAD.zMin) / 2);
@@ -266,7 +269,7 @@ export function buildGround(s, root) {
   walk.receiveShadow = true;
   root.add(walk);
 
-  const plaza = new THREE.Mesh(ringGeometry([-LOT.x, LOT.zMin, LOT.x, LOT.zMax], [-15.9, -15.9, 15.9, 11.25], 12), m.paving);
+  const plaza = new THREE.Mesh(ringGeometry([-LOT.x, LOT.zMin, LOT.x, LOT.zMax], [-15.9, -15.9, 15.9, 11.25], 6), m.asphalt);
   plaza.position.y = 0.004;
   plaza.receiveShadow = true;
   root.add(plaza);
@@ -279,7 +282,7 @@ export function buildDistrict(s, g) {
   const rand = rng(2024);
   buildStreet(s, g, m);
   buildLandscape(s, g, m, rand);
-  buildBuildings(g, m);
+  buildBuildings(s, g, m);
 }
 
 function buildStreet(s, g, m) {
@@ -316,6 +319,7 @@ function buildStreet(s, g, m) {
   // Street lamps on the lot edge; each arm reaches over the plaza.
   const lamps = [];
   for (let x = -20; x <= 20; x += 10) {
+    if (x === 0) continue;
     lamps.push([x, 22.6, 0, -1]);
     lamps.push([x, -24.6, 0, 1]);
   }
@@ -343,6 +347,7 @@ function buildStreet(s, g, m) {
     d.position.set(x + dx * 1.7, 7.02, z + dz * 1.7);
     d.updateMatrix();
     headMesh.setMatrixAt(i, d.matrix);
+    s.cameraColliders.push({ name: 'street lamp', bounds: new THREE.Box3(new THREE.Vector3(x - 0.15, 0, z - 0.15), new THREE.Vector3(x + 0.15, 7.3, z + 0.15)) });
   });
   poleMesh.castShadow = true;
   g.add(poleMesh, armMesh, headMesh);
@@ -389,52 +394,83 @@ function buildLandscape(s, g, m, rand) {
     g.add(group);
   }
 
-  // Street trees: instanced trunks plus crossed foliage cards that share one geometry and one material.
   const spots = [];
-  for (const x of [-15, -5, 5, 15]) spots.push([x, 21.4, 1]);
+  for (const x of [-20, -16, 16, 20]) spots.push([x, 21.4, 1]);
   for (const x of [-20, -8, 4, 16]) spots.push([x, -24.2, 0.95]);
   for (const z of [-14, -6, 2, 10, 18]) {
     spots.push([-23.2, z, 1]);
     spots.push([23.2, z, 0.95]);
   }
   for (let x = -40; x <= 40; x += 13) {
-    spots.push([x, 40, 1.15]);
+    if (Math.abs(x) > 8) spots.push([x, 40, 1.15]);
     spots.push([x + 5, -42, 1.1]);
   }
   for (let z = -38; z <= 36; z += 12) {
     spots.push([-41, z, 1.15]);
     spots.push([41, z + 3, 1.1]);
   }
-  const perTree = 6;
   const trunks = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.13, 0.24, 1, 8), m.bark, spots.length);
-  const foliageMat = new THREE.MeshStandardMaterial({ map: repeatTexture(foliageCanvas(false), 4), roughness: 0.75, side: THREE.DoubleSide, alphaTest: 0.35, alphaToCoverage: true });
-  const foliage = new THREE.InstancedMesh(foliageCards(), foliageMat, spots.length * perTree);
+  const clustersPerTree = spots.map(([x, z]) => Math.abs(x) < 27 && Math.abs(z) < 27 ? 12 : 6);
+  const foliageMat = new THREE.MeshStandardMaterial({ map: repeatTexture(foliageCanvas(true), 4), color: '#bdc99b', roughness: 0.88, metalness: 0 });
+  const geometry = new THREE.SphereGeometry(1, 12, 8);
+  const vertices = geometry.attributes.position;
+  for (let vertex = 0; vertex < vertices.count; vertex++) {
+    const x = vertices.getX(vertex);
+    const y = vertices.getY(vertex);
+    const z = vertices.getZ(vertex);
+    const irregularity = 1 + 0.09 * Math.sin(x * 17 + y * 13) * Math.cos(z * 19 - y * 11);
+    vertices.setXYZ(vertex, x * irregularity, y * irregularity, z * irregularity);
+  }
+  geometry.computeVertexNormals();
+  const foliage = new THREE.InstancedMesh(geometry, foliageMat, clustersPerTree.reduce((total, count) => total + count, 0));
+  foliage.name = 'volumetric-aerial-tree-canopies';
+  const branches = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.055, 0.12, 1, 6), m.bark, spots.length * 4);
+  const branchDirection = new THREE.Vector3();
+  const branchStart = new THREE.Vector3();
+  const branchEnd = new THREE.Vector3();
+  const up = new THREE.Vector3(0, 1, 0);
   const d = new THREE.Object3D();
   const col = new THREE.Color();
   const blobs = [];
+  let clusterIndex = 0;
   spots.forEach(([x, z, k], i) => {
-    const h = (3.4 + rand() * 1.6) * k;
+    const h = (3.1 + rand() * 1.2) * k;
     d.position.set(x, h / 2, z);
     d.rotation.set(0, rand() * TAU, 0);
     d.scale.set(k, h, k);
     d.updateMatrix();
     trunks.setMatrixAt(i, d.matrix);
-    for (let j = 0; j < perTree; j++) {
-      const a = rand() * TAU;
-      const rr = j === 0 ? 0 : 0.9 + rand() * 0.9;
-      const size = (2.4 + rand() * 1.2) * k;
-      d.position.set(x + Math.cos(a) * rr * k, h + 0.5 + (j === 0 ? 1.2 : rand() * 1.7) * k, z + Math.sin(a) * rr * k);
-      d.rotation.set(0, rand() * TAU, 0);
-      d.scale.setScalar(size);
+    for (let branch = 0; branch < 4; branch++) {
+      const angle = branch * TAU / 4 + rand() * 0.4;
+      branchStart.set(x, h * 0.72, z);
+      branchEnd.set(x + Math.cos(angle) * 1.35 * k, h + 1.05 * k, z + Math.sin(angle) * 1.35 * k);
+      branchDirection.subVectors(branchEnd, branchStart);
+      d.position.copy(branchStart).add(branchEnd).multiplyScalar(0.5);
+      d.scale.set(k, branchDirection.length(), k);
+      d.quaternion.setFromUnitVectors(up, branchDirection.normalize());
       d.updateMatrix();
-      foliage.setMatrixAt(i * perTree + j, d.matrix);
-      const l = 0.78 + rand() * 0.36;
-      foliage.setColorAt(i * perTree + j, col.setRGB(l * (0.92 + rand() * 0.16), l, l * (0.82 + rand() * 0.2)));
+      branches.setMatrixAt(i * 4 + branch, d.matrix);
+    }
+    for (let cluster = 0; cluster < clustersPerTree[i]; cluster++) {
+      const angle = cluster * 2.399 + rand() * 0.35;
+      const radius = cluster < 3 ? 0.65 : 1.65 + rand() * 0.35;
+      const size = (1.22 + rand() * 0.38) * k;
+      d.position.set(x + Math.cos(angle) * radius * k, h + (cluster < 3 ? 2.0 : 0.9 + rand() * 0.65) * k, z + Math.sin(angle) * radius * k);
+      d.rotation.set(rand() * 0.4, angle, rand() * 0.3);
+      d.scale.set(size, size * (0.76 + rand() * 0.18), size * (0.85 + rand() * 0.25));
+      d.updateMatrix();
+      foliage.setMatrixAt(clusterIndex, d.matrix);
+      const lightness = 0.78 + rand() * 0.3;
+      foliage.setColorAt(clusterIndex++, col.setRGB(lightness * 0.92, lightness, lightness * 0.86));
     }
     blobs.push([x, z, 5.6 * k]);
+    s.cameraColliders.push({ name: 'street tree canopy', bounds: new THREE.Box3(new THREE.Vector3(x - 3.7 * k, h - 0.5 * k, z - 3.7 * k), new THREE.Vector3(x + 3.7 * k, h + 3.7 * k, z + 3.7 * k)) });
+    s.cameraColliders.push({ name: 'street tree trunk', bounds: new THREE.Box3(new THREE.Vector3(x - 0.3 * k, 0, z - 0.3 * k), new THREE.Vector3(x + 0.3 * k, h, z + 0.3 * k)) });
   });
   trunks.castShadow = true;
-  g.add(trunks, foliage);
+  foliage.castShadow = true;
+  foliage.receiveShadow = true;
+  g.add(trunks, branches, foliage);
 
   const shadowGeos = blobs.map(([x, z, size]) => {
     const geo = new THREE.PlaneGeometry(size, size);
@@ -445,34 +481,17 @@ function buildLandscape(s, g, m, rand) {
   g.add(new THREE.Mesh(mergeGeometries(shadowGeos), new THREE.MeshBasicMaterial({ map: blobTexture(), transparent: true, opacity: 0.55, depthWrite: false })));
 }
 
-// Three crossed quads with outward-facing normals so clusters shade like soft blobs.
-function foliageCards() {
-  const a = new THREE.PlaneGeometry(1, 1);
-  const b = new THREE.PlaneGeometry(1, 1);
-  b.rotateY(Math.PI / 2);
-  const c = new THREE.PlaneGeometry(1, 1);
-  c.rotateX(Math.PI / 2);
-  c.rotateY(0.6);
-  const geo = mergeGeometries([a, b, c]);
-  const n = geo.attributes.normal;
-  const p = geo.attributes.position;
-  const v = new THREE.Vector3();
-  for (let i = 0; i < n.count; i++) {
-    v.set(p.getX(i), p.getY(i) + 0.15, p.getZ(i)).normalize();
-    n.setXYZ(i, v.x, v.y, v.z);
-  }
-  return geo;
-}
-
 /* ---------- buildings: detailed near the showroom, simple boxes further out, merged per side and material ---------- */
 
-function buildBuildings(g, m) {
+function buildBuildings(s, g, m) {
   const facades = {
     curtain: new THREE.MeshStandardMaterial({ map: repeatTexture(facadeCurtain()), roughness: 0.2, metalness: 0.35, envMapIntensity: 1.4 }),
     stone: new THREE.MeshStandardMaterial({ map: repeatTexture(facadeStone()), roughness: 0.85, metalness: 0 }),
     ribbon: new THREE.MeshStandardMaterial({ map: repeatTexture(facadeRibbon()), roughness: 0.55, metalness: 0.1, envMapIntensity: 1.1 }),
   };
   const shop = new THREE.MeshStandardMaterial({ map: repeatTexture(facadeStorefront()), roughness: 0.3, metalness: 0.2, envMapIntensity: 1.2 });
+  const balconyGlass = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.006, metalness: 1, envMapIntensity: 0.65, transparent: true, opacity: 0.08, depthWrite: false, side: THREE.DoubleSide });
+  balconyGlass.forceSinglePass = true;
   const kinds = ['curtain', 'stone', 'ribbon'];
   const buckets = new Map();
   const add = (side, material, geometry) => {
@@ -517,6 +536,7 @@ function buildBuildings(g, m) {
       const c = centre(side, cursor + w / 2, depth, near ? 0 : 36);
       const size = horizontal ? [depth, w] : [w, depth];
       cursor += w + (near ? 3 : 5);
+      s.cameraColliders.push({ name: 'neighboring building', bounds: new THREE.Box3(new THREE.Vector3(c[0] - size[0] / 2, 0, c[1] - size[1] / 2), new THREE.Vector3(c[0] + size[0] / 2, h + 0.5, c[1] + size[1] / 2)) });
       if (!near) {
         add(side, facades[kind], box([size[0], h, size[1]], [c[0], h / 2, c[1]]));
         continue;
@@ -530,6 +550,12 @@ function buildBuildings(g, m) {
         add(side, m.concrete, box([3 + r() * 3, 2 + r() * 1.5, 3 + r() * 3], [c[0] + ox, h + 1.5, c[1] + oz], 2.4));
       }
       feature(side, c, w + 0.6, 2.6, 0.3, 0, depth / 2 + 0.5, 8.15, m.brass);
+      const [nx, nz] = NORMAL[side];
+      const awningX = c[0] + nx * (depth / 2 + 0.5);
+      const awningZ = c[1] + nz * (depth / 2 + 0.5);
+      const halfX = horizontal ? 1.3 : (w + 0.6) / 2;
+      const halfZ = horizontal ? (w + 0.6) / 2 : 1.3;
+      s.cameraColliders.push({ name: 'neighboring shop awning', bounds: new THREE.Box3(new THREE.Vector3(awningX - halfX, 8, awningZ - halfZ), new THREE.Vector3(awningX + halfX, 8.3, awningZ + halfZ)) });
       if (kind === 'curtain') {
         for (let u = -w / 2 + 2; u <= w / 2 - 1; u += 4) feature(side, c, 0.18, 0.6, h - 9, u, depth / 2 - 0.3, 8.6 + (h - 9) / 2, m.brass);
       } else if (kind === 'stone') {
@@ -537,7 +563,7 @@ function buildBuildings(g, m) {
           const y = 8 + floor * 4 - 0.1;
           for (let u = -w / 2 + 4; u < w / 2; u += 8) {
             feature(side, c, 6.4, 1.3, 0.16, u, depth / 2 - 0.05, y, m.brass);
-            feature(side, c, 6.4, 0.04, 1.05, u, depth / 2 + 0.65, y + 0.6, m.glass);
+            feature(side, c, 6.4, 0.04, 1.05, u, depth / 2 + 0.65, y + 0.6, balconyGlass);
           }
         }
       }

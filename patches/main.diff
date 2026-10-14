@@ -1,0 +1,28 @@
+--- main.lf.js	2026-10-13 20:04:04.997339630 +0000
++++ main.patched.js	2026-10-13 20:09:46.211198203 +0000
+@@ -341,7 +341,24 @@
+   showroom.ready.then(() => {
+     showroom.onLoadProgress = null;
+     curtain.classList.remove('is-loading');
+-    showroom.introduce(rememberIntroSkip());
++    const params = new URLSearchParams(location.search);
++    // Returning visitors, the video page's "enter" button (#live) and ?layout skip the scroll story.
++    const direct = rememberIntroSkip() || location.hash === '#live' || params.has('layout') || params.has('nostory');
++    if (direct) {
++      showroom.setTimeOfDay?.(1);
++      showroom.introduce(true);
++    } else {
++      showroom.startStory().then((started) => {
++        if (started) {
++          curtain.classList.add('is-leaving');
++          window.setTimeout(() => { curtain.hidden = true; }, 1100);
++        } else {
++          showroom.introduce(false);
++        }
++      });
++    }
++    // Real 3D cars (assets/models/*.glb) are added once the room has finished building; missing files are skipped.
++    showroom.stagesReady.then(() => import('./cars3d.js')).then((cars) => cars.placeCars(showroom)).catch((error) => console.warn('3D cars unavailable', error));
+     return showroom.stagesReady;
+   });
+ }

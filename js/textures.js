@@ -190,10 +190,11 @@ const SURFACES = {
 
 // quick: size generated synchronously for the first frame. full: size generated in the background.
 export const SPECS = {
-  floor: { kind: 'marble', quick: 256, full: 768, normal: 0.1, P: { slabs: 4, joint: 0.004, vs: 0.6, b: hx('#b9b4a7'), t: hx('#a39d90'), vc: hx('#6f6a60'), grout: hx('#8b867b') } },
+  floor: { kind: 'marble', quick: 512, full: 512, normal: 0.025, P: { slabs: 3, joint: 0.0015, vs: 0.62, roughBias: 0.09, b: hx('#e3e5e1'), t: hx('#cdd2ce'), vc: hx('#858e8b'), grout: hx('#bdc4bf') } },
   counter: { kind: 'marble', quick: 128, full: 512, normal: 0.5, P: { slabs: 1, joint: 0, b: hx('#e6e1d4'), t: hx('#d3cdbe'), vc: hx('#9a9488'), grout: hx('#000000') } },
   darkstone: { kind: 'marble', quick: 128, full: 512, normal: 0.5, P: { slabs: 1, joint: 0, b: hx('#2b2d2c'), t: hx('#3a3c3a'), vc: hx('#9b9b95'), grout: hx('#000000') } },
   concrete: { kind: 'concrete', quick: 128, full: 512, normal: 0.8, P: { base: 178, contrast: 40, tint: [1, 0.99, 0.96], boards: 0 } },
+  asphalt: { kind: 'concrete', quick: 64, full: 256, normal: 0.35, P: { base: 92, contrast: 24, tint: [0.96, 0.97, 0.98], boards: 0 } },
   board: { kind: 'concrete', quick: 128, full: 512, normal: 0.9, P: { base: 190, contrast: 30, tint: [1, 0.99, 0.97], boards: 10 } },
   wood: { kind: 'wood', quick: 128, full: 768, normal: 0.6, P: { slats: 6, dark: hx('#6b4a31'), light: hx('#b88d5f') } },
   brushed: { kind: 'brushed', quick: 128, full: 512, normal: 0.5, P: { lines: 220, contrast: 38, rough: 0.3 } },

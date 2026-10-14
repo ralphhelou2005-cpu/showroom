@@ -2,7 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Run Atelier Motors showroom",
+      "label": "Run AUTO HAUS GROUP showroom",
       "type": "shell",
       "command": "powershell.exe",
       "args": [
@@ -18,11 +18,43 @@
         "pattern": { "regexp": "^$" },
         "background": {
           "activeOnStart": true,
-          "beginsPattern": "Serving Atelier Motors showroom",
-          "endsPattern": "^Server stopped$"
+          "beginsPattern": "^Starting AUTO HAUS GROUP showroom",
+          "endsPattern": "^Serving AUTO HAUS GROUP showroom at http://localhost:[0-9]+/$"
         }
       },
       "presentation": { "reveal": "always", "panel": "dedicated", "clear": false }
+    },
+    {
+      "label": "Profile AUTO HAUS GROUP baseline",
+      "type": "shell",
+      "command": "$env:ELECTRON_RUN_AS_NODE = '1'; & '${execPath}' scripts/profile-intro.mjs http://localhost:8001/ --baseline --repeat | Out-String -Stream",
+      "options": { "cwd": "${workspaceFolder}", "shell": { "executable": "powershell.exe", "args": ["-NoProfile", "-Command"] } },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Profile AUTO HAUS GROUP intro",
+      "type": "shell",
+      "command": "$env:ELECTRON_RUN_AS_NODE = '1'; & '${execPath}' scripts/profile-intro.mjs http://localhost:8001/ --repeat | Out-String -Stream",
+      "options": { "cwd": "${workspaceFolder}", "shell": { "executable": "powershell.exe", "args": ["-NoProfile", "-Command"] } },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Build AUTO HAUS GROUP deployment",
+      "type": "shell",
+      "command": "$env:ELECTRON_RUN_AS_NODE = '1'; & '${execPath}' node_modules/vite/bin/vite.js build | Out-String -Stream; if ($LASTEXITCODE -ne 0) { throw 'Showroom deployment build failed' }",
+      "options": { "cwd": "${workspaceFolder}", "shell": { "executable": "powershell.exe", "args": ["-NoProfile", "-Command"] } },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "Verify AUTO HAUS GROUP Pages build",
+      "type": "shell",
+      "command": "$env:ELECTRON_RUN_AS_NODE = '1'; & '${execPath}' scripts/profile-intro.mjs --built --repeat | Out-String -Stream; if ($LASTEXITCODE -ne 0) { throw 'Showroom subpath verification failed' }",
+      "options": { "cwd": "${workspaceFolder}", "shell": { "executable": "powershell.exe", "args": ["-NoProfile", "-Command"] } },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
     }
   ]
 }
