@@ -1,0 +1,1458 @@
+{
+  "label": "after",
+  "url": "http://127.0.0.1:5174/",
+  "screenshots": [
+    {
+      "name": "main-interior",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\main-interior.png"
+    },
+    {
+      "name": "desktop-functional-home",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\desktop-functional-home.png"
+    },
+    {
+      "name": "main-interior-pipeline",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\main-interior-pipeline.png"
+    },
+    {
+      "name": "inventory",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\inventory.png"
+    },
+    {
+      "name": "exterior-front",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\exterior-front.png"
+    },
+    {
+      "name": "aerial-building",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\aerial-building.png"
+    },
+    {
+      "name": "glass-facade",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\glass-facade.png"
+    },
+    {
+      "name": "wood-reception",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\wood-reception.png"
+    },
+    {
+      "name": "surroundings",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\surroundings.png"
+    },
+    {
+      "name": "loading-1280x800",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\loading-1280x800.png"
+    },
+    {
+      "name": "ready-1280x800",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\ready-1280x800.png"
+    },
+    {
+      "name": "loading-390x844",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\loading-390x844.png"
+    },
+    {
+      "name": "ready-390x844",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\ready-390x844.png"
+    },
+    {
+      "name": "loading-360x640",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\loading-360x640.png"
+    },
+    {
+      "name": "ready-360x640",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\ready-360x640.png"
+    },
+    {
+      "name": "loading-320x568",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\loading-320x568.png"
+    },
+    {
+      "name": "ready-320x568",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\ready-320x568.png"
+    },
+    {
+      "name": "loading-844x390",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\loading-844x390.png"
+    },
+    {
+      "name": "ready-844x390",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\ready-844x390.png"
+    },
+    {
+      "name": "loading-568x320",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\loading-568x320.png"
+    },
+    {
+      "name": "ready-568x320",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\ready-568x320.png"
+    },
+    {
+      "name": "mobile-functional-home",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\mobile-functional-home.png"
+    },
+    {
+      "name": "mobile-interior",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-after\\mobile-interior.png"
+    }
+  ],
+  "consoleErrors": [],
+  "failedRequests": [],
+  "layout": [
+    {
+      "name": "loading-1280x800",
+      "width": 1280,
+      "height": 800,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 66.546875,
+          "top": 34,
+          "right": 256.546875,
+          "bottom": 63.640625,
+          "width": 190,
+          "height": 29.640625,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 66.546875,
+          "top": 528.8125,
+          "right": 1213.453125,
+          "bottom": 662,
+          "width": 1146.90625,
+          "height": 133.1875,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 66.546875,
+          "top": 738,
+          "right": 1213.453125,
+          "bottom": 753,
+          "width": 1146.90625,
+          "height": 15,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 66.546875,
+          "top": 769,
+          "right": 1213.453125,
+          "bottom": 770,
+          "width": 1146.90625,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 66.546875,
+          "top": 678,
+          "right": 1108.46875,
+          "bottom": 722,
+          "width": 1041.921875,
+          "height": 44,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 1126.46875,
+          "top": 678,
+          "right": 1213.453125,
+          "bottom": 722,
+          "width": 86.984375,
+          "height": 44,
+          "visible": true
+        }
+      ],
+      "overlaps": [],
+      "topLayer": true,
+      "horizontalOverflow": false
+    },
+    {
+      "name": "ready-1280x800",
+      "width": 1280,
+      "height": 800,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 66.546875,
+          "top": 34,
+          "right": 256.546875,
+          "bottom": 63.640625,
+          "width": 190,
+          "height": 29.640625,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 66.546875,
+          "top": 528.8125,
+          "right": 1213.453125,
+          "bottom": 662,
+          "width": 1146.90625,
+          "height": 133.1875,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 66.546875,
+          "top": 738,
+          "right": 1213.453125,
+          "bottom": 753,
+          "width": 1146.90625,
+          "height": 15,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 66.546875,
+          "top": 769,
+          "right": 1213.453125,
+          "bottom": 770,
+          "width": 1146.90625,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 66.546875,
+          "top": 678,
+          "right": 1108.46875,
+          "bottom": 722,
+          "width": 1041.921875,
+          "height": 44,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 1126.46875,
+          "top": 678,
+          "right": 1213.453125,
+          "bottom": 722,
+          "width": 86.984375,
+          "height": 44,
+          "visible": true
+        }
+      ],
+      "overlaps": [],
+      "topLayer": true,
+      "horizontalOverflow": false
+    },
+    {
+      "name": "loading-390x844",
+      "width": 390,
+      "height": 844,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 23.390625,
+          "top": 24,
+          "right": 213.390625,
+          "bottom": 53.640625,
+          "width": 190,
+          "height": 29.640625,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 23.390625,
+          "top": 612.8125,
+          "right": 366.609375,
+          "bottom": 724,
+          "width": 343.21875,
+          "height": 111.1875,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 23.390625,
+          "top": 792,
+          "right": 366.609375,
+          "bottom": 807,
+          "width": 343.21875,
+          "height": 15,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 23.390625,
+          "top": 819,
+          "right": 366.609375,
+          "bottom": 820,
+          "width": 343.21875,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 23.390625,
+          "top": 736,
+          "right": 267.625,
+          "bottom": 780,
+          "width": 244.234375,
+          "height": 44,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 279.625,
+          "top": 736,
+          "right": 366.609375,
+          "bottom": 780,
+          "width": 86.984375,
+          "height": 44,
+          "visible": true
+        }
+      ],
+      "overlaps": [],
+      "topLayer": true,
+      "horizontalOverflow": false
+    },
+    {
+      "name": "ready-390x844",
+      "width": 390,
+      "height": 844,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 23.390625,
+          "top": 24,
+          "right": 213.390625,
+          "bottom": 53.640625,
+          "width": 190,
+          "height": 29.640625,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 23.390625,
+          "top": 612.8125,
+          "right": 366.609375,
+          "bottom": 724,
+          "width": 343.21875,
+          "height": 111.1875,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 23.390625,
+          "top": 792,
+          "right": 366.609375,
+          "bottom": 807,
+          "width": 343.21875,
+          "height": 15,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 23.390625,
+          "top": 819,
+          "right": 366.609375,
+          "bottom": 820,
+          "width": 343.21875,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 23.390625,
+          "top": 736,
+          "right": 267.625,
+          "bottom": 780,
+          "width": 244.234375,
+          "height": 44,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 279.625,
+          "top": 736,
+          "right": 366.609375,
+          "bottom": 780,
+          "width": 86.984375,
+          "height": 44,
+          "visible": true
+        }
+      ],
+      "overlaps": [],
+      "topLayer": true,
+      "horizontalOverflow": false
+    },
+    {
+      "name": "loading-360x640",
+      "width": 360,
+      "height": 640,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 21.59375,
+          "top": 24,
+          "right": 211.59375,
+          "bottom": 53.640625,
+          "width": 190,
+          "height": 29.640625,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 21.59375,
+          "top": 408.8125,
+          "right": 338.40625,
+          "bottom": 520,
+          "width": 316.8125,
+          "height": 111.1875,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 21.59375,
+          "top": 588,
+          "right": 338.40625,
+          "bottom": 603,
+          "width": 316.8125,
+          "height": 15,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 21.59375,
+          "top": 615,
+          "right": 338.40625,
+          "bottom": 616,
+          "width": 316.8125,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 21.59375,
+          "top": 532,
+          "right": 239.421875,
+          "bottom": 576,
+          "width": 217.828125,
+          "height": 44,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 251.421875,
+          "top": 532,
+          "right": 338.40625,
+          "bottom": 576,
+          "width": 86.984375,
+          "height": 44,
+          "visible": true
+        }
+      ],
+      "overlaps": [],
+      "topLayer": true,
+      "horizontalOverflow": false
+    },
+    {
+      "name": "ready-360x640",
+      "width": 360,
+      "height": 640,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 21.59375,
+          "top": 24,
+          "right": 211.59375,
+          "bottom": 53.640625,
+          "width": 190,
+          "height": 29.640625,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 21.59375,
+          "top": 408.8125,
+          "right": 338.40625,
+          "bottom": 520,
+          "width": 316.8125,
+          "height": 111.1875,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 21.59375,
+          "top": 588,
+          "right": 338.40625,
+          "bottom": 603,
+          "width": 316.8125,
+          "height": 15,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 21.59375,
+          "top": 615,
+          "right": 338.40625,
+          "bottom": 616,
+          "width": 316.8125,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 21.59375,
+          "top": 532,
+          "right": 239.421875,
+          "bottom": 576,
+          "width": 217.828125,
+          "height": 44,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 251.421875,
+          "top": 532,
+          "right": 338.40625,
+          "bottom": 576,
+          "width": 86.984375,
+          "height": 44,
+          "visible": true
+        }
+      ],
+      "overlaps": [],
+      "topLayer": true,
+      "horizontalOverflow": false
+    },
+    {
+      "name": "loading-320x568",
+      "width": 320,
+      "height": 568,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 19.1875,
+          "top": 24,
+          "right": 191.984375,
+          "bottom": 50.953125,
+          "width": 172.796875,
+          "height": 26.953125,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 19.1875,
+          "top": 336.8125,
+          "right": 300.8125,
+          "bottom": 448,
+          "width": 281.625,
+          "height": 111.1875,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 19.1875,
+          "top": 516,
+          "right": 300.8125,
+          "bottom": 531,
+          "width": 281.625,
+          "height": 15,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 19.1875,
+          "top": 543,
+          "right": 300.8125,
+          "bottom": 544,
+          "width": 281.625,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 19.1875,
+          "top": 460,
+          "right": 201.828125,
+          "bottom": 504,
+          "width": 182.640625,
+          "height": 44,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 213.828125,
+          "top": 460,
+          "right": 300.8125,
+          "bottom": 504,
+          "width": 86.984375,
+          "height": 44,
+          "visible": true
+        }
+      ],
+      "overlaps": [],
+      "topLayer": true,
+      "horizontalOverflow": false
+    },
+    {
+      "name": "ready-320x568",
+      "width": 320,
+      "height": 568,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 19.1875,
+          "top": 24,
+          "right": 191.984375,
+          "bottom": 50.953125,
+          "width": 172.796875,
+          "height": 26.953125,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 19.1875,
+          "top": 336.8125,
+          "right": 300.8125,
+          "bottom": 448,
+          "width": 281.625,
+          "height": 111.1875,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 19.1875,
+          "top": 516,
+          "right": 300.8125,
+          "bottom": 531,
+          "width": 281.625,
+          "height": 15,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 19.1875,
+          "top": 543,
+          "right": 300.8125,
+          "bottom": 544,
+          "width": 281.625,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 19.1875,
+          "top": 460,
+          "right": 201.828125,
+          "bottom": 504,
+          "width": 182.640625,
+          "height": 44,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 213.828125,
+          "top": 460,
+          "right": 300.8125,
+          "bottom": 504,
+          "width": 86.984375,
+          "height": 44,
+          "visible": true
+        }
+      ],
+      "overlaps": [],
+      "topLayer": true,
+      "horizontalOverflow": false
+    },
+    {
+      "name": "loading-844x390",
+      "width": 844,
+      "height": 390,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 43.875,
+          "top": 18,
+          "right": 233.875,
+          "bottom": 47.640625,
+          "width": 190,
+          "height": 29.640625,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 43.875,
+          "top": 195.203125,
+          "right": 600.59375,
+          "bottom": 282,
+          "width": 556.71875,
+          "height": 86.796875,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 43.875,
+          "top": 346,
+          "right": 800.125,
+          "bottom": 361,
+          "width": 756.25,
+          "height": 15,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 43.875,
+          "top": 371,
+          "right": 800.125,
+          "bottom": 372,
+          "width": 756.25,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 618.59375,
+          "top": 238,
+          "right": 800.125,
+          "bottom": 282,
+          "width": 181.53125,
+          "height": 44,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 713.140625,
+          "top": 292,
+          "right": 800.125,
+          "bottom": 336,
+          "width": 86.984375,
+          "height": 44,
+          "visible": true
+        }
+      ],
+      "overlaps": [],
+      "topLayer": true,
+      "horizontalOverflow": false
+    },
+    {
+      "name": "ready-844x390",
+      "width": 844,
+      "height": 390,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 43.875,
+          "top": 18,
+          "right": 233.875,
+          "bottom": 47.640625,
+          "width": 190,
+          "height": 29.640625,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 43.875,
+          "top": 195.203125,
+          "right": 600.59375,
+          "bottom": 282,
+          "width": 556.71875,
+          "height": 86.796875,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 43.875,
+          "top": 346,
+          "right": 800.125,
+          "bottom": 361,
+          "width": 756.25,
+          "height": 15,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 43.875,
+          "top": 371,
+          "right": 800.125,
+          "bottom": 372,
+          "width": 756.25,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 618.59375,
+          "top": 238,
+          "right": 800.125,
+          "bottom": 282,
+          "width": 181.53125,
+          "height": 44,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 713.140625,
+          "top": 292,
+          "right": 800.125,
+          "bottom": 336,
+          "width": 86.984375,
+          "height": 44,
+          "visible": true
+        }
+      ],
+      "overlaps": [],
+      "topLayer": true,
+      "horizontalOverflow": false
+    },
+    {
+      "name": "loading-568x320",
+      "width": 568,
+      "height": 320,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 29.53125,
+          "top": 18,
+          "right": 219.53125,
+          "bottom": 47.640625,
+          "width": 190,
+          "height": 29.640625,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 29.53125,
+          "top": 125.203125,
+          "right": 338.9375,
+          "bottom": 212,
+          "width": 309.40625,
+          "height": 86.796875,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 29.53125,
+          "top": 276,
+          "right": 538.46875,
+          "bottom": 291,
+          "width": 508.9375,
+          "height": 15,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 29.53125,
+          "top": 301,
+          "right": 538.46875,
+          "bottom": 302,
+          "width": 508.9375,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 356.9375,
+          "top": 168,
+          "right": 538.46875,
+          "bottom": 212,
+          "width": 181.53125,
+          "height": 44,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 451.484375,
+          "top": 222,
+          "right": 538.46875,
+          "bottom": 266,
+          "width": 86.984375,
+          "height": 44,
+          "visible": true
+        }
+      ],
+      "overlaps": [],
+      "topLayer": true,
+      "horizontalOverflow": false
+    },
+    {
+      "name": "ready-568x320",
+      "width": 568,
+      "height": 320,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 29.53125,
+          "top": 18,
+          "right": 219.53125,
+          "bottom": 47.640625,
+          "width": 190,
+          "height": 29.640625,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 29.53125,
+          "top": 125.203125,
+          "right": 338.9375,
+          "bottom": 212,
+          "width": 309.40625,
+          "height": 86.796875,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 29.53125,
+          "top": 276,
+          "right": 538.46875,
+          "bottom": 291,
+          "width": 508.9375,
+          "height": 15,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 29.53125,
+          "top": 301,
+          "right": 538.46875,
+          "bottom": 302,
+          "width": 508.9375,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 356.9375,
+          "top": 168,
+          "right": 538.46875,
+          "bottom": 212,
+          "width": 181.53125,
+          "height": 44,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 451.484375,
+          "top": 222,
+          "right": 538.46875,
+          "bottom": 266,
+          "width": 86.984375,
+          "height": 44,
+          "visible": true
+        }
+      ],
+      "overlaps": [],
+      "topLayer": true,
+      "horizontalOverflow": false
+    }
+  ],
+  "benchmarks": [],
+  "pixelComparisons": [
+    {
+      "name": "main-interior",
+      "meanAbsoluteChannelDifference": 0.5491813151041667,
+      "pixelsOver12Percent": 1.1802734375
+    },
+    {
+      "name": "exterior-front",
+      "meanAbsoluteChannelDifference": 0.673111328125,
+      "pixelsOver12Percent": 1.75126953125
+    },
+    {
+      "name": "aerial-building",
+      "meanAbsoluteChannelDifference": 0.9854567057291667,
+      "pixelsOver12Percent": 2.437109375
+    },
+    {
+      "name": "glass-facade",
+      "meanAbsoluteChannelDifference": 0.4579375,
+      "pixelsOver12Percent": 1.019140625
+    },
+    {
+      "name": "wood-reception",
+      "meanAbsoluteChannelDifference": 0.42989680989583334,
+      "pixelsOver12Percent": 1.06455078125
+    },
+    {
+      "name": "surroundings",
+      "meanAbsoluteChannelDifference": 0,
+      "pixelsOver12Percent": 0
+    }
+  ],
+  "limitations": [
+    "Mobile viewports/touch are emulated, not measured on physical phones. Fixed-pose diagnostic variants are not production quality settings. The baseline-only missing favicon request is stubbed in this harness."
+  ],
+  "wood": {
+    "tileMetres": 0.9,
+    "grainAlongLength": true,
+    "boardBatches": 0,
+    "roughness": 0.92,
+    "normalScale": [
+      0.3,
+      0.3
+    ],
+    "colorMap": true,
+    "roughnessMap": true,
+    "normalMap": true,
+    "aoMap": true
+  },
+  "loading": {
+    "timings": {
+      "stage1": 241,
+      "realism": 19,
+      "logo": 29,
+      "district": 415,
+      "pbrMaps": 1162,
+      "wings": 68,
+      "panels": 63,
+      "reception": 87,
+      "lounge": 36,
+      "stair": 12,
+      "plants": 44,
+      "criticalScene": 4015,
+      "hdri": 10239,
+      "shaderCompilation": 11400,
+      "programsBeforePrewarm": 58,
+      "textureUploads": 892,
+      "prewarmFrame": 3380,
+      "prewarm": 4276,
+      "programsAfterPrewarm": 67,
+      "shaderFirstUse": 15,
+      "criticalReady": 19745
+    },
+    "renderer": "ANGLE (Intel, Intel(R) UHD Graphics 620 (0x00005917) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "canvas": {
+    "width": 1280,
+    "height": 800,
+    "colors": [
+      [
+        155,
+        126,
+        93
+      ],
+      [
+        118,
+        123,
+        103
+      ],
+      [
+        102,
+        96,
+        90
+      ],
+      [
+        156,
+        127,
+        93
+      ],
+      [
+        28,
+        27,
+        26
+      ],
+      [
+        21,
+        20,
+        19
+      ],
+      [
+        155,
+        125,
+        92
+      ],
+      [
+        115,
+        121,
+        102
+      ],
+      [
+        92,
+        86,
+        79
+      ]
+    ],
+    "distinctColors": 9,
+    "glError": 0
+  },
+  "functional": {
+    "touchEmulated": false,
+    "navigation": [
+      {
+        "destination": "inventory",
+        "collision": null,
+        "target": [
+          -8,
+          2.1,
+          -3.1
+        ]
+      },
+      {
+        "destination": "brands",
+        "collision": null,
+        "target": [
+          8,
+          2.1,
+          -3.1
+        ]
+      },
+      {
+        "destination": "services",
+        "collision": null,
+        "target": [
+          -9,
+          2.25,
+          -12.4
+        ]
+      },
+      {
+        "destination": "about",
+        "collision": null,
+        "target": [
+          9,
+          2.25,
+          -12.4
+        ]
+      },
+      {
+        "destination": "contact",
+        "collision": null,
+        "target": [
+          8.4,
+          2.95,
+          9.58
+        ]
+      },
+      {
+        "destination": "home",
+        "collision": null,
+        "target": [
+          0,
+          2,
+          -1.4
+        ]
+      }
+    ],
+    "rapidNavigation": "last request wins",
+    "canvas": {
+      "width": 1280,
+      "height": 800,
+      "colors": [
+        [
+          155,
+          126,
+          93
+        ],
+        [
+          118,
+          123,
+          103
+        ],
+        [
+          102,
+          96,
+          90
+        ],
+        [
+          156,
+          127,
+          93
+        ],
+        [
+          28,
+          27,
+          26
+        ],
+        [
+          21,
+          20,
+          19
+        ],
+        [
+          155,
+          125,
+          92
+        ],
+        [
+          115,
+          121,
+          102
+        ],
+        [
+          92,
+          86,
+          79
+        ]
+      ],
+      "distinctColors": 9,
+      "glError": 0
+    },
+    "layout": {
+      "overflow": false,
+      "buttons": [
+        {
+          "width": 68.5625,
+          "height": 33
+        },
+        {
+          "width": 100.984375,
+          "height": 33
+        },
+        {
+          "width": 81.421875,
+          "height": 33
+        },
+        {
+          "width": 90.734375,
+          "height": 33
+        },
+        {
+          "width": 74.171875,
+          "height": 33
+        },
+        {
+          "width": 90.171875,
+          "height": 33
+        }
+      ],
+      "navWithinViewport": true,
+      "arrows": false
+    },
+    "idleRenders": 0
+  },
+  "publicInventory": 6,
+  "admin": {
+    "httpStatus": 200,
+    "configuration": "still unconfigured; authentication/database policies unchanged"
+  },
+  "mobile": {
+    "emulated": true,
+    "benchmark": {
+      "variant": "original",
+      "position": [
+        0,
+        2.35,
+        4.7
+      ],
+      "cpuMeanMs": 16.228571403594245,
+      "gpuMeanMs": 15.571513999999997,
+      "frameMeanMs": 21.557142848060245,
+      "p95Ms": 27.09999990463257,
+      "peakCalls": 107,
+      "peakTriangles": 162990,
+      "drawClasses": {
+        "offscreen:opaque": 94,
+        "screen:opaque": 1,
+        "screen:transmission": 4,
+        "screen:alpha": 3
+      },
+      "dpr": 1.15,
+      "transmissionScale": 1,
+      "glError": 0
+    },
+    "canvas": {
+      "width": 448,
+      "height": 970,
+      "colors": [
+        [
+          230,
+          229,
+          228
+        ],
+        [
+          29,
+          29,
+          29
+        ],
+        [
+          3,
+          3,
+          3
+        ],
+        [
+          228,
+          228,
+          226
+        ],
+        [
+          28,
+          27,
+          26
+        ],
+        [
+          27,
+          25,
+          21
+        ],
+        [
+          231,
+          230,
+          229
+        ],
+        [
+          23,
+          23,
+          21
+        ],
+        [
+          2,
+          1,
+          1
+        ]
+      ],
+      "distinctColors": 9,
+      "glError": 0
+    },
+    "functional": {
+      "touchEmulated": true,
+      "navigation": [
+        {
+          "destination": "inventory",
+          "collision": null,
+          "target": [
+            -8,
+            2.1,
+            -3.1
+          ]
+        },
+        {
+          "destination": "brands",
+          "collision": null,
+          "target": [
+            8,
+            2.1,
+            -3.1
+          ]
+        },
+        {
+          "destination": "services",
+          "collision": null,
+          "target": [
+            -9,
+            2.25,
+            -12.4
+          ]
+        },
+        {
+          "destination": "about",
+          "collision": null,
+          "target": [
+            9,
+            2.25,
+            -12.4
+          ]
+        },
+        {
+          "destination": "contact",
+          "collision": null,
+          "target": [
+            8.4,
+            2.95,
+            9.58
+          ]
+        },
+        {
+          "destination": "home",
+          "collision": null,
+          "target": [
+            0,
+            2,
+            -1.4
+          ]
+        }
+      ],
+      "rapidNavigation": "last request wins",
+      "canvas": {
+        "width": 448,
+        "height": 970,
+        "colors": [
+          [
+            230,
+            229,
+            228
+          ],
+          [
+            29,
+            29,
+            29
+          ],
+          [
+            3,
+            3,
+            3
+          ],
+          [
+            228,
+            228,
+            226
+          ],
+          [
+            28,
+            27,
+            26
+          ],
+          [
+            27,
+            25,
+            21
+          ],
+          [
+            231,
+            230,
+            229
+          ],
+          [
+            23,
+            23,
+            21
+          ],
+          [
+            2,
+            1,
+            1
+          ]
+        ],
+        "distinctColors": 9,
+        "glError": 0
+      },
+      "layout": {
+        "overflow": false,
+        "buttons": [
+          {
+            "width": 118,
+            "height": 44
+          },
+          {
+            "width": 118,
+            "height": 44
+          },
+          {
+            "width": 118,
+            "height": 44
+          },
+          {
+            "width": 118,
+            "height": 44
+          },
+          {
+            "width": 118,
+            "height": 44
+          },
+          {
+            "width": 118,
+            "height": 44
+          }
+        ],
+        "navWithinViewport": true,
+        "arrows": false
+      },
+      "idleRenders": 0
+    }
+  },
+  "publicAdminLink": false
+}

@@ -25,8 +25,9 @@ export function createMaterials(lib) {
   m.concreteDark = textured('concrete', { color: '#4a4b49', normalScale: V2(0.8) }, 2.4);
   m.ceiling = textured('concrete', { color: '#b4aea2', normalScale: V2(0.6) }, 3.2);
   m.board = textured('board', { color: '#a9a396', normalScale: V2(0.9) }, 2.2);
-  m.wood = textured('wood', { color: '#b99b7a', normalScale: V2(0.22), roughness: 0.68 }, 1.4);
+  m.wood = textured('wood', { color: '#c2aa89', normalScale: V2(0.3), roughness: 0.92 }, 0.9);
   m.wood.userData.aoMapExpected = true;
+  m.wood.userData.grainAlongLength = true;
   m.steel = metal('#d6d2c7', 1, 0.42);
   m.darkSteel = metal('#34373a', 1, 0.5);
   m.brass = metal('#d9c597', 1, 0.32);

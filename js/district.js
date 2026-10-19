@@ -102,6 +102,9 @@ function facadeCurtain() {
         g.fillRect(x, y, 120, 18 + r() * 50);
       }
       g.restore();
+      g.fillStyle = 'rgba(16,27,31,0.35)';
+      g.fillRect(x,y,120,4);
+      g.fillRect(x,y,3,96);
       g.fillStyle = '#a3a9a7';
       g.fillRect(x, y + 100, 120, 24);
       g.fillStyle = 'rgba(0,0,0,0.14)';
@@ -128,6 +131,9 @@ function facadeStone() {
       g.fillRect(x - 5, y - 5, 74, 94);
       g.fillStyle = glassGradient(g, y, 84, r());
       g.fillRect(x, y, 64, 84);
+      g.fillStyle = 'rgba(19,27,31,0.4)';
+      g.fillRect(x,y,64,5);
+      g.fillRect(x,y,4,84);
       g.fillStyle = '#d9d1bf';
       g.fillRect(x + 31, y, 3, 84);
       g.fillRect(x, y + 28, 64, 3);
@@ -490,6 +496,7 @@ function buildBuildings(s, g, m) {
     ribbon: new THREE.MeshStandardMaterial({ map: repeatTexture(facadeRibbon()), roughness: 0.55, metalness: 0.1, envMapIntensity: 1.1 }),
   };
   const shop = new THREE.MeshStandardMaterial({ map: repeatTexture(facadeStorefront()), roughness: 0.3, metalness: 0.2, envMapIntensity: 1.2 });
+  const insetGlass = new THREE.MeshStandardMaterial({ name:'district-inset-glazing', color:'#687f87', roughness:0.23, metalness:0.22, envMapIntensity:1.1 });
   const balconyGlass = new THREE.MeshStandardMaterial({ color: '#ffffff', roughness: 0.006, metalness: 1, envMapIntensity: 0.65, transparent: true, opacity: 0.08, depthWrite: false, side: THREE.DoubleSide });
   balconyGlass.forceSinglePass = true;
   const kinds = ['curtain', 'stone', 'ribbon'];
@@ -549,7 +556,20 @@ function buildBuildings(s, g, m) {
         const oz = (r() - 0.5) * (size[1] - 6);
         add(side, m.concrete, box([3 + r() * 3, 2 + r() * 1.5, 3 + r() * 3], [c[0] + ox, h + 1.5, c[1] + oz], 2.4));
       }
-      feature(side, c, w + 0.6, 2.6, 0.3, 0, depth / 2 + 0.5, 8.15, m.brass);
+      feature(side, c, w + 0.6, 2.6, 0.3, 0, depth / 2 + 0.5, 8.15, m.darkSteel);
+      feature(side, c, w, 0.42, 0.2, 0, depth / 2 - 0.28, h - 0.1, m.column);
+      for (let level = 8; level < h - 1; level += 4) {
+        feature(side,c,w - 0.9,0.32,0.16,0,depth / 2 - 0.4,level + 0.08,m.column);
+      }
+      for (const upright of [-w / 2 + 0.3,w / 2 - 0.3]) {
+        feature(side,c,0.18,0.3,h - 8,upright,depth / 2 - 0.36,8 + (h - 8) / 2,m.column);
+      }
+      for (let bay = -w / 2 + 4; bay <= w / 2 - 4; bay += 8) {
+        feature(side,c,0.12,0.34,7.4,bay - 3.7,depth / 2 + 0.1,3.8,m.darkSteel);
+        feature(side,c,2.25,0.06,3.1,bay + 1.8,depth / 2 + 0.035,1.75,insetGlass);
+        feature(side,c,2.45,0.24,0.15,bay + 1.8,depth / 2 + 0.13,0.15,m.column);
+        feature(side,c,2.4,0.32,0.14,bay + 1.8,depth / 2 + 0.16,3.38,m.darkSteel);
+      }
       const [nx, nz] = NORMAL[side];
       const awningX = c[0] + nx * (depth / 2 + 0.5);
       const awningZ = c[1] + nz * (depth / 2 + 0.5);
@@ -557,16 +577,28 @@ function buildBuildings(s, g, m) {
       const halfZ = horizontal ? (w + 0.6) / 2 : 1.3;
       s.cameraColliders.push({ name: 'neighboring shop awning', bounds: new THREE.Box3(new THREE.Vector3(awningX - halfX, 8, awningZ - halfZ), new THREE.Vector3(awningX + halfX, 8.3, awningZ + halfZ)) });
       if (kind === 'curtain') {
-        for (let u = -w / 2 + 2; u <= w / 2 - 1; u += 4) feature(side, c, 0.18, 0.6, h - 9, u, depth / 2 - 0.3, 8.6 + (h - 9) / 2, m.brass);
+        for (let u = -w / 2 + 2; u <= w / 2 - 1; u += 4) feature(side, c, 0.18, 0.6, h - 9, u, depth / 2 - 0.3, 8.6 + (h - 9) / 2, m.column);
       } else if (kind === 'stone') {
+        for (let floor = 0; floor < floors; floor++) {
+          const centreY = 8 + floor * 4 + 1.875;
+          for (let bay = -w / 2 + 2; bay < w / 2; bay += 4) {
+            feature(side,c,2.0,0.035,2.625,bay,depth / 2 - 0.56,centreY,insetGlass);
+            feature(side,c,2.42,0.48,0.14,bay,depth / 2 - 0.4,centreY - 1.4,m.column);
+            feature(side,c,2.25,0.3,0.12,bay,depth / 2 - 0.47,centreY + 1.38,m.column);
+            for (const jamb of [-1.08,1.08]) feature(side,c,0.12,0.28,2.7,bay + jamb,depth / 2 - 0.48,centreY,m.column);
+            feature(side,c,0.055,0.08,2.625,bay,depth / 2 - 0.52,centreY,m.darkSteel);
+          }
+        }
         for (let floor = 2; floor < floors; floor += 2) {
           const y = 8 + floor * 4 - 0.1;
           for (let u = -w / 2 + 4; u < w / 2; u += 8) {
-            feature(side, c, 6.4, 1.3, 0.16, u, depth / 2 - 0.05, y, m.brass);
+            feature(side, c, 6.4, 1.3, 0.16, u, depth / 2 - 0.05, y, m.column);
             feature(side, c, 6.4, 0.04, 1.05, u, depth / 2 + 0.65, y + 0.6, balconyGlass);
           }
         }
       }
+      for (const edge of [-size[0] / 2 + 0.18,size[0] / 2 - 0.18]) add(side,m.column,box([0.14,0.35,size[1]], [c[0] + edge,h + 0.52,c[1]]));
+      for (const edge of [-size[1] / 2 + 0.18,size[1] / 2 - 0.18]) add(side,m.column,box([size[0],0.35,0.14], [c[0],h + 0.52,c[1] + edge]));
     }
   };
 
@@ -595,6 +627,8 @@ function buildBuildings(s, g, m) {
 
   for (const { material, geometries } of buckets.values()) {
     const mesh = new THREE.Mesh(mergeGeometries(geometries), material);
+    mesh.name = 'district-shared-facade';
+    geometries.forEach((geometry) => geometry.dispose());
     g.add(mesh);
   }
 }

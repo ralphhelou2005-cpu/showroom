@@ -78,6 +78,10 @@ The main screen opens on the unobstructed 3D center atrium. Open **Navigation** 
 
 The arrival uses one smooth position curve and one smooth look-target curve, sampled before movement. Bounds cover the showroom, upper building/roof, furniture, street lamps, tree canopies/trunks, neighboring buildings, and shop awnings. Doors open before the camera crosses their plane. Navigation paths are sampled with a clearance radius before movement; no per-frame physics sweep is claimed. The exterior lens widens responsively and returns to the existing interior lens near the entrance. Keep the center aisle and authored waypoints clear when moving architectural pieces. Camera positions and waypoint routes live together in `DESTINATIONS` in `js/showroom.js`.
 
+## Administration
+
+The private dashboard has its own URL: `/admin/` on the local development server and `/showroom/admin/` on GitHub Pages. Direct loads and refreshes use a separate HTML entry, with no Admin button in the public showroom. See [Supabase setup and first administrator instructions](supabase/README.md) for migrations, public connection configuration, Auth redirects, explicit account authorization, deployment and security checks.
+
 ## Photo inventory
 
 Edit the `CARS` array in `js/cars.js`. Set a local `hero` image and add accurate `photographs` with `label`, `src`, and `credit`. Only use vehicle-specific imagery for the exact model/trim shown. Leave the photo array empty until verified photography is available; the inventory will mark it pending and will not invent a car image.

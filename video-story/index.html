@@ -11,6 +11,7 @@
   <style>
     :root { --track: 700vh; --gold: #d4b97e; --ink: #f3efe6; }
     * { box-sizing: border-box; }
+    .ui-icon { width:16px; height:16px; vertical-align:middle; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
     html, body { margin: 0; background: #0c0e0d; color: var(--ink); font-family: 'Manrope', system-ui, sans-serif; }
     #track { height: var(--track); }
     .stage { position: fixed; inset: 0; overflow: hidden; background: #0c0e0d; }
@@ -58,16 +59,16 @@
     <video id="film" src="assets/story.mp4" poster="assets/poster.jpg" muted playsinline preload="auto" data-placeholder="true"></video>
     <img class="poster" src="assets/poster.jpg" alt="" />
     <div class="shade"></div>
-    <header><img src="../assets/logo/logo-white.png" alt="AUTO HAUS GROUP" /><a href="../index.html#live">Live 3D showroom ↗</a></header>
+    <header><img src="../assets/logo/logo-white.png" alt="AUTO HAUS GROUP" /><a href="../index.html#live">Live 3D showroom <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../assets/logo/icons.svg#arrow-up-right"></use></svg></a></header>
 
     <div class="chapter" data-from="0" data-to="0.2"><span class="no">01 / 05</span><h2>Arrival</h2><p>A considered collection.</p></div>
     <div class="chapter" data-from="0.2" data-to="0.42"><span class="no">02 / 05</span><h2>The <em>house</em></h2><p>Independent by nature. Since 1988.</p></div>
     <div class="chapter" data-from="0.42" data-to="0.64"><span class="no">03 / 05</span><h2>Evening</h2><p>As the day ends, the house comes alive.</p></div>
     <div class="chapter" data-from="0.64" data-to="0.86"><span class="no">04 / 05</span><h2>Come on <em>in</em></h2><p>A personal welcome awaits inside.</p></div>
-    <div class="chapter" data-from="0.86" data-to="1.1"><span class="no">05 / 05</span><h2>The <em>collection</em></h2><p>Walk the showroom floor yourself.</p><a class="cta" href="../index.html#live">Enter the live showroom ↗</a></div>
+    <div class="chapter" data-from="0.86" data-to="1.1"><span class="no">05 / 05</span><h2>The <em>collection</em></h2><p>Walk the showroom floor yourself.</p><a class="cta" href="../index.html#live">Enter the live showroom <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../assets/logo/icons.svg#arrow-up-right"></use></svg></a></div>
 
     <div class="rail"><i id="fill"></i></div>
-    <div class="hint" id="hint"><span>Scroll</span><b>↓</b></div>
+    <div class="hint" id="hint"><span>Scroll</span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="../assets/logo/icons.svg#arrow-down"></use></svg></div>
     <div class="note" id="note">Placeholder clip built from your two photos. Replace <code>assets/story.mp4</code> with your generated shots (see PROMPTS.md), then delete <code>data-placeholder</code> in index.html.<button id="noteClose" aria-label="Dismiss">×</button></div>
   </div>
 

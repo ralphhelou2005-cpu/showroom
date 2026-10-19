@@ -125,10 +125,13 @@ if (process.argv.includes('--camera-check')) {
 
 let url = process.argv.find(argument => argument.startsWith('http')) ?? 'http://localhost:8001/';
 const built = process.argv.includes('--built');
-const reportPath = resolve(tmpdir(), built ? 'auto-haus-intro-built.json' : process.argv.includes('--camera-regression') ? 'auto-haus-camera-regression.json' : process.argv.includes('--trace-gl') ? 'auto-haus-camera-driver-trace.json' : process.argv.includes('--baseline') ? 'auto-haus-intro-before.json' : 'auto-haus-intro-after.json');
+const mobile = process.argv.includes('--mobile');
+const stockRenderer = process.argv.includes('--stock-renderer');
+const snapshotDirectory = process.argv.find((argument) => argument.startsWith('--snapshot='))?.slice('--snapshot='.length);
+const reportPath = resolve(tmpdir(), snapshotDirectory ? `auto-haus-snapshot${mobile ? '-mobile' : ''}.json` : mobile ? 'auto-haus-intro-mobile.json' : stockRenderer ? 'auto-haus-intro-stock-renderer.json' : built ? 'auto-haus-intro-built.json' : process.argv.includes('--camera-regression') ? 'auto-haus-camera-regression.json' : process.argv.includes('--trace-gl') ? 'auto-haus-camera-driver-trace.json' : process.argv.includes('--baseline') ? 'auto-haus-intro-before.json' : 'auto-haus-intro-after.json');
 let deploymentServer;
-if (built) {
-  const directory = resolve('dist');
+if (built || snapshotDirectory) {
+  const directory = resolve(snapshotDirectory ?? 'dist');
   const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.jpg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.wasm': 'application/wasm' };
   deploymentServer = createServer((request, response) => {
     const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
@@ -155,7 +158,7 @@ const browser = await chromium.launch({ executablePath, headless: !process.argv.
   throw error;
 });
 try {
-  const context = await browser.newContext({ viewport: { width: 1280, height: 800 }, reducedMotion: 'no-preference' });
+  const context = await browser.newContext({ viewport: mobile ? {width:390,height:844} : {width:1280,height:800}, ...(mobile ? {deviceScaleFactor:2,isMobile:true,hasTouch:true} : {}), reducedMotion: 'no-preference' });
   const page = await context.newPage();
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
@@ -212,7 +215,15 @@ try {
     await page.setViewportSize({ width: 1100, height: 740 });
     await page.waitForFunction(() => window.__showroom?.viewportWidth === 1100, null, { timeout: 10000 });
   };
-  await page.addInitScript(() => {
+  await page.addInitScript(({stockRenderer}) => {
+    if (stockRenderer) {
+      let room;
+      Object.defineProperty(window,'__showroom',{
+        configurable:true,
+        get:() => room,
+        set:(value) => { room = value; room.ready.then(() => { if (room.frameRenderer) room.frameRenderer.enabled = false; }); },
+      });
+    }
     localStorage.removeItem('auto-haus-skip-intro');
     window.__profile = { frames: [], renders: [], jobs: [], longTasks: [], started: 0, complete: false };
     new PerformanceObserver(list => {
@@ -312,8 +323,8 @@ try {
       requestAnimationFrame(record);
     };
     requestAnimationFrame(record);
-  });
-  await page.goto(`${url}${url.includes('?') ? '&' : '?'}debug&qa=native-profile${process.argv.includes('--trace-gl') ? '&trace-gl' : ''}`, { waitUntil: 'domcontentloaded' });
+  },{stockRenderer});
+  await page.goto(`${url}${url.includes('?') ? '&' : '?'}debug&qa=native-profile${process.argv.includes('--trace-gl') ? '&trace-gl' : ''}`, { waitUntil: 'domcontentloaded', timeout:120000 });
   if (process.argv.includes('--camera-regression')) await testIntroLockAndResize();
   await page.waitForFunction(() => window.__profile.complete, null, { timeout: 120000 });
   const result = await page.evaluate(() => {
@@ -362,6 +373,9 @@ try {
     return { timings: showroom.timings, loadingMs: audit.started, duration: +(audit.finished - audit.started).toFixed(1), aerial: summarize(0, .48), approach: summarize(.48, .76), entrance: summarize(.76, 1), full: summarize(0, 1), secondaryAtStart: audit.secondaryAtStart, slowJobs: audit.jobs.filter(job => job.synchronous > 15 || job.total > 500).sort((left, right) => right.synchronous - left.synchronous).slice(0, 12), slowFrames: audit.renders.filter(frame => frame.ms > 100).sort((left, right) => right.ms - left.ms).slice(0, 8), slowIntervals: audit.frames.filter(frame => frame.dt > 100).slice(0, 8), criticalBytes: resources.reduce((sum, entry) => sum + entry.bytes, 0), duplicateCriticalAssets, largest: [...resources].sort((left, right) => right.bytes - left.bytes).slice(0, 10), resources, memory: { geometries: showroom.renderer.info.memory.geometries, textures: showroom.renderer.info.memory.textures, geometryBytes, textureBytesEstimate: Math.round(textureBytesEstimate), renderTargetsExcluded: true }, lights, transparentMaterials: [...materials].filter(material => material.transparent).length, transmissionMaterials: [...materials].filter(material => material.transmission > 0).length, postProcessing: !!showroom.post, renderer: debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER), focused: document.hasFocus(), hidden: document.hidden, finalCamera: showroom.camera.position.toArray(), glass: { roughness: showroom.m.glass.roughness, transmission: showroom.m.glass.transmission, thickness: showroom.m.glass.thickness, bufferScale: showroom.renderer.transmissionResolutionScale }, collision: showroom.cameraCollisionAt(showroom.camera.position), glError: gl.getError() };
   });
   result.browser = browser.version();
+  result.mobileEmulation = mobile ? {viewport:{width:390,height:844},deviceScaleFactor:2,hasTouch:true,physicalPhone:false} : false;
+  result.stockRendererDiagnostic = stockRenderer;
+  result.snapshotDirectory = snapshotDirectory ?? null;
   result.headless = !process.argv.includes('--headed');
   result.cameraAudit = await page.evaluate(() => ({
     isIntroPlaying: window.__showroom.isIntroPlaying,
@@ -436,14 +450,15 @@ try {
       const audit = window.__profile;
       const resources = performance.getEntriesByType('resource').filter(entry => entry.responseEnd <= audit.started);
       const gl = showroom.renderer.getContext();
-      return { timings: showroom.timings, loadingMs: audit.started, duration: +(audit.finished - audit.started).toFixed(1), fps: +(1000 * audit.frames.length / audit.frames.reduce((sum, frame) => sum + frame.dt, 0)).toFixed(1), slowIntervals: audit.frames.filter(frame => frame.dt > 100), longTasks: audit.longTasks.filter(task => task.start >= audit.started && task.start < audit.finished).map(task => ({ ...task, sinceIntro: +(task.start - audit.started).toFixed(1) })), resourceTransferBytes: resources.reduce((sum, entry) => sum + entry.transferSize, 0), assets: resources.filter(entry => /\.(?:hdr|webp|png)$/.test(entry.name)).map(entry => ({ url: entry.name, transfer: entry.transferSize, duration: +entry.duration.toFixed(1) })), collision: showroom.cameraCollisionAt(showroom.camera.position), glError: gl.getError() };
+      const sorted = audit.frames.map((frame) => frame.dt).sort((first,second) => first - second);
+      return { timings: showroom.timings, loadingMs: audit.started, duration: +(audit.finished - audit.started).toFixed(1), fps: +(1000 * audit.frames.length / audit.frames.reduce((sum, frame) => sum + frame.dt, 0)).toFixed(1), p95ms:sorted[Math.floor(sorted.length * .95)], maximumFrameMs:Math.max(...sorted), frameSpikesOver40:sorted.filter((duration) => duration > 40).length, slowIntervals: audit.frames.filter(frame => frame.dt > 100), longTasks: audit.longTasks.filter(task => task.start >= audit.started && task.start < audit.finished).map(task => ({ ...task, sinceIntro: +(task.start - audit.started).toFixed(1) })), resourceTransferBytes: resources.reduce((sum, entry) => sum + entry.transferSize, 0), assets: resources.filter(entry => /\.(?:hdr|webp|png)$/.test(entry.name)).map(entry => ({ url: entry.name, transfer: entry.transferSize, duration: +entry.duration.toFixed(1) })), collision: showroom.cameraCollisionAt(showroom.camera.position), glError: gl.getError() };
     });
     assert.equal(result.repeat.glError, 0);
     assert.equal(result.repeat.collision, null);
     assert.equal(errors.length, 0, errors.join('\n'));
   }
   writeFileSync(reportPath, JSON.stringify(result, null, 2));
-  console.log(JSON.stringify(process.argv.includes('--summary') ? { full: result.full, repeat: result.repeat && { fps: result.repeat.fps, maximumFrameMs: Math.max(...result.repeat.slowIntervals.map(frame => frame.dt)), duration: result.repeat.duration }, cameraAudit: { ...result.cameraAudit, frameSpikes: result.cameraAudit.frameSpikes.length, glStalls: result.cameraAudit.glStalls.toSorted((left, right) => right.duration - left.duration).slice(0, 12) }, regression: result.regression, timings: result.timings, glass: result.glass } : result, null, 2));
+  console.log(JSON.stringify(process.argv.includes('--summary') ? { full: result.full, loadingMs:result.loadingMs, mobileEmulation:result.mobileEmulation, stockRendererDiagnostic:stockRenderer, repeat: result.repeat && { fps: result.repeat.fps, p95ms:result.repeat.p95ms, loadingMs:result.repeat.loadingMs, maximumFrameMs: result.repeat.maximumFrameMs, duration: result.repeat.duration }, cameraAudit: { ...result.cameraAudit, frameSpikes: result.cameraAudit.frameSpikes.length, glStalls: result.cameraAudit.glStalls.toSorted((left, right) => right.duration - left.duration).slice(0, 12) }, regression: result.regression, timings: result.timings, glass: result.glass } : result, null, 2));
   console.log(`Report: ${reportPath}`);
 } catch (error) {
   writeFileSync(reportPath, JSON.stringify({ error: error.stack }, null, 2));

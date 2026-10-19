@@ -1,0 +1,1094 @@
+{
+  "timings": {
+    "stage1": 270,
+    "realism": 41,
+    "logo": 9,
+    "district": 196,
+    "pbrMaps": 540,
+    "wings": 21,
+    "panels": 53,
+    "reception": 18,
+    "lounge": 39,
+    "stair": 2,
+    "plants": 13,
+    "criticalScene": 770,
+    "hdri": 4076,
+    "shaderCompilation": 8055,
+    "programsBeforePrewarm": 58,
+    "textureUploads": 876,
+    "prewarmFrame": 3731,
+    "prewarm": 4619,
+    "programsAfterPrewarm": 67,
+    "shaderFirstUse": 28,
+    "criticalReady": 13501
+  },
+  "loadingMs": 16489.099999904633,
+  "duration": 18438.4,
+  "aerial": {
+    "frames": 359,
+    "fps": 40.6,
+    "p95ms": 40.8,
+    "maxMs": 101.5,
+    "renderCPUms": 21.1,
+    "gpuMeanMs": 19.6,
+    "gpuPeakMs": 44,
+    "peakCalls": 285,
+    "peakTriangles": 275174,
+    "peakGeometries": 196,
+    "peakTextures": 76,
+    "firstPrograms": 67,
+    "lastPrograms": 67,
+    "minDPR": 1.15
+  },
+  "approach": {
+    "frames": 181,
+    "fps": 36,
+    "p95ms": 42.5,
+    "maxMs": 90.40000009536743,
+    "renderCPUms": 21.9,
+    "gpuMeanMs": 23.5,
+    "gpuPeakMs": 40.7,
+    "peakCalls": 255,
+    "peakTriangles": 235430,
+    "peakGeometries": 196,
+    "peakTextures": 76,
+    "firstPrograms": 67,
+    "lastPrograms": 67,
+    "minDPR": 1.15
+  },
+  "entrance": {
+    "frames": 237,
+    "fps": 52.4,
+    "p95ms": 28.7,
+    "maxMs": 38.200000286102295,
+    "renderCPUms": 14.4,
+    "gpuMeanMs": 15.9,
+    "gpuPeakMs": 26.3,
+    "peakCalls": 109,
+    "peakTriangles": 157546,
+    "peakGeometries": 196,
+    "peakTextures": 76,
+    "firstPrograms": 67,
+    "lastPrograms": 67,
+    "minDPR": 1.15
+  },
+  "full": {
+    "frames": 777,
+    "fps": 42.2,
+    "p95ms": 38.6,
+    "maxMs": 101.5,
+    "renderCPUms": 19.2,
+    "gpuMeanMs": 19.4,
+    "gpuPeakMs": 44,
+    "peakCalls": 285,
+    "peakTriangles": 275174,
+    "peakGeometries": 196,
+    "peakTextures": 76,
+    "firstPrograms": 67,
+    "lastPrograms": 67,
+    "minDPR": 1.15
+  },
+  "secondaryAtStart": [],
+  "slowJobs": [],
+  "slowFrames": [],
+  "slowIntervals": [
+    {
+      "dt": 101.5,
+      "progress": 0.05607080058507187,
+      "step": 0.12267808247912296,
+      "angle": 0.0009619400824192126,
+      "dpr": 1.15,
+      "camera": [
+        22.14339576283588,
+        100.9250886178759,
+        38.13466750269452
+      ],
+      "clouds": true,
+      "doors": [
+        0,
+        0
+      ],
+      "programs": 67
+    }
+  ],
+  "criticalBytes": 13599625,
+  "duplicateCriticalAssets": [],
+  "largest": [
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/environment/urban_street_01_2k.hdr",
+      "bytes": 7286632,
+      "transfer": 0
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/materials/asphalt-normal.webp",
+      "bytes": 1929266,
+      "transfer": 1929566
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/materials/asphalt-arm.webp",
+      "bytes": 1074206,
+      "transfer": 1074506
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/materials/oak-arm.webp",
+      "bytes": 950632,
+      "transfer": 950932
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/showroom-BWsRlZOU.js",
+      "bytes": 815898,
+      "transfer": 816198
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/materials/asphalt-color-1k.webp",
+      "bytes": 545250,
+      "transfer": 545550
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/materials/oak-normal.webp",
+      "bytes": 394732,
+      "transfer": 395032
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/materials/oak-ao.webp",
+      "bytes": 389130,
+      "transfer": 389430
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/materials/oak-color-1k.webp",
+      "bytes": 137234,
+      "transfer": 137534
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/showroom-D59Pw_tv.css",
+      "bytes": 33530,
+      "transfer": 33830
+    }
+  ],
+  "resources": [
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/showroom-BWsRlZOU.js",
+      "bytes": 815898,
+      "transfer": 816198
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/content-utils-AgE1wrwk.js",
+      "bytes": 2932,
+      "transfer": 3232
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/showroom-D59Pw_tv.css",
+      "bytes": 33530,
+      "transfer": 33830
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/logo-white-BLFmFbdr.png",
+      "bytes": 25836,
+      "transfer": 26136
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap",
+      "bytes": 1012,
+      "transfer": 1312
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/icons-DJKHhKPM.svg#arrow-up-right",
+      "bytes": 698,
+      "transfer": 998
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/story-DNeOdKwW.js",
+      "bytes": 7738,
+      "transfer": 8038
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/HDRLoader-BTc4q0oq.js",
+      "bytes": 3402,
+      "transfer": 3702
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/materials/asphalt-color-1k.webp",
+      "bytes": 545250,
+      "transfer": 545550
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/materials/asphalt-normal.webp",
+      "bytes": 1929266,
+      "transfer": 1929566
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/materials/oak-color-1k.webp",
+      "bytes": 137234,
+      "transfer": 137534
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/materials/asphalt-arm.webp",
+      "bytes": 1074206,
+      "transfer": 1074506
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/materials/oak-normal.webp",
+      "bytes": 394732,
+      "transfer": 395032
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/materials/oak-arm.webp",
+      "bytes": 950632,
+      "transfer": 950932
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/materials/oak-ao.webp",
+      "bytes": 389130,
+      "transfer": 389430
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/environment/urban_street_01_2k.hdr",
+      "bytes": 7286632,
+      "transfer": 0
+    },
+    {
+      "url": "http://127.0.0.1:62081/favicon.ico",
+      "bytes": 0,
+      "transfer": 300
+    },
+    {
+      "url": "http://127.0.0.1:62081/showroom/assets/cars3d-Cfl-JU8Q.js",
+      "bytes": 1497,
+      "transfer": 0
+    }
+  ],
+  "memory": {
+    "geometries": 196,
+    "textures": 76,
+    "geometryBytes": 6618192,
+    "textureBytesEstimate": 135812437,
+    "renderTargetsExcluded": true
+  },
+  "lights": [
+    {
+      "type": "HemisphereLight",
+      "castShadow": false,
+      "mapSize": null
+    },
+    {
+      "type": "DirectionalLight",
+      "castShadow": true,
+      "mapSize": [
+        512,
+        512
+      ]
+    },
+    {
+      "type": "SpotLight",
+      "castShadow": false,
+      "mapSize": null
+    },
+    {
+      "type": "SpotLight",
+      "castShadow": false,
+      "mapSize": null
+    },
+    {
+      "type": "SpotLight",
+      "castShadow": false,
+      "mapSize": null
+    }
+  ],
+  "transparentMaterials": 13,
+  "transmissionMaterials": 26,
+  "postProcessing": false,
+  "renderer": "ANGLE (Intel, Intel(R) UHD Graphics 620 (0x00005917) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "focused": true,
+  "hidden": false,
+  "finalCamera": [
+    0,
+    2.35,
+    4.7
+  ],
+  "glass": {
+    "roughness": 0.006,
+    "transmission": 1,
+    "thickness": 0.008,
+    "bufferScale": 1
+  },
+  "collision": null,
+  "glError": 0,
+  "browser": "155.0.4283.62",
+  "mobileEmulation": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "deviceScaleFactor": 2,
+    "hasTouch": true,
+    "physicalPhone": false
+  },
+  "stockRendererDiagnostic": false,
+  "snapshotDirectory": null,
+  "headless": true,
+  "cameraAudit": {
+    "isIntroPlaying": false,
+    "navigationLocked": false,
+    "motionActive": false,
+    "finalTarget": [
+      0,
+      2,
+      -1.4
+    ],
+    "controlsPresent": false,
+    "cameraUpdateMeanMs": 0.10102695861738055,
+    "frameSpikes": [
+      {
+        "dt": 57.799999713897705,
+        "progress": 0.0002911410110308624,
+        "step": 0.00008548711215000085,
+        "angle": 5.847637912734942e-7,
+        "dpr": 1.15,
+        "camera": [
+          22.000003559373354,
+          103.9999145753688,
+          38.00000355936552
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.40000009536743,
+        "progress": 0.0018404575712620613,
+        "step": 0.0017181340759116694,
+        "angle": 0.000011781118515171648,
+        "dpr": 1.15,
+        "camera": [
+          22.000142114687016,
+          103.99658977224162,
+          38.00014210219345
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.19999980926514,
+        "progress": 0.011694956036486199,
+        "step": 0.023301520346411884,
+        "angle": 0.00015965683509148535,
+        "dpr": 1.15,
+        "camera": [
+          22.005736937893694,
+          103.86315309392762,
+          38.00571694733712
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.90000009536743,
+        "progress": 0.016422188175143425,
+        "step": 0.04521155302462945,
+        "angle": 0.0003095523014898019,
+        "dpr": 1.15,
+        "camera": [
+          22.011346209574025,
+          103.73091671674182,
+          38.011269406085496
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 101.5,
+        "progress": 0.05607080058507187,
+        "step": 0.12267808247912296,
+        "angle": 0.0009619400824192126,
+        "dpr": 1.15,
+        "camera": [
+          22.14339576283588,
+          100.9250886178759,
+          38.13466750269452
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.80000019073486,
+        "progress": 0.20315555561301404,
+        "step": 0.4964984382452759,
+        "angle": 0.002567067707292015,
+        "dpr": 1.15,
+        "camera": [
+          22.681129892699083,
+          70.79192253357884,
+          39.118016805053955
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.60000038146973,
+        "progress": 0.21182777780454703,
+        "step": 0.43416387236155096,
+        "angle": 0.0021654302530045863,
+        "dpr": 1.15,
+        "camera": [
+          22.542938667968063,
+          68.66939752735848,
+          39.115374417206425
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.30000019073486,
+        "progress": 0.23963888889064605,
+        "step": 0.4691813987775155,
+        "angle": 0.002284511448046128,
+        "dpr": 1.15,
+        "camera": [
+          21.960697939208444,
+          61.56157058698973,
+          38.98598330125277
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.09999990463257,
+        "progress": 0.24197777777390317,
+        "step": 0.5928914114962702,
+        "angle": 0.0028879473497288605,
+        "dpr": 1.15,
+        "camera": [
+          21.908350975576326,
+          60.97133493167559,
+          38.96593604656724
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.09999990463257,
+        "progress": 0.2636166666615715,
+        "step": 0.4513544719156778,
+        "angle": 0.002420134969303855,
+        "dpr": 1.15,
+        "camera": [
+          21.401713070252374,
+          55.41815077993746,
+          38.7101700937143
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 47.69999980926514,
+        "progress": 0.41142222221692387,
+        "step": 0.3860989393266736,
+        "angle": 0.008679908581650209,
+        "dpr": 1.15,
+        "camera": [
+          4.898600569016839,
+          16.597618348658724,
+          34.67796872815191
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.59999990463257,
+        "progress": 0.41628888887829235,
+        "step": 0.5130940950216931,
+        "angle": 0.011801189508249174,
+        "dpr": 1.15,
+        "camera": [
+          4.192726558813613,
+          15.74388514980031,
+          34.469097024644064
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.60000038146973,
+        "progress": 0.418550000005298,
+        "step": 0.5217858896809,
+        "angle": 0.012135071640745143,
+        "dpr": 1.15,
+        "camera": [
+          3.8638086162945475,
+          15.35182590782739,
+          34.36729794536172
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.59999990463257,
+        "progress": 0.42093333334392957,
+        "step": 0.5472189484725544,
+        "angle": 0.012869644261548675,
+        "dpr": 1.15,
+        "camera": [
+          3.5187505096215825,
+          14.942032780701146,
+          34.25570460529713
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.5,
+        "progress": 0.4538500000105963,
+        "step": 0.31746020900041233,
+        "angle": 0.006746589434310118,
+        "dpr": 1.15,
+        "camera": [
+          -0.07553040615612691,
+          9.802764731829017,
+          31.848277577965384
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.299999713897705,
+        "progress": 0.45638888888888884,
+        "step": 0.4090230719995234,
+        "angle": 0.008265561022598641,
+        "dpr": 1.15,
+        "camera": [
+          -0.1737127686771603,
+          9.495231653101957,
+          31.597113283913917
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.200000286102295,
+        "progress": 0.45879444445504075,
+        "step": 0.38892355413097884,
+        "angle": 0.007324413412939472,
+        "dpr": 1.15,
+        "camera": [
+          -0.24513732470579414,
+          9.207076174552151,
+          31.345863440260796
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.69999980926514,
+        "progress": 0.4629944444497426,
+        "step": 0.3146556543953771,
+        "angle": 0.005295692561050971,
+        "dpr": 1.15,
+        "camera": [
+          -0.3248339850327694,
+          8.712233223678798,
+          30.8791103430808
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.30000019073486,
+        "progress": 0.46543333334392967,
+        "step": 0.40220299160382544,
+        "angle": 0.006484853923081352,
+        "dpr": 1.15,
+        "camera": [
+          -0.347975756330281,
+          8.430133646265425,
+          30.593363018859772
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 55.90000009536743,
+        "progress": 0.4822888888782925,
+        "step": 0.32362506698262267,
+        "angle": 0.004900562439420261,
+        "dpr": 1.15,
+        "camera": [
+          -0.20898874832386993,
+          6.60821747617624,
+          28.412071947195006
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 48.10000038146973,
+        "progress": 0.48698333332273697,
+        "step": 0.26048330601928665,
+        "angle": 0.0040661182648821645,
+        "dpr": 1.15,
+        "camera": [
+          -0.130631181815274,
+          6.147587390415381,
+          27.768994010791086
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 79.59999990463257,
+        "progress": 0.4963166666560704,
+        "step": 0.2596160327766366,
+        "angle": 0.004422941024875942,
+        "dpr": 1.15,
+        "camera": [
+          -0.01328572724550714,
+          5.3040242435137595,
+          26.492676957397716
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.5,
+        "progress": 0.5073611111111113,
+        "step": 0.24284698190912904,
+        "angle": 0.004829142285425888,
+        "dpr": 1.15,
+        "camera": [
+          0,
+          4.467345538942917,
+          25.069092816280595
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 90.40000009536743,
+        "progress": 0.5128500000105966,
+        "step": 0.24154608326548063,
+        "angle": 0.005391725485413798,
+        "dpr": 1.15,
+        "camera": [
+          0,
+          4.085180286453388,
+          24.335240147328896
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.40000009536743,
+        "progress": 0.6287888888782925,
+        "step": 0.06440073346966114,
+        "angle": 0.0027107208543860565,
+        "dpr": 1.15,
+        "camera": [
+          0,
+          3.031121396174078,
+          16.554115130573884
+        ],
+        "clouds": false,
+        "doors": [
+          -2.3680151707282344,
+          2.3680151707282344
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.09999990463257,
+        "progress": 0.6310888888835907,
+        "step": 0.1075122886599316,
+        "angle": 0.004521301958608248,
+        "dpr": 1.15,
+        "camera": [
+          0,
+          3.0556814681685944,
+          16.449445674300716
+        ],
+        "clouds": false,
+        "doors": [
+          -2.4449954311906144,
+          2.4449954311906144
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.799999713897705,
+        "progress": 0.6351666666666668,
+        "step": 0.08895959520391288,
+        "angle": 0.0037309832549152705,
+        "dpr": 1.15,
+        "camera": [
+          0,
+          3.0989411247237655,
+          16.262297360795976
+        ],
+        "clouds": false,
+        "doors": [
+          -2.5772852776428046,
+          2.5772852776428046
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 47.59999990463257,
+        "progress": 0.6434166666666667,
+        "step": 0.08440985940099072,
+        "angle": 0.003515028796601216,
+        "dpr": 1.15,
+        "camera": [
+          0,
+          3.1838691358846387,
+          15.876224679939229
+        ],
+        "clouds": false,
+        "doors": [
+          -2.8248485907805594,
+          2.8248485907805594
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 61.60000038146973,
+        "progress": 0.6527944444550409,
+        "step": 0.11679392026632418,
+        "angle": 0.004773880322921598,
+        "dpr": 1.15,
+        "camera": [
+          0,
+          3.2885638168724247,
+          15.364375040417137
+        ],
+        "clouds": false,
+        "doors": [
+          -3.064723591587592,
+          3.064723591587592
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.59999990463257,
+        "progress": 0.6562277777724796,
+        "step": 0.2136203800064518,
+        "angle": 0.008973217962854689,
+        "dpr": 1.15,
+        "camera": [
+          0,
+          3.332338474545851,
+          15.155287866971047
+        ],
+        "clouds": false,
+        "doors": [
+          -3.1391992538629974,
+          3.1391992538629974
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.5,
+        "progress": 0.658811111105813,
+        "step": 0.1633892857299804,
+        "angle": 0.00703189857938278,
+        "dpr": 1.15,
+        "camera": [
+          0,
+          3.3660488955293997,
+          14.995413959755188
+        ],
+        "clouds": false,
+        "doors": [
+          -3.1899277335331178,
+          3.1899277335331178
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.40000009536743,
+        "progress": 0.6627111111217077,
+        "step": 0.0989731582964945,
+        "angle": 0.004358429366108783,
+        "dpr": 1.15,
+        "camera": [
+          0,
+          3.4176229496739285,
+          14.750931362224739
+        ],
+        "clouds": false,
+        "doors": [
+          -3.2572534150595316,
+          3.2572534150595316
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.200000286102295,
+        "progress": 0.6776555555661521,
+        "step": 0.11033882899096739,
+        "angle": 0.004763685002894797,
+        "dpr": 1.15,
+        "camera": [
+          0,
+          3.609693952547493,
+          13.802831213931224
+        ],
+        "clouds": false,
+        "doors": [
+          -3.397171551679113,
+          3.397171551679113
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.90000009536743,
+        "progress": 0.6953333333333336,
+        "step": 0.06510364781700337,
+        "angle": 0.0020634902854671376,
+        "dpr": 1.15,
+        "camera": [
+          0,
+          3.7836454970058604,
+          12.733777473415286
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      }
+    ],
+    "initialization": null,
+    "glStalls": [],
+    "resourcesDuringIntro": [
+      {
+        "url": "http://127.0.0.1:62081/showroom/assets/logo/icons.svg#arrow-up-right",
+        "started": 18403.900000095367,
+        "duration": 11.199999809265137
+      }
+    ]
+  },
+  "longTasks": [
+    {
+      "start": 25615,
+      "duration": 79,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 9125.9
+    },
+    {
+      "start": 28431.599999904633,
+      "duration": 61,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 11942.5
+    }
+  ],
+  "repeat": {
+    "timings": {
+      "stage1": 447,
+      "realism": 8,
+      "logo": 30,
+      "district": 258,
+      "wings": 25,
+      "pbrMaps": 603,
+      "panels": 45,
+      "reception": 18,
+      "lounge": 76,
+      "stair": 3,
+      "hdri": 2241,
+      "plants": 27,
+      "criticalScene": 2329,
+      "shaderCompilation": 807,
+      "programsBeforePrewarm": 58,
+      "textureUploads": 680,
+      "prewarmFrame": 2399,
+      "prewarm": 3088,
+      "programsAfterPrewarm": 67,
+      "shaderFirstUse": 29,
+      "criticalReady": 6450
+    },
+    "loadingMs": 11089.799999713898,
+    "duration": 18450.3,
+    "fps": 43.4,
+    "p95ms": 34.90000009536743,
+    "maximumFrameMs": 109.80000019073486,
+    "frameSpikesOver40": 13,
+    "slowIntervals": [
+      {
+        "dt": 109.80000019073486,
+        "progress": 0.29657222220633805,
+        "step": 0.4251764919370238,
+        "angle": 0.0011337101121648772,
+        "dpr": 1.15,
+        "camera": [
+          20.12134386118853,
+          46.57384151333993,
+          38.0528163369182
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      }
+    ],
+    "longTasks": [],
+    "resourceTransferBytes": 998,
+    "assets": [
+      {
+        "url": "http://127.0.0.1:62081/showroom/assets/logo-white-BLFmFbdr.png",
+        "transfer": 0,
+        "duration": 0
+      },
+      {
+        "url": "http://127.0.0.1:62081/showroom/assets/materials/asphalt-color-1k.webp",
+        "transfer": 0,
+        "duration": 225.8
+      },
+      {
+        "url": "http://127.0.0.1:62081/showroom/assets/materials/asphalt-normal.webp",
+        "transfer": 0,
+        "duration": 542.7
+      },
+      {
+        "url": "http://127.0.0.1:62081/showroom/assets/materials/asphalt-arm.webp",
+        "transfer": 0,
+        "duration": 497.2
+      },
+      {
+        "url": "http://127.0.0.1:62081/showroom/assets/materials/oak-color-1k.webp",
+        "transfer": 0,
+        "duration": 210.2
+      },
+      {
+        "url": "http://127.0.0.1:62081/showroom/assets/materials/oak-normal.webp",
+        "transfer": 0,
+        "duration": 209
+      },
+      {
+        "url": "http://127.0.0.1:62081/showroom/assets/materials/oak-arm.webp",
+        "transfer": 0,
+        "duration": 488.1
+      },
+      {
+        "url": "http://127.0.0.1:62081/showroom/assets/materials/oak-ao.webp",
+        "transfer": 0,
+        "duration": 206.5
+      },
+      {
+        "url": "http://127.0.0.1:62081/showroom/assets/environment/urban_street_01_2k.hdr",
+        "transfer": 0,
+        "duration": 135.7
+      }
+    ],
+    "collision": null,
+    "glError": 0
+  }
+}

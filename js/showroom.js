@@ -7,6 +7,7 @@ import { TextureLibrary } from './texture-library.js';
 import { createMaterials } from './materials.js';
 import { PlantFactory } from './plants.js';
 import { buildDistrict, buildGround } from './district.js';
+import { installOpaqueReuse } from './frame-renderer.js';
 
 const DESTINATIONS = {
   home: { label: 'CENTER · WELCOME', position: [0, 2.35, 4.7], target: [0, 2, -1.4], waypoints: [[0, 2.35, 14.2], [0, 2.35, 10], [0, 2.35, 7], [0, 2.35, 4.7]], screenClass: 'screen-home' },
@@ -53,6 +54,19 @@ function scaleBoxUV(geometry, [w, h, d], tile, ox, oy) {
 function scaleUV(geometry, su, sv) {
   const uv = geometry.attributes.uv;
   for (let i = 0; i < uv.count; i++) uv.setXY(i, uv.getX(i) * su, uv.getY(i) * sv);
+}
+
+function scaleWoodUV(geometry, size, tile, offsetU = 0, offsetV = 0) {
+  const positions = geometry.attributes.position;
+  const normals = geometry.attributes.normal;
+  const uv = geometry.attributes.uv;
+  for (let vertex = 0; vertex < positions.count; vertex++) {
+    const normal = [Math.abs(normals.getX(vertex)),Math.abs(normals.getY(vertex)),Math.abs(normals.getZ(vertex))];
+    const facing = normal.indexOf(Math.max(...normal));
+    const axes = facing === 0 ? [2,1] : facing === 1 ? [0,2] : [0,1];
+    if (size[axes[0]] < size[axes[1]]) axes.reverse();
+    uv.setXY(vertex,positions.getComponent(vertex,axes[0]) / tile + offsetU,positions.getComponent(vertex,axes[1]) / tile + offsetV);
+  }
 }
 
 function canvasTexture(canvas, anisotropy = 8) {
@@ -189,6 +203,7 @@ export class Showroom {
       this.m.wood.needsUpdate = true;
     }
     this.prepareCameraCulling();
+    this.frameRenderer = this.post ? null : installOpaqueReuse(this.renderer,this.scene);
     const compileStarted = performance.now();
     try {
       await this.compilePasses(this.scene);
@@ -346,7 +361,10 @@ export class Showroom {
     const glazing = material.transmission > 0.9;
     const geometry = glazing ? new THREE.PlaneGeometry(Math.max(size[0], size[2]), size[1]) : new THREE.BoxGeometry(...size);
     const tile = material.userData.tile;
-    if (tile) scaleBoxUV(geometry, size, tile, this.rand(), this.rand());
+    if (tile) {
+      if (material.userData.grainAlongLength) scaleWoodUV(geometry,size,tile,this.rand(),this.rand());
+      else scaleBoxUV(geometry, size, tile, this.rand(), this.rand());
+    }
     geometry.setAttribute('uv2', geometry.attributes.uv.clone());
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(...position);
@@ -358,9 +376,10 @@ export class Showroom {
   }
 
   rbox(parent, size, radius, position, material, options = {}) {
-    const key = `${size.join(',')}:${radius}`;
+    const key = `${size.join(',')}:${radius}${material.userData.grainAlongLength ? ':wood' : ''}`;
     if (!this.roundedGeo.has(key)) {
       const geometry = new RoundedBoxGeometry(size[0], size[1], size[2], 3, radius);
+      if (material.userData.grainAlongLength) scaleWoodUV(geometry,size,material.userData.tile);
       geometry.setAttribute('uv2', geometry.attributes.uv.clone());
       this.roundedGeo.set(key, geometry);
     }
@@ -374,6 +393,23 @@ export class Showroom {
   }
 
   instancedBoxes(parent, material, items, { castShadow = true } = {}) {
+    if (material.userData.grainAlongLength && items.length) {
+      const grain = rng(4412);
+      const pieces = items.map(([width,height,depth,positionX,positionY,positionZ]) => {
+        const geometry = new THREE.BoxGeometry(width,height,depth);
+        scaleWoodUV(geometry,[width,height,depth],material.userData.tile,grain(),grain());
+        geometry.setAttribute('uv2',geometry.attributes.uv.clone());
+        geometry.translate(positionX,positionY,positionZ);
+        return geometry;
+      });
+      const mesh = new THREE.Mesh(mergeGeometries(pieces),material);
+      pieces.forEach((geometry) => geometry.dispose());
+      mesh.castShadow = castShadow;
+      mesh.receiveShadow = true;
+      mesh.name = 'physical-scale-oak-boards';
+      parent.add(mesh);
+      return mesh;
+    }
     const glazing = material.transmission > 0.9;
     if (glazing) {
       const planes = new Map();
@@ -622,6 +658,7 @@ export class Showroom {
         this.glassPlanes.push({ object, plane: new THREE.Plane().setFromNormalAndCoplanarPoint(normal, point) });
       }
     });
+    this.frameRenderer?.refresh();
   }
 
   updateCameraCulling() {
@@ -2398,6 +2435,7 @@ export class Showroom {
     document.removeEventListener('visibilitychange', this.onVisibilityChange);
     this.warmTarget?.dispose();
     this.linearCompileTarget?.dispose();
+    this.frameRenderer?.dispose();
     this.distantGlass.dispose();
     this.compilationMaterials?.forEach((material) => material.dispose());
     this.resizeObserver.disconnect();

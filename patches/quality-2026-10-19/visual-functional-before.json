@@ -1,0 +1,504 @@
+{
+  "label": "before",
+  "url": "http://localhost:8002/",
+  "screenshots": [
+    {
+      "name": "main-interior",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-before\\main-interior.png"
+    },
+    {
+      "name": "inventory",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-before\\inventory.png"
+    },
+    {
+      "name": "exterior-front",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-before\\exterior-front.png"
+    },
+    {
+      "name": "aerial-building",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-before\\aerial-building.png"
+    },
+    {
+      "name": "glass-facade",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-before\\glass-facade.png"
+    },
+    {
+      "name": "wood-reception",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-before\\wood-reception.png"
+    },
+    {
+      "name": "surroundings",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-before\\surroundings.png"
+    },
+    {
+      "name": "loading-1280x800",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-before\\loading-1280x800.png"
+    },
+    {
+      "name": "loading-390x844",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-before\\loading-390x844.png"
+    },
+    {
+      "name": "loading-360x640",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-before\\loading-360x640.png"
+    },
+    {
+      "name": "loading-844x390",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-before\\loading-844x390.png"
+    },
+    {
+      "name": "mobile-interior",
+      "file": "C:\\Users\\alain\\AppData\\Local\\Temp\\auto-haus-quality-before\\mobile-interior.png"
+    }
+  ],
+  "consoleErrors": [],
+  "layout": [
+    {
+      "name": "loading-1280x800",
+      "width": 1280,
+      "height": 800,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 66.546875,
+          "top": 34,
+          "right": 256.546875,
+          "bottom": 63.640625,
+          "width": 190,
+          "height": 29.640625,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 123.890625,
+          "top": 564.453125,
+          "right": 594.734375,
+          "bottom": 715,
+          "width": 470.84375,
+          "height": 150.546875,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 66.546875,
+          "top": 735,
+          "right": 1213.453125,
+          "bottom": 745,
+          "width": 1146.90625,
+          "height": 10,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 66.546875,
+          "top": 761,
+          "right": 1213.453125,
+          "bottom": 762,
+          "width": 1146.90625,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 1049.9375,
+          "top": 665,
+          "right": 1213.453125,
+          "bottom": 684,
+          "width": 163.515625,
+          "height": 19,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 1145.875,
+          "top": 688,
+          "right": 1213.453125,
+          "bottom": 717,
+          "width": 67.578125,
+          "height": 29,
+          "visible": true
+        }
+      ],
+      "overlaps": [],
+      "horizontalOverflow": false
+    },
+    {
+      "name": "loading-390x844",
+      "width": 390,
+      "height": 844,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 23.390625,
+          "top": 25,
+          "right": 213.390625,
+          "bottom": 54.640625,
+          "width": 190,
+          "height": 29.640625,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 30.25,
+          "top": 598.9375,
+          "right": 347.796875,
+          "bottom": 721.609375,
+          "width": 317.546875,
+          "height": 122.671875,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 20.265625,
+          "top": 779,
+          "right": 369.734375,
+          "bottom": 789,
+          "width": 349.46875,
+          "height": 10,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 20.265625,
+          "top": 805,
+          "right": 369.734375,
+          "bottom": 806,
+          "width": 349.46875,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 23.390625,
+          "top": 709,
+          "right": 171.15625,
+          "bottom": 728,
+          "width": 147.765625,
+          "height": 19,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 302.15625,
+          "top": 732,
+          "right": 369.734375,
+          "bottom": 761,
+          "width": 67.578125,
+          "height": 29,
+          "visible": true
+        }
+      ],
+      "overlaps": [
+        [
+          ".arrival-caption",
+          ".arrival-remember"
+        ]
+      ],
+      "horizontalOverflow": false
+    },
+    {
+      "name": "loading-360x640",
+      "width": 360,
+      "height": 640,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 21.59375,
+          "top": 25,
+          "right": 211.59375,
+          "bottom": 54.640625,
+          "width": 190,
+          "height": 29.640625,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 27.921875,
+          "top": 359.65625,
+          "right": 338.40625,
+          "bottom": 538,
+          "width": 310.484375,
+          "height": 178.34375,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 18.71875,
+          "top": 575,
+          "right": 341.28125,
+          "bottom": 585,
+          "width": 322.5625,
+          "height": 10,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 18.71875,
+          "top": 601,
+          "right": 341.28125,
+          "bottom": 602,
+          "width": 322.5625,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 21.59375,
+          "top": 505,
+          "right": 169.359375,
+          "bottom": 524,
+          "width": 147.765625,
+          "height": 19,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 273.703125,
+          "top": 528,
+          "right": 341.28125,
+          "bottom": 557,
+          "width": 67.578125,
+          "height": 29,
+          "visible": true
+        }
+      ],
+      "overlaps": [
+        [
+          ".arrival-caption",
+          ".arrival-remember"
+        ],
+        [
+          ".arrival-caption",
+          ".arrival-skip"
+        ]
+      ],
+      "horizontalOverflow": false
+    },
+    {
+      "name": "loading-844x390",
+      "width": 844,
+      "height": 390,
+      "hidden": false,
+      "boxes": [
+        {
+          "selector": ".arrival-brand",
+          "left": 43.875,
+          "top": 34,
+          "right": 233.875,
+          "bottom": 63.640625,
+          "width": 190,
+          "height": 29.640625,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-caption",
+          "left": 81.6875,
+          "top": 200.796875,
+          "right": 405.140625,
+          "bottom": 325.5,
+          "width": 323.453125,
+          "height": 124.703125,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-status",
+          "left": 43.875,
+          "top": 325,
+          "right": 800.125,
+          "bottom": 335,
+          "width": 756.25,
+          "height": 10,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-progress",
+          "left": 43.875,
+          "top": 351,
+          "right": 800.125,
+          "bottom": 352,
+          "width": 756.25,
+          "height": 1,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-remember",
+          "left": 636.609375,
+          "top": 255,
+          "right": 800.125,
+          "bottom": 274,
+          "width": 163.515625,
+          "height": 19,
+          "visible": true
+        },
+        {
+          "selector": ".arrival-skip",
+          "left": 732.546875,
+          "top": 278,
+          "right": 800.125,
+          "bottom": 307,
+          "width": 67.578125,
+          "height": 29,
+          "visible": true
+        }
+      ],
+      "overlaps": [],
+      "horizontalOverflow": false
+    }
+  ],
+  "benchmarks": [
+    {
+      "pose": "home",
+      "variant": "original",
+      "position": [
+        0,
+        2.35,
+        4.7
+      ],
+      "cpuMeanMs": 8.869047630400885,
+      "gpuMeanMs": 75.99620002777777,
+      "frameMeanMs": 79.95476191384452,
+      "p95Ms": 115.89999961853027,
+      "peakCalls": 166,
+      "peakTriangles": 218722,
+      "drawClasses": {
+        "offscreen:opaque": 80,
+        "screen:opaque": 80,
+        "screen:transmission": 3,
+        "screen:alpha": 3
+      },
+      "dpr": 1,
+      "transmissionScale": 1,
+      "glError": 0
+    },
+    {
+      "pose": "exterior-front",
+      "variant": "original",
+      "position": [
+        0,
+        9.8,
+        39.5
+      ],
+      "cpuMeanMs": 16.91428568249657,
+      "gpuMeanMs": 129.34825055555552,
+      "frameMeanMs": 137.36904761904762,
+      "p95Ms": 179.10000038146973,
+      "peakCalls": 552,
+      "peakTriangles": 534750,
+      "drawClasses": {
+        "offscreen:opaque": 243,
+        "screen:opaque": 243,
+        "screen:transmission": 26,
+        "screen:alpha": 40
+      },
+      "dpr": 1,
+      "transmissionScale": 1,
+      "glError": 0
+    },
+    {
+      "pose": "exterior-front",
+      "variant": "glass-hidden-diagnostic",
+      "position": [
+        0,
+        9.8,
+        39.5
+      ],
+      "cpuMeanMs": 6.5428571701049805,
+      "gpuMeanMs": 54.4151545,
+      "frameMeanMs": 57.13095238095238,
+      "p95Ms": 75.7000002861023,
+      "peakCalls": 283,
+      "peakTriangles": 267436,
+      "drawClasses": {
+        "screen:opaque": 243,
+        "screen:alpha": 40
+      },
+      "dpr": 1,
+      "transmissionScale": 1,
+      "glError": 0
+    },
+    {
+      "pose": "exterior-front",
+      "variant": "normalmaps-off-diagnostic",
+      "position": [
+        0,
+        9.8,
+        39.5
+      ],
+      "cpuMeanMs": 24.578571455819265,
+      "gpuMeanMs": 89.04443030555557,
+      "frameMeanMs": 90.03095238549369,
+      "p95Ms": 113.30000019073486,
+      "peakCalls": 552,
+      "peakTriangles": 534750,
+      "drawClasses": {
+        "offscreen:opaque": 243,
+        "screen:opaque": 243,
+        "screen:transmission": 26,
+        "screen:alpha": 40
+      },
+      "dpr": 1,
+      "transmissionScale": 1,
+      "glError": 0
+    }
+  ],
+  "limitations": [
+    "Mobile viewports/touch are emulated, not measured on physical phones. Fixed-pose diagnostic variants are not production quality settings."
+  ],
+  "loading": {
+    "timings": {
+      "stage1": 181,
+      "realism": 8,
+      "logo": 9,
+      "district": 66,
+      "pbrMaps": 176,
+      "wings": 23,
+      "panels": 28,
+      "reception": 12,
+      "lounge": 43,
+      "stair": 3,
+      "plants": 18,
+      "criticalScene": 383,
+      "hdri": 4313,
+      "shaderCompilation": 7123,
+      "programsBeforePrewarm": 56,
+      "textureUploads": 508,
+      "prewarmFrame": 1792,
+      "prewarm": 2306,
+      "programsAfterPrewarm": 65,
+      "shaderFirstUse": 7,
+      "criticalReady": 9840
+    },
+    "renderer": "ANGLE (Intel, Intel(R) UHD Graphics 620 (0x00005917) Direct3D11 vs_5_0 ps_5_0, D3D11)"
+  },
+  "publicInventory": 6,
+  "mobile": {
+    "emulated": true,
+    "benchmark": {
+      "variant": "original",
+      "position": [
+        0,
+        2.35,
+        4.7
+      ],
+      "cpuMeanMs": 16.688095229012625,
+      "gpuMeanMs": 20.47908175,
+      "frameMeanMs": 20.89999999318804,
+      "p95Ms": 32.69999980926514,
+      "peakCalls": 201,
+      "peakTriangles": 273442,
+      "drawClasses": {
+        "offscreen:opaque": 92,
+        "screen:opaque": 92,
+        "screen:transmission": 4,
+        "screen:alpha": 3
+      },
+      "dpr": 1.15,
+      "transmissionScale": 1,
+      "glError": 0
+    }
+  },
+  "publicAdminLink": false
+}

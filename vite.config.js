@@ -5,9 +5,14 @@ import { defineConfig } from 'vite';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
 
-export default defineConfig({
-  base: '/showroom/',
+export default defineConfig(({ command, isPreview }) => ({
+  base: command === 'serve' && !isPreview ? '/' : '/showroom/',
   publicDir: false,
+  build: {
+    rollupOptions: {
+      input: { showroom: resolve(root, 'index.html'), admin: resolve(root, 'admin', 'index.html') },
+    },
+  },
   plugins: [{
     name: 'copy-showroom-photos',
     closeBundle() {
@@ -22,4 +27,4 @@ export default defineConfig({
       cpSync(resolve(root, 'sw.js'), resolve(root, 'dist', 'sw.js'));
     },
   }],
-});
+}));

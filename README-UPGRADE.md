@@ -1,6 +1,6 @@
 # AUTO HAUS GROUP: realism + cinematic arrival upgrade
 
-The camera-only audit at the end of this file describes the current implementation. Earlier performance sections record historical configurations, including temporary quality reductions that are no longer active. Current intro DPR is not reduced, and physical glass uses full-resolution transmission throughout.
+The production-quality audit at the end of this file describes the latest changes and acceptance limits. Earlier sections record historical configurations, including temporary quality reductions that are no longer active. Current intro DPR is not reduced, and physical glass uses full-resolution transmission throughout.
 
 Two routes, both included. They link to each other.
 
@@ -137,3 +137,100 @@ node scripts/profile-intro.mjs --repeat --summary
 The camera regression covers fresh/reload completion, cache- and service-worker-bypassed hard reload with Skip, intro navigation lock, duplicate intro requests, transform-preserving resize during/after intro, exact stopped handoff, Inventory/Home, and Exterior-to-interior. Reports are written separately in the OS temporary directory. Full WebGL tracing and >40 ms warnings are opt-in test instrumentation, not a second production render loop.
 
 Protected-file hashes verify that UI, WhatsApp, inventory, assets/material helpers, lighting helpers, cache behavior and renderer/DPR settings remain unchanged. Scene-building code and cloud visuals are unchanged. Glass remains transmission 1, roughness 0.006, thickness 0.008, transmission scale 1. No commit or push was made.
+
+## Production-Quality Audit: 2026-10-19
+
+**Status: improvements implemented and locally verified, not a stable-60-FPS or physical-phone production certification.** Loading remains noticeable and occasional long frames remain. No commit, push or deployment was made.
+
+### Safety and Baseline
+
+- The complete pre-quality working tree, including the unfinished admin integration, was archived outside the project as `../showroom-backups/showroom-before-quality-20261019-160707.tar`. Dependencies, build output and Git metadata were excluded. SHA256: `A863017D1855D4B651308578B95E52D1D26402D6F4A4655F1BAEE40E50C22CE0`. Restore into a separate directory, not over current work.
+- Recent rendering history consists of `47985ef` (2026-10-15, "new update") and the initial commit. Measurements below compare against the saved working tree, not a checkout that would discard the newer admin work.
+- Hashes against that archive confirm 15 protected files unchanged: deployment/runtime configuration, package manifests, public Supabase configuration, admin application files, all three SQL migrations and the existing main README. All 26 original image/HDR assets are unchanged. No authentication, database policy, environment-file or deployment changes were made in this quality pass.
+
+### Actual Cause and Rendering Change
+
+The sustained bottleneck was repeated opaque shading around physical transmission, not competing camera controls. The original front-facade probe drew 243 opaque meshes offscreen and the same 243 onscreen, plus 26 transmission and 40 alpha draws: 552 calls and 534,750 triangles. GPU time was approximately 129 ms. Hiding glass diagnostically reduced it to about 54 ms; disabling normal maps reduced it to about 89 ms. Neither diagnostic reduction ships.
+
+[js/frame-renderer.js](js/frame-renderer.js) renders opaque HDR color and depth once, then reuses them inside Three.js's normal transmission/screen ordering. It retains physical glass, depth occlusion, alpha surfaces, tone mapping and display-space fog. It is installed by [js/showroom.js](js/showroom.js), refreshes its material cache when scene groups change, and disposes its resources with the showroom.
+
+Stock rendering remains the fallback for unsupported float-color/four-sample RGBA16F targets, pending shadow updates, render-target/override renders, and views without visible transmission. Optional postprocessing keeps its existing renderer. The unsupported-format branches are exercised by the audit.
+
+No objects, furnishings, plants, normal maps, reflections or lights were removed. DPR remains the original device-capped value, at least 1 during the desktop intro and 1.15 in the phone emulation. Transmission resolution remains 1; facade glass remains transmission 1, roughness 0.006, thickness 0.008. Existing marble, lighting, cached sun shadows and HDRI are retained.
+
+**Memory tradeoff:** the extra full-resolution HDR/depth target and four-sample buffers can require approximately 60 bytes per drawing-buffer pixel: about 61 MB at 1280x800 or 26 MB at the tested phone buffer, excluding driver overhead. Scene vertex/index buffer estimates increase from 4.63 to 6.62 MB with physical-scale boards and nearby facade detail. The approximately 135.8 MB scene-texture estimate is unchanged and excludes render targets. This is not a measured total GPU-memory figure; mobile tile-based GPU bandwidth and memory behavior still need physical-device validation.
+
+### Measured Results
+
+Native headless Edge/Chromium, Intel UHD 620, ANGLE D3D11, 8 hardware threads. WebGL runs were serial. The mobile viewport is 390x844 with device scale 2, touch emulation and unchanged capped renderer DPR 1.15, not a phone GPU. Fresh means a fresh browser context, not a pristine OS/driver cache. Times include the complete authored approximately 18.4-second cinematic; heavy GL tracing is identified separately.
+
+| Run | Fresh / repeat FPS | Fresh / repeat p95 | Fresh / repeat maximum | Peak calls |
+|---|---:|---:|---:|---:|
+| Saved original desktop source | 15.2 / 21.3 | 124.6 ms / not recorded | 342.8 / 123.5 ms | 501 |
+| Final scene, stock renderer control | 20.8 / 20.3 | 76.8 / 92.7 ms | 240.2 / 220.6 ms | 501 |
+| Same final scene, opaque reuse | 27.0 / 26.2 | 52.8 / 61.8 ms | 66.8 / 69.1 ms | 283 |
+| Final production bundle, GL tracing | 27.7 / 23.7 | 65.5 / 71.9 ms | 206.3 / 1744.1 ms | 283 |
+| Saved original production bundle, mobile emulation | 28.7 / 29.8 | 52.7 / 53.6 ms | 427.1 / 104.5 ms | 504 |
+| Final production bundle, mobile emulation | 42.2 / 43.4 | 38.6 / 34.9 ms | 101.5 / 109.8 ms | 285 |
+
+The matched final-scene desktop pair isolates the renderer change from added district geometry: average GPU time falls from 42.5 to 32.1 ms, render CPU from 29.4 to 16.1 ms, peak draws by 43.5%, and submitted triangles from 546,358 to 273,646. This is less repeated work, not removed architecture. The final mobile-emulation approach still averages only 36 FPS; entrance averages 52.4 FPS.
+
+Run-to-run variance is material: another final-source run measured 17.9 / 25.0 FPS. The table is evidence, not a guarantee. The 1744 ms repeat interval in the traced production run remains unresolved and prevents a stutter-free claim. No stable 60 FPS acceptance was achieved.
+
+### Loading and Camera
+
+- Startup is **not demonstrably faster**. The saved original desktop source loaded in 12.43 / 4.60 seconds fresh/repeat; the matched final-source pair was 17.64 / 10.52 seconds stock versus 16.77 / 11.00 seconds with reuse. Production mobile-emulation loading was 16.11 / 9.93 seconds before and 16.49 / 11.09 seconds after. The traced desktop production run took 23.21 / 9.67 seconds.
+- A concurrent shader-preparation experiment was rejected and removed: the corrected version retained 67 programs but did not improve the approximately 10.3-second readiness baseline. Original sequential preparation remains. No original HDRI or PBR images were reduced or replaced to manufacture a loading result. Mobile production critical encoded resources increase only from 13,591,551 to 13,599,625 bytes.
+- The final uninduced production trace records zero shader compilations, program links, texture uploads and buffer uploads during movement, with 67 programs stable throughout. One approximately 0.7 KB icon-sprite fetch occurred near the UI handoff; there is no claim that literally no request can occur. The approximately 7.3 MB HDRI and shader/prewarm work remain before movement.
+- The existing single camera owner, quaternion paths, cancellation, collision checks and exact Home handoff remain. Full cloud, aerial, frontal, doors, entry and reception stages complete in the production profiler. Final 30/60/120 FPS complete/Skip simulations and real GSAP route endpoint checks pass. The earlier native renderer-stage regression also passed ownership, resize, reload/Skip, Exterior/re-entry and section transitions.
+- No OrbitControls, drag-to-orbit or free-camera touch controller exists in this application. None was invented or claimed fixed. Existing touch navigation was tested with actual Playwright taps; rapid destination replacement settles on the last requested section.
+
+### Realism and UI Changes
+
+- [js/materials.js](js/materials.js) and [js/showroom.js](js/showroom.js): reuse the existing oak color/normal/ARM/AO maps with physical 0.9-metre repeats, grain along board length, deterministic offsets and matte roughness 0.92. Rounded and instanced boards receive size-aware UVs; merged boards avoid extra per-board draws.
+- [js/district.js](js/district.js): add shared nearest-row window reveals, sills, headers, mullions, floor ledges, coping and shop entrances. Facade canvases gain small window recess shadows; awnings/uprights use appropriate existing finishes. Detail stays in shared geometry/material buckets; distant layout, skyline, trees and roads remain, without new image downloads.
+- [css/style.css](css/style.css): replace absolute loader placement with responsive grid rows, wrapping status text and 44-pixel preference/Skip targets. The loader owns the top layer; leaving text hides before overlapping showroom chrome. Brand, copy, progress and saved Skip preference remain.
+- [index.html](index.html), [js/main.js](js/main.js), [js/story.js](js/story.js), [js/content-utils.js](js/content-utils.js) and [video-story/index.html](video-story/index.html): replace UI arrow glyphs with fixed-size Lucide SVG symbols while retaining handlers and accessible labels. The small [assets/logo/icons.svg](assets/logo/icons.svg) sprite and [assets/logo/icons-LICENSE.txt](assets/logo/icons-LICENSE.txt) ship through the existing asset-copy path. Attribution is in [assets/README.md](assets/README.md). No icon JS bundle or dependency was added to public startup.
+
+### Verification and Evidence
+
+The final [scripts/quality-audit.mjs](scripts/quality-audit.mjs) run passed with zero console errors and failed requests. It checks desktop and touch-emulated navigation to all six destinations, collision-free endpoints, search/no-results/reset/marque filters, six retained vehicles, gallery photo/vehicle paging, email, honest unconfigured WhatsApp behavior, last-request-wins navigation, zero idle renders over 12 frames, and nonblank GL pixel readback. The admin route remains HTTP 200 with its honest unconfigured state.
+
+All 12 loader combinations pass overlap, top-layer and horizontal-overflow checks: loading/ready at 1280x800, 390x844, 360x640, 320x568, 844x390 and 568x320. Same-instance stock/reuse pixel comparisons across six poses have mean channel differences below 1 on a 0-255 scale; at most 2.44% of pixels differ by more than 12 in any channel. Output is not bit-identical. Screenshots were visually reviewed for framing, retained glass/stone, texture continuity and unobstructed controls.
+
+Production build succeeds for both entries under the existing `/showroom/` configuration, including admin, icons and attribution. The existing large-chunk warning remains. All 12 local admin foundation checks pass after correcting one test's RLS expectation from "throw" to "zero updated rows" in [scripts/test-admin.mjs](scripts/test-admin.mjs). No policy was changed. Live Supabase authentication, storage, recovery and deployment remain untested and unconfigured.
+
+Before/after captures and raw reports are preserved in [patches/quality-2026-10-19](patches/quality-2026-10-19), outside the folders copied into production assets:
+
+| View | Before | After |
+|---|---|---|
+| Exterior | [Before](patches/quality-2026-10-19/exterior-front-before.png) | [After](patches/quality-2026-10-19/exterior-front-after.png) |
+| Aerial | [Before](patches/quality-2026-10-19/aerial-building-before.png) | [After](patches/quality-2026-10-19/aerial-building-after.png) |
+| Glass | [Before](patches/quality-2026-10-19/glass-facade-before.png) | [After](patches/quality-2026-10-19/glass-facade-after.png) |
+| Main interior | [Before](patches/quality-2026-10-19/main-interior-before.png) | [After](patches/quality-2026-10-19/main-interior-after.png) |
+| Wood/reception | [Before](patches/quality-2026-10-19/wood-reception-before.png) | [After](patches/quality-2026-10-19/wood-reception-after.png) |
+| Surroundings | [Before](patches/quality-2026-10-19/surroundings-before.png) | [After](patches/quality-2026-10-19/surroundings-after.png) |
+| Phone loading | [Before](patches/quality-2026-10-19/loading-390x844-before.png) | [After](patches/quality-2026-10-19/loading-390x844-after.png) |
+| Inventory | [Before](patches/quality-2026-10-19/inventory-before.png) | [After](patches/quality-2026-10-19/inventory-after.png) |
+| Phone interior | [Before](patches/quality-2026-10-19/mobile-interior-before.png) | [After](patches/quality-2026-10-19/mobile-interior-after.png) |
+
+The saved original main-interior capture includes its loader fade and is not a clean pixel comparator. Loader images intentionally force a layout state; their displayed percentage is not a loading measurement. Final captures disable CSS transitions for stable review. Quantitative rendering comparisons toggle stock/reuse within the same final scene, avoiding those UI differences.
+
+Raw metrics: [desktop-original-baseline.json](patches/quality-2026-10-19/desktop-original-baseline.json), [desktop-final-stock.json](patches/quality-2026-10-19/desktop-final-stock.json), [desktop-final-reuse.json](patches/quality-2026-10-19/desktop-final-reuse.json), [desktop-built-trace.json](patches/quality-2026-10-19/desktop-built-trace.json), [mobile-built-before.json](patches/quality-2026-10-19/mobile-built-before.json), [mobile-built-after.json](patches/quality-2026-10-19/mobile-built-after.json), [visual-functional-after.json](patches/quality-2026-10-19/visual-functional-after.json).
+
+### Reproduce and Remaining Gates
+
+```powershell
+npm run build
+node scripts/profile-intro.mjs --built --repeat --summary
+node scripts/profile-intro.mjs --built --mobile --repeat --summary
+node scripts/profile-intro.mjs --built --trace-gl --summary
+node scripts/profile-intro.mjs http://127.0.0.1:5174/ --stock-renderer --repeat --summary
+node scripts/profile-intro.mjs --camera-check
+node scripts/quality-audit.mjs http://127.0.0.1:5174/ --after --scene-only --pipeline-probe --functional --mobile
+npm run test:admin
+```
+
+The quality audit requires a supported native Chromium GPU and an existing local server. Native source serving still relies on remote ESM imports; connection-refused/remote-load-timeout attempts and one transient network-error audit were not counted as passes. The final clean functional/visual audit used Vite's local dependencies. Production performance runs used local production bundles. No network timeout or real-device performance issue is claimed fixed.
+
+Before production acceptance: test physical iPhone/Safari and Android GPUs, portrait/landscape interaction, context recovery and render-target memory pressure; investigate the remaining long-frame outliers and startup cost; verify live admin flows only after approved Supabase setup. Stable 60 FPS and faster loading remain unmet requirements, not hidden by reduced resolution or removed detail.

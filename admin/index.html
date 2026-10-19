@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="theme-color" content="#17231e" />
+    <title>AUTO HAUS GROUP | Administration</title>
+    <script type="importmap">
+      {"imports":{"@supabase/supabase-js":"https://esm.sh/@supabase/supabase-js@2.118.0?bundle","lucide":"https://esm.sh/lucide@1.59.0?bundle&exports=createIcons,LayoutDashboard,CarFront,FileText,LogOut,Plus,Search,RefreshCw,ArrowLeft,Trash2,Save,Upload,Image,Check,ChevronUp,ChevronDown,ExternalLink,Eye,EyeOff,LoaderCircle,X,Mail,LockKeyhole"}}
+    </script>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://esm.sh; worker-src 'self' blob:; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' blob: data: https://*.supabase.co http://localhost:* http://127.0.0.1:*; connect-src 'self' https://*.supabase.co https://esm.sh http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:*; object-src 'none'; base-uri 'self'; form-action 'none'; frame-src 'none'" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <div id="admin-app" aria-busy="true"><div class="boot-status" role="status">Connecting...</div></div>
+    <div id="notification" role="status" aria-live="polite" hidden></div>
+    <dialog id="confirm-dialog" aria-labelledby="confirm-title" aria-describedby="confirm-description">
+      <form method="dialog" id="confirm-form">
+        <h2 id="confirm-title"></h2><p id="confirm-description"></p>
+        <div class="dialog-actions"><button class="button secondary" value="cancel">Cancel</button><button class="button danger" id="confirm-action" value="confirm">Delete</button></div>
+      </form>
+    </dialog>
+    <noscript><p class="boot-status">JavaScript is required to sign in.</p></noscript>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,4181 @@
+{
+  "timings": {
+    "stage1": 359,
+    "realism": 8,
+    "logo": 8,
+    "district": 166,
+    "pbrMaps": 262,
+    "wings": 19,
+    "panels": 23,
+    "reception": 9,
+    "lounge": 35,
+    "stair": 2,
+    "plants": 19,
+    "criticalScene": 447,
+    "hdri": 3960,
+    "shaderCompilation": 6484,
+    "programsBeforePrewarm": 58,
+    "textureUploads": 931,
+    "prewarmFrame": 4052,
+    "prewarm": 4989,
+    "programsAfterPrewarm": 67,
+    "shaderFirstUse": 22,
+    "criticalReady": 11958
+  },
+  "loadingMs": 16767.60000038147,
+  "duration": 18450,
+  "aerial": {
+    "frames": 264,
+    "fps": 29.8,
+    "p95ms": 53.7,
+    "maxMs": 66.7999997138977,
+    "renderCPUms": 16.2,
+    "gpuMeanMs": 27.7,
+    "gpuPeakMs": 54.3,
+    "peakCalls": 283,
+    "peakTriangles": 273646,
+    "peakGeometries": 196,
+    "peakTextures": 76,
+    "firstPrograms": 67,
+    "lastPrograms": 67,
+    "minDPR": 1
+  },
+  "approach": {
+    "frames": 116,
+    "fps": 23,
+    "p95ms": 52.8,
+    "maxMs": 60.80000019073486,
+    "renderCPUms": 20.5,
+    "gpuMeanMs": 39.5,
+    "gpuPeakMs": 47.7,
+    "peakCalls": 271,
+    "peakTriangles": 262542,
+    "peakGeometries": 196,
+    "peakTextures": 76,
+    "firstPrograms": 67,
+    "lastPrograms": 67,
+    "minDPR": 1
+  },
+  "entrance": {
+    "frames": 118,
+    "fps": 26.1,
+    "p95ms": 47.1,
+    "maxMs": 51.40000009536743,
+    "renderCPUms": 11.7,
+    "gpuMeanMs": 34.8,
+    "gpuPeakMs": 43.5,
+    "peakCalls": 90,
+    "peakTriangles": 124630,
+    "peakGeometries": 196,
+    "peakTextures": 76,
+    "firstPrograms": 67,
+    "lastPrograms": 67,
+    "minDPR": 1
+  },
+  "full": {
+    "frames": 498,
+    "fps": 27,
+    "p95ms": 52.8,
+    "maxMs": 66.7999997138977,
+    "renderCPUms": 16.1,
+    "gpuMeanMs": 32.1,
+    "gpuPeakMs": 54.3,
+    "peakCalls": 283,
+    "peakTriangles": 273646,
+    "peakGeometries": 196,
+    "peakTextures": 76,
+    "firstPrograms": 67,
+    "lastPrograms": 67,
+    "minDPR": 1
+  },
+  "secondaryAtStart": [],
+  "slowJobs": [],
+  "slowFrames": [],
+  "slowIntervals": [],
+  "criticalBytes": 13489498,
+  "duplicateCriticalAssets": [],
+  "largest": [
+    {
+      "url": "http://localhost:8002/assets/environment/urban_street_01_2k.hdr",
+      "bytes": 7286632,
+      "transfer": 0
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/asphalt-normal.webp",
+      "bytes": 1929266,
+      "transfer": 1929566
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/asphalt-arm.webp",
+      "bytes": 1074206,
+      "transfer": 1074506
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-arm.webp",
+      "bytes": 950632,
+      "transfer": 950932
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/asphalt-color-1k.webp",
+      "bytes": 545250,
+      "transfer": 545550
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-normal.webp",
+      "bytes": 394732,
+      "transfer": 395032
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-ao.webp",
+      "bytes": 389130,
+      "transfer": 389430
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.core.js",
+      "bytes": 263447,
+      "transfer": 263747
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-color-1k.webp",
+      "bytes": 137234,
+      "transfer": 137534
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.module.js",
+      "bytes": 130624,
+      "transfer": 130924
+    }
+  ],
+  "resources": [
+    {
+      "url": "http://localhost:8002/css/style.css",
+      "bytes": 37719,
+      "transfer": 38019
+    },
+    {
+      "url": "http://localhost:8002/assets/logo/logo-white.png",
+      "bytes": 25836,
+      "transfer": 26136
+    },
+    {
+      "url": "http://localhost:8002/js/main.js",
+      "bytes": 35328,
+      "transfer": 35628
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap",
+      "bytes": 1012,
+      "transfer": 1312
+    },
+    {
+      "url": "http://localhost:8002/assets/logo/icons.svg#arrow-up-right",
+      "bytes": 698,
+      "transfer": 998
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/gsap@3.14.2/index.js",
+      "bytes": 274,
+      "transfer": 574
+    },
+    {
+      "url": "http://localhost:8002/js/cars.js",
+      "bytes": 2773,
+      "transfer": 3073
+    },
+    {
+      "url": "http://localhost:8002/js/showroom.js",
+      "bytes": 117033,
+      "transfer": 117333
+    },
+    {
+      "url": "http://localhost:8002/js/content-utils.js",
+      "bytes": 1759,
+      "transfer": 2059
+    },
+    {
+      "url": "http://localhost:8002/js/site-config.js",
+      "bytes": 1422,
+      "transfer": 1722
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.module.js",
+      "bytes": 130624,
+      "transfer": 130924
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/geometries/RoundedBoxGeometry.js",
+      "bytes": 1935,
+      "transfer": 2235
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/utils/BufferGeometryUtils.js",
+      "bytes": 8962,
+      "transfer": 9262
+    },
+    {
+      "url": "http://localhost:8002/js/textures.js",
+      "bytes": 9993,
+      "transfer": 10293
+    },
+    {
+      "url": "http://localhost:8002/js/texture-library.js",
+      "bytes": 7031,
+      "transfer": 7331
+    },
+    {
+      "url": "http://localhost:8002/js/materials.js",
+      "bytes": 5284,
+      "transfer": 5584
+    },
+    {
+      "url": "http://localhost:8002/js/plants.js",
+      "bytes": 12524,
+      "transfer": 12824
+    },
+    {
+      "url": "http://localhost:8002/js/district.js",
+      "bytes": 26399,
+      "transfer": 26699
+    },
+    {
+      "url": "http://localhost:8002/js/frame-renderer.js",
+      "bytes": 6433,
+      "transfer": 6733
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/gsap@3.14.2/gsap-core.js",
+      "bytes": 50467,
+      "transfer": 50767
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/gsap@3.14.2/CSSPlugin.js",
+      "bytes": 19320,
+      "transfer": 19620
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.core.js",
+      "bytes": 263447,
+      "transfer": 263747
+    },
+    {
+      "url": "http://localhost:8002/js/story.js",
+      "bytes": 10342,
+      "transfer": 10642
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/loaders/HDRLoader.js",
+      "bytes": 3806,
+      "transfer": 4106
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/asphalt-color-1k.webp",
+      "bytes": 545250,
+      "transfer": 545550
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/asphalt-normal.webp",
+      "bytes": 1929266,
+      "transfer": 1929566
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/asphalt-arm.webp",
+      "bytes": 1074206,
+      "transfer": 1074506
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-color-1k.webp",
+      "bytes": 137234,
+      "transfer": 137534
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-normal.webp",
+      "bytes": 394732,
+      "transfer": 395032
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-arm.webp",
+      "bytes": 950632,
+      "transfer": 950932
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-ao.webp",
+      "bytes": 389130,
+      "transfer": 389430
+    },
+    {
+      "url": "http://localhost:8002/favicon.ico",
+      "bytes": 0,
+      "transfer": 300
+    },
+    {
+      "url": "http://localhost:8002/assets/environment/urban_street_01_2k.hdr",
+      "bytes": 7286632,
+      "transfer": 0
+    },
+    {
+      "url": "http://localhost:8002/js/cars3d.js",
+      "bytes": 1995,
+      "transfer": 0
+    }
+  ],
+  "memory": {
+    "geometries": 196,
+    "textures": 76,
+    "geometryBytes": 6618192,
+    "textureBytesEstimate": 135812437,
+    "renderTargetsExcluded": true
+  },
+  "lights": [
+    {
+      "type": "HemisphereLight",
+      "castShadow": false,
+      "mapSize": null
+    },
+    {
+      "type": "DirectionalLight",
+      "castShadow": true,
+      "mapSize": [
+        512,
+        512
+      ]
+    },
+    {
+      "type": "SpotLight",
+      "castShadow": false,
+      "mapSize": null
+    },
+    {
+      "type": "SpotLight",
+      "castShadow": false,
+      "mapSize": null
+    },
+    {
+      "type": "SpotLight",
+      "castShadow": false,
+      "mapSize": null
+    }
+  ],
+  "transparentMaterials": 13,
+  "transmissionMaterials": 26,
+  "postProcessing": false,
+  "renderer": "ANGLE (Intel, Intel(R) UHD Graphics 620 (0x00005917) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "focused": true,
+  "hidden": false,
+  "finalCamera": [
+    0,
+    2.35,
+    4.7
+  ],
+  "glass": {
+    "roughness": 0.006,
+    "transmission": 1,
+    "thickness": 0.008,
+    "bufferScale": 1
+  },
+  "collision": null,
+  "glError": 0,
+  "browser": "155.0.4283.62",
+  "mobileEmulation": false,
+  "stockRendererDiagnostic": false,
+  "snapshotDirectory": null,
+  "headless": true,
+  "cameraAudit": {
+    "isIntroPlaying": false,
+    "navigationLocked": false,
+    "motionActive": false,
+    "finalTarget": [
+      0,
+      2,
+      -1.4
+    ],
+    "controlsPresent": false,
+    "cameraUpdateMeanMs": 0.11519998836517334,
+    "frameSpikes": [
+      {
+        "dt": 45.700000286102295,
+        "progress": 0.0032008938619357856,
+        "step": 0.00442862101407403,
+        "angle": 0.000030365773331133727,
+        "dpr": 1,
+        "camera": [
+          22.000429614870335,
+          103.98969403386619,
+          38.000429500804756
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 66.7999997138977,
+        "progress": 0.007678720997849782,
+        "step": 0.016450968992790707,
+        "angle": 0.00011276969996420618,
+        "dpr": 1,
+        "camera": [
+          22.00247075107738,
+          103.94085936778862,
+          38.002467003609624
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.700000286102295,
+        "progress": 0.012528431083573028,
+        "step": 0.02235563632857537,
+        "angle": 0.00015315663424218427,
+        "dpr": 1,
+        "camera": [
+          22.00658635518671,
+          103.8430310812631,
+          38.00656007885947
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 47.90000009536743,
+        "progress": 0.14722222941772467,
+        "step": 0.33600143534472177,
+        "angle": 0.005066866335089426,
+        "dpr": 1,
+        "camera": [
+          22.960319261195203,
+          84.08874407321517,
+          38.885642919721384
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 57.69999980926514,
+        "progress": 0.19366666677674715,
+        "step": 0.4426031165353803,
+        "angle": 0.002438803504013162,
+        "dpr": 1,
+        "camera": [
+          22.80480782363067,
+          73.06736075988137,
+          39.106102058778376
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.09999990463257,
+        "progress": 0.22175555555904383,
+        "step": 0.4917179563921685,
+        "angle": 0.0024379149582910284,
+        "dpr": 1,
+        "camera": [
+          22.357098957329207,
+          66.18467139410478,
+          39.09280883699321
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.69999980926514,
+        "progress": 0.2242000000017531,
+        "step": 0.623627954187913,
+        "angle": 0.0031052316207878725,
+        "dpr": 1,
+        "camera": [
+          22.307125175263145,
+          65.56311770761074,
+          39.0835643166549
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43,
+        "progress": 0.22866111112112883,
+        "step": 0.538485759524687,
+        "angle": 0.0027256867835354563,
+        "dpr": 1,
+        "camera": [
+          22.211940712267477,
+          64.41807762414341,
+          39.06251307227632
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.09999990463257,
+        "progress": 0.2310500000091047,
+        "step": 0.6215141346590329,
+        "angle": 0.0031825095664811142,
+        "dpr": 1,
+        "camera": [
+          22.158959494357028,
+          63.79897566958429,
+          39.04889029756744
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 53.19999980926514,
+        "progress": 0.23328888888140434,
+        "step": 0.58654599624598,
+        "angle": 0.0030480381575531054,
+        "dpr": 1,
+        "camera": [
+          22.108101595823,
+          63.2148146385392,
+          39.03455259631391
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.80000019073486,
+        "progress": 0.23623888890187147,
+        "step": 0.7790642860010063,
+        "angle": 0.004130402232649504,
+        "dpr": 1,
+        "camera": [
+          22.03940465848903,
+          62.439077869885615,
+          39.01323691471371
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.799999713897705,
+        "progress": 0.23850000000194682,
+        "step": 0.5934237503436428,
+        "angle": 0.003106157765734979,
+        "dpr": 1,
+        "camera": [
+          21.986353849994423,
+          61.84830442170542,
+          38.99523435613815
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.299999713897705,
+        "progress": 0.24651666667820923,
+        "step": 0.5584015204526825,
+        "angle": 0.0028474148450125907,
+        "dpr": 1,
+        "camera": [
+          21.807290042021272,
+          59.820549525062056,
+          38.92294007755895
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 47.90000009536743,
+        "progress": 0.2508999999900413,
+        "step": 0.5106609414541656,
+        "angle": 0.002687972363728941,
+        "dpr": 1,
+        "camera": [
+          21.708888307496085,
+          58.702350601626634,
+          38.87617564043861
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.59999990463257,
+        "progress": 0.25357222223332,
+        "step": 0.6885026590570639,
+        "angle": 0.0036649480521791333,
+        "dpr": 1,
+        "camera": [
+          21.647742765516142,
+          58.01727367344467,
+          38.84508325073645
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.40000009536743,
+        "progress": 0.25598888889988863,
+        "step": 0.6250949135892269,
+        "angle": 0.0033558723544454445,
+        "dpr": 1,
+        "camera": [
+          21.591257305622115,
+          57.39545133007425,
+          38.81525009634398
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.40000009536743,
+        "progress": 0.25840555556647643,
+        "step": 0.6274922866269679,
+        "angle": 0.003382744026831929,
+        "dpr": 1,
+        "camera": [
+          21.53330317154604,
+          56.771434730312095,
+          38.78376722256936
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.90000009536743,
+        "progress": 0.2608611111113713,
+        "step": 0.6401361850034465,
+        "angle": 0.0034515199157500284,
+        "dpr": 1,
+        "camera": [
+          21.472560752863945,
+          56.13507871067314,
+          38.75006692297597
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.69999980926514,
+        "progress": 0.26313888888910086,
+        "step": 0.5961738156048466,
+        "angle": 0.0032028038396393357,
+        "dpr": 1,
+        "camera": [
+          21.414222592156015,
+          55.54267454476994,
+          38.71724647754044
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.89999961853027,
+        "progress": 0.2677166666721052,
+        "step": 0.5249670961077189,
+        "angle": 0.0027667152570064364,
+        "dpr": 1,
+        "camera": [
+          21.28990880513036,
+          54.34571533766232,
+          38.64667678382215
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.80000019073486,
+        "progress": 0.27012222221173887,
+        "step": 0.637583698934874,
+        "angle": 0.0033098868768531103,
+        "dpr": 1,
+        "camera": [
+          21.220100433594254,
+          53.713202289292404,
+          38.60709133128274
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.90000009536743,
+        "progress": 0.2726944444445341,
+        "step": 0.6850946503459837,
+        "angle": 0.0034820919395732444,
+        "dpr": 1,
+        "camera": [
+          21.141467597083665,
+          53.034076075231425,
+          38.56282913149346
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 48.09999990463257,
+        "progress": 0.2771666666667267,
+        "step": 0.5887012795997993,
+        "angle": 0.00283082596815479,
+        "dpr": 1,
+        "camera": [
+          20.99349228961579,
+          51.84617282290152,
+          38.48104953706938
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 64.80000019073486,
+        "progress": 0.2798388888836379,
+        "step": 0.7225988681467015,
+        "angle": 0.003346871025311213,
+        "dpr": 1,
+        "camera": [
+          20.89731842718672,
+          51.13188030015599,
+          38.42922382547568
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.700000286102295,
+        "progress": 0.2854888888995136,
+        "step": 0.5608602128494042,
+        "angle": 0.0022973270877145882,
+        "dpr": 1,
+        "camera": [
+          20.671716941750724,
+          49.60990014924203,
+          38.312232691004006
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.09999990463257,
+        "progress": 0.29843888889419595,
+        "step": 0.6046284144281548,
+        "angle": 0.001465709498119172,
+        "dpr": 1,
+        "camera": [
+          20.01196491207244,
+          46.055347413096314,
+          38.005145348748094
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.90000009536743,
+        "progress": 0.31323888889948753,
+        "step": 0.6409966636871455,
+        "angle": 0.002228043091557527,
+        "dpr": 1,
+        "camera": [
+          19.02782767412509,
+          41.72303531641886,
+          37.52531262586967
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.40000009536743,
+        "progress": 0.3218333333333344,
+        "step": 0.6960688465682077,
+        "angle": 0.002822255229819766,
+        "dpr": 1,
+        "camera": [
+          18.36405122251208,
+          39.13360525365006,
+          37.187326879065566
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 47,
+        "progress": 0.3240777777830768,
+        "step": 0.710721041506901,
+        "angle": 0.00303662510569931,
+        "dpr": 1,
+        "camera": [
+          18.176041480400553,
+          38.454406525490974,
+          37.09531696993133
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.59999990463257,
+        "progress": 0.33287222221162616,
+        "step": 0.6724465606814944,
+        "angle": 0.00366790375708388,
+        "dpr": 1,
+        "camera": [
+          17.36932864674122,
+          35.80063739959671,
+          36.73132503801492
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.40000009536743,
+        "progress": 0.33524444444974294,
+        "step": 0.7553542865746566,
+        "angle": 0.004413015311562697,
+        "dpr": 1,
+        "camera": [
+          17.13038420872322,
+          35.09065102574018,
+          36.63444881428058
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 48,
+        "progress": 0.34366111111640946,
+        "step": 0.6970795049430253,
+        "angle": 0.005403997935872346,
+        "dpr": 1,
+        "camera": [
+          16.197869165270387,
+          32.61140773787216,
+          36.30704250780133
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.80000019073486,
+        "progress": 0.3463222222328187,
+        "step": 0.8378894296615895,
+        "angle": 0.007071040297043922,
+        "dpr": 1,
+        "camera": [
+          15.87285367491039,
+          31.845045888479167,
+          36.21157972364111
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41,
+        "progress": 0.35236666666136857,
+        "step": 0.6720444129243929,
+        "angle": 0.007100866461590038,
+        "dpr": 1,
+        "camera": [
+          15.074502029329976,
+          30.14633983108508,
+          36.01562085375573
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.69999980926514,
+        "progress": 0.3568388888835907,
+        "step": 0.6468604515217578,
+        "angle": 0.009520146087068727,
+        "dpr": 1,
+        "camera": [
+          14.447393669825725,
+          28.986425531011367,
+          35.903870325106006
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.200000286102295,
+        "progress": 0.359155555566152,
+        "step": 0.6873292043746839,
+        "angle": 0.010711322106412038,
+        "dpr": 1,
+        "camera": [
+          14.096744323963762,
+          28.3970933863631,
+          35.85745809916082
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.799999713897705,
+        "progress": 0.36161666666136855,
+        "step": 0.7350134698180633,
+        "angle": 0.012105277589393199,
+        "dpr": 1,
+        "camera": [
+          13.705426679996638,
+          27.776352554297215,
+          35.815077422665965
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.59999990463257,
+        "progress": 0.36808333333333343,
+        "step": 0.5946787690845688,
+        "angle": 0.011130569556407954,
+        "dpr": 1,
+        "camera": [
+          12.598458188541027,
+          26.171313723526684,
+          35.729393798509
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.19999980926514,
+        "progress": 0.3724777777724797,
+        "step": 0.6185063152279708,
+        "angle": 0.012372795762073075,
+        "dpr": 1,
+        "camera": [
+          11.79480967629657,
+          25.101830661261236,
+          35.68398410628199
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.90000009536743,
+        "progress": 0.37482222223281864,
+        "step": 0.7161052988305985,
+        "angle": 0.014740319041324505,
+        "dpr": 1,
+        "camera": [
+          11.353680880627223,
+          24.53818949843341,
+          35.66116253292101
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.700000286102295,
+        "progress": 0.37709444443384815,
+        "step": 0.6942501819793908,
+        "angle": 0.014690704223781095,
+        "dpr": 1,
+        "camera": [
+          10.920079612798975,
+          23.996463800977445,
+          35.638656435258376
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.69999980926514,
+        "progress": 0.3796333333386316,
+        "step": 0.7748571550887279,
+        "angle": 0.016827531195313526,
+        "dpr": 1,
+        "camera": [
+          10.430567954406037,
+          23.39641259984893,
+          35.61181424619306
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.200000286102295,
+        "progress": 0.38397777777247966,
+        "step": 0.5288774253846896,
+        "angle": 0.011985843886957467,
+        "dpr": 1,
+        "camera": [
+          9.587131029465715,
+          22.382318111569813,
+          35.55776983486764
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.799999713897705,
+        "progress": 0.3862500000000001,
+        "step": 0.6856412650415241,
+        "angle": 0.015767707307919706,
+        "dpr": 1,
+        "camera": [
+          9.146402113674567,
+          21.858218330763222,
+          35.52339852602168
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43,
+        "progress": 0.38867777776718143,
+        "step": 0.7274995040085055,
+        "angle": 0.016975136686590953,
+        "dpr": 1,
+        "camera": [
+          8.67834009777293,
+          21.30294097310508,
+          35.48049708461338
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 48.30000019073486,
+        "progress": 0.391077777783076,
+        "step": 0.7128909388828674,
+        "angle": 0.016833944418680514,
+        "dpr": 1,
+        "camera": [
+          8.220567257690746,
+          20.758731166853334,
+          35.43056508681814
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.90000009536743,
+        "progress": 0.39594444444444454,
+        "step": 0.6352567551772915,
+        "angle": 0.01520736719899503,
+        "dpr": 1,
+        "camera": [
+          7.316045454874951,
+          19.66931724298691,
+          35.30107489037041
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.80000019073486,
+        "progress": 0.3983833333386316,
+        "step": 0.6986144983853042,
+        "angle": 0.016734342494015793,
+        "dpr": 1,
+        "camera": [
+          6.8791572159956385,
+          19.130340544260932,
+          35.2192518965757
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.59999990463257,
+        "progress": 0.40088888888888896,
+        "step": 0.7067506383292946,
+        "angle": 0.01686175672104406,
+        "dpr": 1,
+        "camera": [
+          6.44490192073372,
+          18.581375614737073,
+          35.12149551842719
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 49.19999980926514,
+        "progress": 0.403405555566152,
+        "step": 0.6979620392372892,
+        "angle": 0.016376594621842235,
+        "dpr": 1,
+        "camera": [
+          6.026082775872372,
+          18.03473207898805,
+          35.00781888521838
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.5,
+        "progress": 0.4061277777883742,
+        "step": 0.6322328328549056,
+        "angle": 0.0140235550925847,
+        "dpr": 1,
+        "camera": [
+          5.648947812727711,
+          17.539830409797936,
+          34.89574787047124
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.60000038146973,
+        "progress": 0.4085444444550409,
+        "step": 0.5577167450988928,
+        "angle": 0.012349711479179178,
+        "dpr": 1,
+        "camera": [
+          5.3098660796293045,
+          17.108170102013048,
+          34.79705174731668
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.89999961853027,
+        "progress": 0.4110277777777778,
+        "step": 0.5749121215128247,
+        "angle": 0.012875415605211462,
+        "dpr": 1,
+        "camera": [
+          4.955350751200178,
+          16.667360738246092,
+          34.69443627973729
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.700000286102295,
+        "progress": 0.4134888888994854,
+        "step": 0.5704288790155302,
+        "angle": 0.012929194920125009,
+        "dpr": 1,
+        "camera": [
+          4.599825366044627,
+          16.233507928439924,
+          34.59069358867809
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.09999990463257,
+        "progress": 0.4159499999947019,
+        "step": 0.569899079421603,
+        "angle": 0.013077187186205153,
+        "dpr": 1,
+        "camera": [
+          4.242058005205076,
+          15.802908526981817,
+          34.48405573560793
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.69999980926514,
+        "progress": 0.4185111111005148,
+        "step": 0.5911950887317884,
+        "angle": 0.013736728515868974,
+        "dpr": 1,
+        "camera": [
+          3.8694574896714014,
+          15.35854254634386,
+          34.36908024249616
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 51.200000286102295,
+        "progress": 0.42099444444974277,
+        "step": 0.5701585408756882,
+        "angle": 0.01340970708189875,
+        "dpr": 1,
+        "camera": [
+          3.5099404821048914,
+          14.931573967572144,
+          34.252778412134056
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 56.799999713897705,
+        "progress": 0.42383333333333345,
+        "step": 0.6464827634101871,
+        "angle": 0.015388908360710088,
+        "dpr": 1,
+        "camera": [
+          3.103713211596229,
+          14.44852455291852,
+          34.112840457724445
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 51.700000286102295,
+        "progress": 0.4269944444497427,
+        "step": 0.711120835700387,
+        "angle": 0.017130092900798553,
+        "dpr": 1,
+        "camera": [
+          2.6609492122697596,
+          13.917455529570848,
+          33.94665208175249
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 54.09999990463257,
+        "progress": 0.4298611111111112,
+        "step": 0.6350728199541914,
+        "angle": 0.015444723178649814,
+        "dpr": 1,
+        "camera": [
+          2.2715989091045268,
+          13.442502697661952,
+          33.784962145357454
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 52.80000019073486,
+        "progress": 0.4328611111111112,
+        "step": 0.6528906106012315,
+        "angle": 0.0159730701963006,
+        "dpr": 1,
+        "camera": [
+          1.8801505241672978,
+          12.952697064712154,
+          33.602960075940835
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 57.299999713897705,
+        "progress": 0.4358000000052982,
+        "step": 0.6265722665207156,
+        "angle": 0.015352474745998851,
+        "dpr": 1,
+        "camera": [
+          1.5160798611677158,
+          12.480498689867675,
+          33.41041384172634
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 48.700000286102295,
+        "progress": 0.4389944444497426,
+        "step": 0.6652282310649857,
+        "angle": 0.01622140795056213,
+        "dpr": 1,
+        "camera": [
+          1.1462700597489857,
+          11.976332020664259,
+          33.18328991114036
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 58.09999990463257,
+        "progress": 0.4416833333439298,
+        "step": 0.5466823323873029,
+        "angle": 0.013168975869675721,
+        "dpr": 1,
+        "camera": [
+          0.8591645415356299,
+          11.559709269884575,
+          32.976269435127406
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 53.09999990463257,
+        "progress": 0.44492222221692407,
+        "step": 0.6424033576900494,
+        "angle": 0.015131794486924362,
+        "dpr": 1,
+        "camera": [
+          0.5467812702948234,
+          11.06779760353845,
+          32.70585923130196
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 57.59999990463257,
+        "progress": 0.4478722222116259,
+        "step": 0.5707119427823296,
+        "angle": 0.012953665722184643,
+        "dpr": 1,
+        "camera": [
+          0.29788861315677817,
+          10.629684123154677,
+          32.437864557543016
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 52.90000009536743,
+        "progress": 0.4510722222328187,
+        "step": 0.60563549185125,
+        "angle": 0.013026304136253794,
+        "dpr": 1,
+        "camera": [
+          0.07068581837721366,
+          10.165686566806965,
+          32.12182736552661
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 59.80000019073486,
+        "progress": 0.454155555566152,
+        "step": 0.5265673843878682,
+        "angle": 0.011046647010915591,
+        "dpr": 1,
+        "camera": [
+          -0.08865269076485166,
+          9.765577128326042,
+          31.818847354562283
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 53.59999990463257,
+        "progress": 0.4573388888835908,
+        "step": 0.5131342235630911,
+        "angle": 0.010183089302092847,
+        "dpr": 1,
+        "camera": [
+          -0.20432918398786837,
+          9.381044356034256,
+          31.49937869046373
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 54,
+        "progress": 0.46035000001059645,
+        "step": 0.48821824983551415,
+        "angle": 0.008885200199499512,
+        "dpr": 1,
+        "camera": [
+          -0.28098092412253406,
+          9.022528192563785,
+          31.176969430768548
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 54.799999713897705,
+        "progress": 0.46330555555555564,
+        "step": 0.4834491534731422,
+        "angle": 0.008178264339287556,
+        "dpr": 1,
+        "camera": [
+          -0.328667827370281,
+          8.67602452579666,
+          30.84322663733403
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 58.80000019073486,
+        "progress": 0.46636111111111117,
+        "step": 0.504963877729917,
+        "angle": 0.008054054312593834,
+        "dpr": 1,
+        "camera": [
+          -0.35282418110963104,
+          8.323901753019907,
+          30.482097102017317
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 54.90000009536743,
+        "progress": 0.4696222222116259,
+        "step": 0.5447360715548492,
+        "angle": 0.008326746555627191,
+        "dpr": 1,
+        "camera": [
+          -0.35453000721585215,
+          7.9554942221733365,
+          30.080836128303403
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 52.90000009536743,
+        "progress": 0.4726777777671815,
+        "step": 0.5151995860326009,
+        "angle": 0.007691469887665377,
+        "dpr": 1,
+        "camera": [
+          -0.3375027631282873,
+          7.61777275525616,
+          29.692139720820318
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 50.299999713897705,
+        "progress": 0.47561111111111115,
+        "step": 0.4978890785867363,
+        "angle": 0.007379196814902495,
+        "dpr": 1,
+        "camera": [
+          -0.30775787530281795,
+          7.300827993319752,
+          29.309314964430044
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 53.700000286102295,
+        "progress": 0.4783999999894037,
+        "step": 0.475128922573557,
+        "angle": 0.0070668162059522146,
+        "dpr": 1,
+        "camera": [
+          -0.2703854187120496,
+          7.006500669263312,
+          28.938205521181754
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 51.39999961853027,
+        "progress": 0.48138333333863165,
+        "step": 0.5085749729880827,
+        "angle": 0.0076464915294652954,
+        "dpr": 1,
+        "camera": [
+          -0.2239058673270744,
+          6.699653056241252,
+          28.53530020124226
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 57.60000038146973,
+        "progress": 0.4842833333280352,
+        "step": 0.49296437469630927,
+        "angle": 0.007529005319370611,
+        "dpr": 1,
+        "camera": [
+          -0.17556137335607958,
+          6.409732671377871,
+          28.139544146249946
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 47.69999980926514,
+        "progress": 0.4874333333439298,
+        "step": 0.5317641079252157,
+        "angle": 0.008281193498214504,
+        "dpr": 1,
+        "camera": [
+          -0.1233412175738492,
+          6.10465068459347,
+          27.707142593122228
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 56.90000009536743,
+        "progress": 0.49009444443384814,
+        "step": 0.44453698699910743,
+        "angle": 0.007071366304092962,
+        "dpr": 1,
+        "camera": [
+          -0.082462472246426,
+          5.855284278471822,
+          27.341412560873476
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 52,
+        "progress": 0.49328333332803515,
+        "step": 0.5249501521509456,
+        "angle": 0.00856362404058911,
+        "dpr": 1,
+        "camera": [
+          -0.04112528003493332,
+          5.567035237992997,
+          26.904632994677428
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 49.59999990463257,
+        "progress": 0.4961499999894036,
+        "step": 0.462931073094318,
+        "angle": 0.007805781568947592,
+        "dpr": 1,
+        "camera": [
+          -0.014460149804906397,
+          5.318184231967759,
+          26.515188099902442
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.90000009536743,
+        "progress": 0.49889444443914627,
+        "step": 0.43381645906482297,
+        "angle": 0.007628914288020612,
+        "dpr": 1,
+        "camera": [
+          -0.00126718300451234,
+          5.0894401529752535,
+          26.14681490311905
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.19999980926514,
+        "progress": 0.5015111111005148,
+        "step": 0.38686711980629507,
+        "angle": 0.006933078121090012,
+        "dpr": 1,
+        "camera": [
+          0,
+          4.889595782372766,
+          25.81556455946195
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.30000019073486,
+        "progress": 0.5040055555502575,
+        "step": 0.36134035327426095,
+        "angle": 0.006641104363579177,
+        "dpr": 1,
+        "camera": [
+          0,
+          4.708269561753346,
+          25.503014319308075
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.69999980926514,
+        "progress": 0.5065333333280353,
+        "step": 0.3729795394998736,
+        "angle": 0.007223356128507504,
+        "dpr": 1,
+        "camera": [
+          0,
+          4.526372939967467,
+          25.177395898655277
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 47.09999990463257,
+        "progress": 0.5089555555449593,
+        "step": 0.36225610381967605,
+        "angle": 0.007387433442877273,
+        "dpr": 1,
+        "camera": [
+          0,
+          4.354554328375362,
+          24.85847921758454
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.80000019073486,
+        "progress": 0.5115666666560705,
+        "step": 0.3940543981403747,
+        "angle": 0.008474042911376376,
+        "dpr": 1,
+        "camera": [
+          0,
+          4.172872345560153,
+          24.508807191517104
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.80000019073486,
+        "progress": 0.5140166666772632,
+        "step": 0.37143503448551063,
+        "angle": 0.008422680918490655,
+        "dpr": 1,
+        "camera": [
+          0,
+          4.006494989959332,
+          24.17671900987474
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.299999713897705,
+        "progress": 0.5165555555555558,
+        "step": 0.3849243254687073,
+        "angle": 0.009192652405695929,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.8390491787244985,
+          23.830123227099694
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.5,
+        "progress": 0.5189055555661521,
+        "step": 0.3547973747273022,
+        "angle": 0.00890407942003855,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.689253122840691,
+          23.508498727480898
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.90000009536743,
+        "progress": 0.5212111111217077,
+        "step": 0.34532424291509234,
+        "angle": 0.00907526904728081,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.5477670224311546,
+          23.193489971831497
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.59999990463257,
+        "progress": 0.5234722222222223,
+        "step": 0.33474702181554133,
+        "angle": 0.009179675412233886,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.414854130569126,
+          22.88626085245762
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.700000286102295,
+        "progress": 0.525794444455041,
+        "step": 0.33846515757141,
+        "angle": 0.009656022647945605,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.2849645970335675,
+          22.573711061275873
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.5,
+        "progress": 0.5281055555608538,
+        "step": 0.3301984582405491,
+        "angle": 0.009759469516460565,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.1629436435762557,
+          22.266885526579355
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.5,
+        "progress": 0.5304722222222223,
+        "step": 0.3299277911716062,
+        "angle": 0.010042880896781159,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.0460996196738273,
+          21.958340843485214
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.5,
+        "progress": 0.5349888888994854,
+        "step": 0.2896180761740867,
+        "angle": 0.009085871619757718,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.8481467070406064,
+          21.390098230402494
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.40000009536743,
+        "progress": 0.5372444444497426,
+        "step": 0.284498678177898,
+        "angle": 0.008878906460871628,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.762690559308563,
+          21.11873731814767
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.80000019073486,
+        "progress": 0.5394944444497427,
+        "step": 0.2717060680330072,
+        "angle": 0.008267961795999729,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.687049729546881,
+          20.857772469405695
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.5,
+        "progress": 0.5418666666613685,
+        "step": 0.272229611366211,
+        "angle": 0.007828870908857982,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.61827130683127,
+          20.5943745007853
+        ],
+        "clouds": false,
+        "doors": [
+          -0.0017972148046584368,
+          0.0017972148046584368
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.09999990463257,
+        "progress": 0.5441166666613685,
+        "step": 0.24366212408014945,
+        "angle": 0.006329210079915143,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.5639903564132953,
+          20.3568354321398
+        ],
+        "clouds": false,
+        "doors": [
+          -0.008646441378058074,
+          0.008646441378058074
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.5,
+        "progress": 0.5464722222222222,
+        "step": 0.23889740507568094,
+        "angle": 0.0051828765803682885,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.519164762668421,
+          20.12218114111295
+        ],
+        "clouds": false,
+        "doors": [
+          -0.021127851560781508,
+          0.021127851560781508
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.19999980926514,
+        "progress": 0.5488666666613685,
+        "step": 0.18048733731510913,
+        "angle": 0.0017574078442371807,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.4923778406993646,
+          19.94369265481055
+        ],
+        "clouds": false,
+        "doors": [
+          -0.03918588143568347,
+          0.03918588143568347
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.30000019073486,
+        "progress": 0.5511055555608537,
+        "step": 0.11183207887890961,
+        "angle": 0.0012297590907164359,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.4801180804093415,
+          19.83253460452174
+        ],
+        "clouds": false,
+        "doors": [
+          -0.06078942515988788,
+          0.06078942515988788
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.09999990463257,
+        "progress": 0.5535055555502573,
+        "step": 0.1150254076471394,
+        "angle": 0.002022039701095745,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.471496210219676,
+          19.71783278344281
+        ],
+        "clouds": false,
+        "doors": [
+          -0.08881779533099732,
+          0.08881779533099732
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.90000009536743,
+        "progress": 0.5558999999894035,
+        "step": 0.11032325298988227,
+        "angle": 0.002692471176054516,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.467209829747844,
+          19.607592831099204
+        ],
+        "clouds": false,
+        "doors": [
+          -0.12160308395534195,
+          0.12160308395534195
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.40000009536743,
+        "progress": 0.5582944444550407,
+        "step": 0.1064531565012055,
+        "angle": 0.0032903628757491423,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.4668827225879286,
+          19.5011401771634
+        ],
+        "clouds": false,
+        "doors": [
+          -0.15900030453145533,
+          0.15900030453145533
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.19999980926514,
+        "progress": 0.5605833333333332,
+        "step": 0.09863726554486914,
+        "angle": 0.003632054003662156,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.4699493938478905,
+          19.402550595150124
+        ],
+        "clouds": false,
+        "doors": [
+          -0.19887235188221825,
+          0.19887235188221825
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.40000009536743,
+        "progress": 0.5628722222116258,
+        "step": 0.09603697146292942,
+        "angle": 0.004037236558594607,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.476010661009279,
+          19.306705089631244
+        ],
+        "clouds": false,
+        "doors": [
+          -0.24259385134433764,
+          0.24259385134433764
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.59999990463257,
+        "progress": 0.5653333333333332,
+        "step": 0.10084263246270539,
+        "angle": 0.004710481985991762,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.485523201866077,
+          19.206312121309473
+        ],
+        "clouds": false,
+        "doors": [
+          -0.293695972357194,
+          0.293695972357194
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.59999990463257,
+        "progress": 0.5676000000105963,
+        "step": 0.09107030014951098,
+        "angle": 0.004607719724885227,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.4967155178260136,
+          19.11593219194031
+        ],
+        "clouds": false,
+        "doors": [
+          -0.34432440374292683,
+          0.34432440374292683
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.700000286102295,
+        "progress": 0.5699277777671814,
+        "step": 0.09210996078108087,
+        "angle": 0.004930668033354786,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.5103224565578013,
+          19.024832817115662
+        ],
+        "clouds": false,
+        "doors": [
+          -0.3996874118607344,
+          0.3996874118607344
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.19999980926514,
+        "progress": 0.5722777777777778,
+        "step": 0.09189812066558443,
+        "angle": 0.005118589058664024,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.525915780099298,
+          18.934267300262963
+        ],
+        "clouds": false,
+        "doors": [
+          -0.4588532321673515,
+          0.4588532321673515
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.30000019073486,
+        "progress": 0.5745166666772631,
+        "step": 0.08684908182188923,
+        "angle": 0.004953919048797275,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.5422154228480425,
+          18.84896147010131
+        ],
+        "clouds": false,
+        "doors": [
+          -0.5181057095197639,
+          0.5181057095197639
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.09999990463257,
+        "progress": 0.576861111111111,
+        "step": 0.09051673343419729,
+        "angle": 0.005219544274219831,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.5604899223906177,
+          18.760308654590094
+        ],
+        "clouds": false,
+        "doors": [
+          -0.5829835171269023,
+          0.5829835171269023
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.69999980926514,
+        "progress": 0.5791999999947017,
+        "step": 0.09016373564550245,
+        "angle": 0.005196276894717708,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.579644426861199,
+          18.672203012409593
+        ],
+        "clouds": false,
+        "doors": [
+          -0.650406399844357,
+          0.650406399844357
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.200000286102295,
+        "progress": 0.5815722222328186,
+        "step": 0.09160107304394734,
+        "angle": 0.005221278717205575,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.599697803104236,
+          18.582823939444733
+        ],
+        "clouds": false,
+        "doors": [
+          -0.7213482869049929,
+          0.7213482869049929
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.90000009536743,
+        "progress": 0.583861111111111,
+        "step": 0.08879702610172542,
+        "angle": 0.004961405508718482,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.619347374579919,
+          18.496228291832786
+        ],
+        "clouds": false,
+        "doors": [
+          -0.7920550472667356,
+          0.7920550472667356
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.19999980926514,
+        "progress": 0.5861499999894035,
+        "step": 0.08945992023295475,
+        "angle": 0.0048630578208220445,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.639005376477187,
+          18.408954926540197
+        ],
+        "clouds": false,
+        "doors": [
+          -0.8647979708869297,
+          0.8647979708869297
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.90000009536743,
+        "progress": 0.588422222216924,
+        "step": 0.08971323504108576,
+        "angle": 0.004712683306272075,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.6582515832434437,
+          18.32133045469216
+        ],
+        "clouds": false,
+        "doors": [
+          -0.9388492623831696,
+          0.9388492623831696
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.299999713897705,
+        "progress": 0.5908055555555555,
+        "step": 0.09534197273156103,
+        "angle": 0.004805759248157762,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.677853645563222,
+          18.228025305224634
+        ],
+        "clouds": false,
+        "doors": [
+          -1.0182985439581065,
+          1.0182985439581065
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.700000286102295,
+        "progress": 0.5931611111164092,
+        "step": 0.0957641134468007,
+        "angle": 0.0046011679444345885,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.6963392901371774,
+          18.134062299903725
+        ],
+        "clouds": false,
+        "doors": [
+          -1.0984155225498031,
+          1.0984155225498031
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.5,
+        "progress": 0.5954166666666666,
+        "step": 0.09340018323750368,
+        "angle": 0.004260798576993107,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.7129378329940694,
+          18.042148848201446
+        ],
+        "clouds": false,
+        "doors": [
+          -1.1764359085648108,
+          1.1764359085648108
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.09999990463257,
+        "progress": 0.5977333333227369,
+        "step": 0.10202970310471352,
+        "angle": 0.004291864074078759,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.7297393612698584,
+          17.9415120310656
+        ],
+        "clouds": false,
+        "doors": [
+          -1.2577169445777892,
+          1.2577169445777892
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.19999980926514,
+        "progress": 0.6001166666613684,
+        "step": 0.1085409332813606,
+        "angle": 0.004448681119066895,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.748495450165979,
+          17.83460392413769
+        ],
+        "clouds": false,
+        "doors": [
+          -1.3423566929116106,
+          1.3423566929116106
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.5,
+        "progress": 0.6023500000105964,
+        "step": 0.10153488366754264,
+        "angle": 0.004187785835753216,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.7670479568816635,
+          17.73477839085113
+        ],
+        "clouds": false,
+        "doors": [
+          -1.4224308824695904,
+          1.4224308824695904
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.90000009536743,
+        "progress": 0.6047611111005148,
+        "step": 0.10950527220695959,
+        "angle": 0.004540578833024638,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.788044343534889,
+          17.62730487602711
+        ],
+        "clouds": false,
+        "doors": [
+          -1.5095110833003937,
+          1.5095110833003937
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.59999990463257,
+        "progress": 0.6070500000052982,
+        "step": 0.1039170973916907,
+        "angle": 0.004328449977802115,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.808817231098287,
+          17.525485181112067
+        ],
+        "clouds": false,
+        "doors": [
+          -1.5925993340665676,
+          1.5925993340665676
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.200000286102295,
+        "progress": 0.6093999999894035,
+        "step": 0.10672278164327148,
+        "angle": 0.004461459601409713,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.8309067941555113,
+          17.421073480016748
+        ],
+        "clouds": false,
+        "doors": [
+          -1.6781433920338376,
+          1.6781433920338376
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.19999980926514,
+        "progress": 0.6116944444444443,
+        "step": 0.10429353745158508,
+        "angle": 0.0043726088885992645,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.853133437239734,
+          17.31917589274712
+        ],
+        "clouds": false,
+        "doors": [
+          -1.7617141343771061,
+          1.7617141343771061
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.30000019073486,
+        "progress": 0.6140444444550408,
+        "step": 0.10697729442469135,
+        "angle": 0.0044950514565577394,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.8764859528903983,
+          17.214778567421167
+        ],
+        "clouds": false,
+        "doors": [
+          -1.847169387490344,
+          1.847169387490344
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.90000009536743,
+        "progress": 0.6162944444550408,
+        "step": 0.1026313927393868,
+        "angle": 0.004319349366693692,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.8993211035385933,
+          17.114719791341802
+        ],
+        "clouds": false,
+        "doors": [
+          -1.9286796072710666,
+          1.9286796072710666
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.69999980926514,
+        "progress": 0.6186611111164093,
+        "step": 0.10822831124321672,
+        "angle": 0.004559595202152752,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.9237578187582454,
+          17.009286332213154
+        ],
+        "clouds": false,
+        "doors": [
+          -2.0139018316971518,
+          2.0139018316971518
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.90000009536743,
+        "progress": 0.6209333333439297,
+        "step": 0.1042278866493138,
+        "angle": 0.0043934554221891735,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.9475416961557444,
+          16.90780835661587
+        ],
+        "clouds": false,
+        "doors": [
+          -2.0950469262809235,
+          2.0950469262809235
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.59999990463257,
+        "progress": 0.623188888894187,
+        "step": 0.10382180005949097,
+        "angle": 0.004376687300757382,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.9713863768005737,
+          16.80676184567888
+        ],
+        "clouds": false,
+        "doors": [
+          -2.174767132875004,
+          2.174767132875004
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44,
+        "progress": 0.625672222216924,
+        "step": 0.11477603436554751,
+        "angle": 0.004837023297288461,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.9978210076526044,
+          16.695071432677594
+        ],
+        "clouds": false,
+        "doors": [
+          -2.26137736556598,
+          2.26137736556598
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.90000009536743,
+        "progress": 0.6281222222116258,
+        "step": 0.11377625847955285,
+        "angle": 0.00479133355660168,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.0239951896362673,
+          16.58434677783012
+        ],
+        "clouds": false,
+        "doors": [
+          -2.3454177822873215,
+          2.3454177822873215
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41,
+        "progress": 0.6305611111058129,
+        "step": 0.11385168980210611,
+        "angle": 0.004789323996932032,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.0500515286451524,
+          16.47351684293774
+        ],
+        "clouds": false,
+        "doors": [
+          -2.427470969813362,
+          2.427470969813362
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.69999980926514,
+        "progress": 0.6328333333333334,
+        "step": 0.10665206089219202,
+        "angle": 0.004480560643021056,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.074248810358538,
+          16.36964599211695
+        ],
+        "clouds": false,
+        "doors": [
+          -2.5022849847478663,
+          2.5022849847478663
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.90000009536743,
+        "progress": 0.6354333333439297,
+        "step": 0.12278355593857293,
+        "angle": 0.005149685188977353,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.1017496616008287,
+          16.24998185885276
+        ],
+        "clouds": false,
+        "doors": [
+          -2.5857305688535703,
+          2.5857305688535703
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.19999980926514,
+        "progress": 0.6379222222169241,
+        "step": 0.11834202860713625,
+        "angle": 0.004953733274300937,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.1277951023010746,
+          16.134541524681456
+        ],
+        "clouds": false,
+        "doors": [
+          -2.6632187417444255,
+          2.6632187417444255
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41,
+        "progress": 0.6403166666560703,
+        "step": 0.11465049936316572,
+        "angle": 0.0047894890935695975,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.1525076234268976,
+          16.022586050032697
+        ],
+        "clouds": false,
+        "doors": [
+          -2.7353419873206937,
+          2.7353419873206937
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 60.80000019073486,
+        "progress": 0.6426111111111111,
+        "step": 0.11064636101383891,
+        "angle": 0.0046125769970440655,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.1757965459797894,
+          15.914418387157278
+        ],
+        "clouds": false,
+        "doors": [
+          -2.8020309968975825,
+          2.8020309968975825
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.69999980926514,
+        "progress": 0.6459833333227369,
+        "step": 0.16411040467804447,
+        "angle": 0.006822599052816508,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.2091841043819507,
+          15.75374015008849
+        ],
+        "clouds": false,
+        "doors": [
+          -2.89536211197236,
+          2.89536211197236
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 54.700000286102295,
+        "progress": 0.6482388888994852,
+        "step": 0.12191148163890873,
+        "angle": 0.004860627678742729,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.233199413106595,
+          15.634217456417982
+        ],
+        "clouds": false,
+        "doors": [
+          -2.9544272263128484,
+          2.9544272263128484
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.59999990463257,
+        "progress": 0.6512777777777778,
+        "step": 0.18263804221123262,
+        "angle": 0.007268088688607018,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.2697326501730974,
+          15.455270601032941
+        ],
+        "clouds": false,
+        "doors": [
+          -3.029399969830672,
+          3.029399969830672
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 47.30000019073486,
+        "progress": 0.6536444444391463,
+        "step": 0.1452856158410159,
+        "angle": 0.005981210729191668,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.299265495690181,
+          15.313018285740826
+        ],
+        "clouds": false,
+        "doors": [
+          -3.083883655597949,
+          3.083883655597949
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 49.799999713897705,
+        "progress": 0.6562722222275205,
+        "step": 0.16395399624757706,
+        "angle": 0.006916753140148884,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.33291373804911,
+          15.15255424406262
+        ],
+        "clouds": false,
+        "doors": [
+          -3.140111517145641,
+          3.140111517145641
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 48.700000286102295,
+        "progress": 0.659044444455041,
+        "step": 0.17544731991068363,
+        "angle": 0.007557459521551748,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.369116903430872,
+          14.980882776193953
+        ],
+        "clouds": false,
+        "doors": [
+          -3.1942749946879596,
+          3.1942749946879596
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 49.39999961853027,
+        "progress": 0.6617666666772631,
+        "step": 0.17421848972386383,
+        "angle": 0.00761979126539628,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.4050930550768865,
+          14.810419294256011
+        ],
+        "clouds": false,
+        "doors": [
+          -3.2420098295183872,
+          3.2420098295183872
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 49.700000286102295,
+        "progress": 0.6644888888994853,
+        "step": 0.1756025579811408,
+        "angle": 0.007760925919770519,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.4412178632028643,
+          14.638572686470518
+        ],
+        "clouds": false,
+        "doors": [
+          -3.2840407445945616,
+          3.2840407445945616
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.19999980926514,
+        "progress": 0.66725,
+        "step": 0.17899228247202748,
+        "angle": 0.00795189147811925,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.4777380267267968,
+          14.463345648486275
+        ],
+        "clouds": false,
+        "doors": [
+          -3.3205375068330896,
+          3.3205375068330896
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 49.200000286102295,
+        "progress": 0.6696611111164094,
+        "step": 0.15661631767311707,
+        "angle": 0.006962288667391414,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.509318399194776,
+          14.30994632959512
+        ],
+        "clouds": false,
+        "doors": [
+          -3.3471109184970604,
+          3.3471109184970604
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.09999990463257,
+        "progress": 0.6723833333386315,
+        "step": 0.17672475131648144,
+        "angle": 0.007826318343142335,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.5443949237478676,
+          14.136737567827279
+        ],
+        "clouds": false,
+        "doors": [
+          -3.3709042571940464,
+          3.3709042571940464
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.5,
+        "progress": 0.6751222222116258,
+        "step": 0.17723076445453217,
+        "angle": 0.0077776140055927255,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.578826499599833,
+          13.962883576059795
+        ],
+        "clouds": false,
+        "doors": [
+          -3.3879056775852816,
+          3.3879056775852816
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.30000019073486,
+        "progress": 0.6796499999894036,
+        "step": 0.13885546095664983,
+        "angle": 0.005915987843618111,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.633205515817439,
+          13.677564654746377
+        ],
+        "clouds": false,
+        "doors": [
+          -3.3999363562461498,
+          3.3999363562461498
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 48.19999980926514,
+        "progress": 0.6821666666666667,
+        "step": 0.15943499460981367,
+        "angle": 0.0066488984286175185,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.6617293830974535,
+          13.520701955223439
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.80000019073486,
+        "progress": 0.6848444444338481,
+        "step": 0.16758337123169242,
+        "angle": 0.0067803448703600494,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.6904939599686664,
+          13.355605663833234
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.200000286102295,
+        "progress": 0.6893777777883741,
+        "step": 0.13447865905046813,
+        "angle": 0.005039349333424683,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.7349000259269878,
+          13.081386446313145
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44,
+        "progress": 0.6918833333386315,
+        "step": 0.14978949997627763,
+        "angle": 0.005337780436993239,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.7568348619831324,
+          12.933211693840487
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 51.39999961853027,
+        "progress": 0.6964944444497426,
+        "step": 0.12432151952325568,
+        "angle": 0.0038585482189207594,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.791724631073053,
+          12.667964991166354
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.30000019073486,
+        "progress": 0.6993611111111111,
+        "step": 0.16040862789090235,
+        "angle": 0.004512798260972792,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.809503678080785,
+          12.508544686972256
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 50.59999990463257,
+        "progress": 0.7017166666719649,
+        "step": 0.1251756318968559,
+        "angle": 0.00309218899475844,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.8214535924522375,
+          12.383940761001634
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 51,
+        "progress": 0.7045222222275204,
+        "step": 0.12618816134436162,
+        "angle": 0.0025996353561859573,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.833160310076759,
+          12.258296800438739
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 53.5,
+        "progress": 0.7073611111111111,
+        "step": 0.1251391159703401,
+        "angle": 0.001998542134367345,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.8451845921764196,
+          12.133736714593288
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.80000019073486,
+        "progress": 0.7103222222328186,
+        "step": 0.12798345171556325,
+        "angle": 0.0014776233122831123,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.857649111336835,
+          12.00636167906776
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 52.299999713897705,
+        "progress": 0.7128055555555555,
+        "step": 0.10546886071617873,
+        "angle": 0.0008240098661941997,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.867844520438237,
+          11.901386757233906
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 52.80000019073486,
+        "progress": 0.7157055555449591,
+        "step": 0.12116849389523203,
+        "angle": 0.0005452028745389227,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.8792314550242724,
+          11.780754499385633
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.80000019073486,
+        "progress": 0.7186444444391461,
+        "step": 0.12076729446720665,
+        "angle": 0.0001689972586592216,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.8899666988848383,
+          11.660465289760733
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.89999961853027,
+        "progress": 0.7211388888888888,
+        "step": 0.10103578787100508,
+        "angle": 0.00010283902289900837,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.898264930283529,
+          11.559770852047578
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.5,
+        "progress": 0.7255666666560701,
+        "step": 0.07922711886479236,
+        "angle": 0.0003321479383048589,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.9106993026160954,
+          11.383833220169478
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.200000286102295,
+        "progress": 0.7322555555502572,
+        "step": 0.08540527778545712,
+        "angle": 0.000556624270317029,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.9224817175640676,
+          11.123657486381157
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.700000286102295,
+        "progress": 0.7697388888994854,
+        "step": 0.10281833575377991,
+        "angle": 0.0015244689488961112,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.7132220724626315,
+          9.661781005127178
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.5,
+        "progress": 0.772,
+        "step": 0.10799883876938732,
+        "angle": 0.0019354530894895572,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.672237058368464,
+          9.561861148265606
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.40000009536743,
+        "progress": 0.7782055555449592,
+        "step": 0.08990179137494336,
+        "angle": 0.0022852266619181744,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.543248761027737,
+          9.288983711967402
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 51.40000009536743,
+        "progress": 0.8662833333280352,
+        "step": 0.04514104419281451,
+        "angle": 0.00005041982233065732,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.268228019313661,
+          6.260565331821953
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.19999980926514,
+        "progress": 0.8691333333386315,
+        "step": 0.0632233022143514,
+        "angle": 0.000007430167845465127,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.268114669324064,
+          6.19734213121753
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.5,
+        "progress": 0.8714222222169241,
+        "step": 0.04985011539601789,
+        "angle": 0.00006833702417067583,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.268601121991467,
+          6.147494389354947
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.69999980926514,
+        "progress": 0.8740055555502574,
+        "step": 0.05528342408947265,
+        "angle": 0.00013605986484536078,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.269692340542711,
+          6.092221735889333
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 47.5,
+        "progress": 0.8762611111005147,
+        "step": 0.047426717095907074,
+        "angle": 0.0001653498783132388,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.271058350601715,
+          6.0448146951568225
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 47.09999990463257,
+        "progress": 0.8831166666613685,
+        "step": 0.042266848999884504,
+        "angle": 0.0002548023640685421,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.2770881831067684,
+          5.905575702837864
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45,
+        "progress": 0.8857388888994853,
+        "step": 0.051417522192331686,
+        "angle": 0.00034626021298671646,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.2799660012517102,
+          5.854238778980629
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.40000009536743,
+        "progress": 0.8882388888994854,
+        "step": 0.04804804479678029,
+        "angle": 0.00035778061687304465,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.282920998997947,
+          5.80628168777283
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 49.10000038146973,
+        "progress": 0.8926611111164093,
+        "step": 0.03784629319200787,
+        "angle": 0.00032448486037131834,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.288514428507491,
+          5.723807650654267
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.799999713897705,
+        "progress": 0.8953833333386315,
+        "step": 0.04940326159599065,
+        "angle": 0.00044573983626062684,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.2921101940717774,
+          5.674535419871314
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.80000019073486,
+        "progress": 0.9001000000105963,
+        "step": 0.03824776700423079,
+        "angle": 0.0003762315215270862,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.298459735528761,
+          5.591866964605296
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.09999990463257,
+        "progress": 0.9025833333333332,
+        "step": 0.04227768330825736,
+        "angle": 0.00042682945093440927,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3018060061596377,
+          5.549721917698474
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43,
+        "progress": 0.9050833333333332,
+        "step": 0.04159789563965058,
+        "angle": 0.0004310221082902109,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3051427167094714,
+          5.508258062543002
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.69999980926514,
+        "progress": 0.9074833333227369,
+        "step": 0.03902050038717007,
+        "angle": 0.000411019053800888,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3082944082754793,
+          5.4693650517218035
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.40000009536743,
+        "progress": 0.9100722222328186,
+        "step": 0.041083651446740706,
+        "angle": 0.00043866070907629313,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3116166378767695,
+          5.428415946643993
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.60000038146973,
+        "progress": 0.914800000005298,
+        "step": 0.033379680448905096,
+        "angle": 0.00036004506787602086,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3174149188141246,
+          5.35633913273075
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.19999980926514,
+        "progress": 0.9172222222222222,
+        "step": 0.03567805669374475,
+        "angle": 0.0003843469104054843,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3202257923198144,
+          5.320771974851928
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.40000009536743,
+        "progress": 0.9196666666666666,
+        "step": 0.03505881146341157,
+        "angle": 0.00037589488644456027,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.322939009859785,
+          5.285818309639137
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.799999713897705,
+        "progress": 0.9220333333280349,
+        "step": 0.03303269563931155,
+        "angle": 0.00035069525151993817,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3254401494162633,
+          5.252880439609058
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.39999961853027,
+        "progress": 0.926516666677263,
+        "step": 0.027896976689446098,
+        "angle": 0.0002884169528177149,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3298198121952494,
+          5.192936704908038
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 51,
+        "progress": 0.9289888888994852,
+        "step": 0.03174878083950297,
+        "angle": 0.0003224605969895876,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.33202707066967,
+          5.1612647442042565
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42,
+        "progress": 0.933844444433848,
+        "step": 0.024287727867642824,
+        "angle": 0.00023435562508307694,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3359241782756532,
+          5.101946030169297
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.09999990463257,
+        "progress": 0.9361722222169239,
+        "step": 0.027121743554960158,
+        "angle": 0.0002551000722496049,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3375871377589887,
+          5.074875316487944
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 47.59999990463257,
+        "progress": 0.9385055555502573,
+        "step": 0.026284100335631364,
+        "angle": 0.00023960189623359172,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.339122604531176,
+          5.048636103995092
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.09999990463257,
+        "progress": 0.9474999999999998,
+        "step": 0.020107324937542543,
+        "angle": 0.00015771690298317566,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.343868703789148,
+          4.955983772297184
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.10000038146973,
+        "progress": 0.9856111111111107,
+        "step": 0.006354228661558405,
+        "angle": 0.000016702094666222446,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.349959328853369,
+          4.719801914372579
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      }
+    ],
+    "initialization": null,
+    "glStalls": [],
+    "resourcesDuringIntro": []
+  },
+  "longTasks": [
+    {
+      "start": 17053.10000038147,
+      "duration": 66,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 285.5
+    },
+    {
+      "start": 20447,
+      "duration": 57,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 3679.4
+    },
+    {
+      "start": 25356.400000095367,
+      "duration": 52,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8588.8
+    }
+  ],
+  "repeat": {
+    "timings": {
+      "stage1": 567,
+      "realism": 15,
+      "logo": 21,
+      "district": 356,
+      "wings": 45,
+      "pbrMaps": 735,
+      "panels": 72,
+      "reception": 63,
+      "lounge": 108,
+      "hdri": 2743,
+      "stair": 9,
+      "plants": 48,
+      "criticalScene": 2921,
+      "shaderCompilation": 840,
+      "programsBeforePrewarm": 58,
+      "textureUploads": 659,
+      "prewarmFrame": 1626,
+      "prewarm": 2297,
+      "programsAfterPrewarm": 67,
+      "shaderFirstUse": 37,
+      "criticalReady": 6135
+    },
+    "loadingMs": 10999,
+    "duration": 18456.8,
+    "fps": 26.2,
+    "p95ms": 61.799999713897705,
+    "maximumFrameMs": 69.09999990463257,
+    "frameSpikesOver40": 174,
+    "slowIntervals": [],
+    "longTasks": [
+      {
+        "start": 16170.700000286102,
+        "duration": 56,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 5171.7
+      },
+      {
+        "start": 16704.900000095367,
+        "duration": 53,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 5705.9
+      },
+      {
+        "start": 16975.200000286102,
+        "duration": 50,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 5976.2
+      }
+    ],
+    "resourceTransferBytes": 0,
+    "assets": [
+      {
+        "url": "http://localhost:8002/assets/logo/logo-white.png",
+        "transfer": 0,
+        "duration": 0
+      },
+      {
+        "url": "http://localhost:8002/assets/materials/asphalt-color-1k.webp",
+        "transfer": 0,
+        "duration": 215.2
+      },
+      {
+        "url": "http://localhost:8002/assets/materials/asphalt-normal.webp",
+        "transfer": 0,
+        "duration": 608.7
+      },
+      {
+        "url": "http://localhost:8002/assets/materials/asphalt-arm.webp",
+        "transfer": 0,
+        "duration": 222.1
+      },
+      {
+        "url": "http://localhost:8002/assets/materials/oak-color-1k.webp",
+        "transfer": 0,
+        "duration": 204.8
+      },
+      {
+        "url": "http://localhost:8002/assets/materials/oak-normal.webp",
+        "transfer": 0,
+        "duration": 211
+      },
+      {
+        "url": "http://localhost:8002/assets/materials/oak-arm.webp",
+        "transfer": 0,
+        "duration": 219.3
+      },
+      {
+        "url": "http://localhost:8002/assets/materials/oak-ao.webp",
+        "transfer": 0,
+        "duration": 207.5
+      },
+      {
+        "url": "http://localhost:8002/assets/environment/urban_street_01_2k.hdr",
+        "transfer": 0,
+        "duration": 126.2
+      }
+    ],
+    "collision": null,
+    "glError": 0
+  }
+}

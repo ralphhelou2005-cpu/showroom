@@ -48,6 +48,15 @@ $listener = $null
         string relativePath = Uri.UnescapeDataString(context.Request.Url.AbsolutePath.TrimStart('/'));
         if (String.IsNullOrWhiteSpace(relativePath)) relativePath = "index.html";
         string filePath = Path.GetFullPath(Path.Combine(root, relativePath.Replace('/', Path.DirectorySeparatorChar)));
+        if (filePath.StartsWith(rootPrefix, StringComparison.OrdinalIgnoreCase) && Directory.Exists(filePath))
+        {
+          if (!context.Request.Url.AbsolutePath.EndsWith("/"))
+          {
+            context.Response.Redirect(context.Request.Url.AbsolutePath + "/" + context.Request.Url.Query);
+            return;
+          }
+          filePath = Path.Combine(filePath, "index.html");
+        }
         if (!filePath.StartsWith(rootPrefix, StringComparison.OrdinalIgnoreCase) || !File.Exists(filePath))
         {
           context.Response.StatusCode = 404;

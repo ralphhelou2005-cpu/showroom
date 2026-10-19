@@ -1,0 +1,7014 @@
+{
+  "timings": {
+    "stage1": 227,
+    "realism": 7,
+    "logo": 9,
+    "district": 180,
+    "pbrMaps": 349,
+    "wings": 24,
+    "panels": 23,
+    "reception": 11,
+    "lounge": 48,
+    "stair": 2,
+    "plants": 15,
+    "criticalScene": 552,
+    "hdri": 4516,
+    "shaderCompilation": 7129,
+    "programsBeforePrewarm": 58,
+    "textureUploads": 717,
+    "prewarmFrame": 6246,
+    "prewarm": 6973,
+    "programsAfterPrewarm": 67,
+    "shaderFirstUse": 39,
+    "criticalReady": 14709
+  },
+  "loadingMs": 17641.099999904633,
+  "duration": 18463.1,
+  "aerial": {
+    "frames": 221,
+    "fps": 25,
+    "p95ms": 72.7,
+    "maxMs": 83.80000019073486,
+    "renderCPUms": 27.1,
+    "gpuMeanMs": 32.6,
+    "gpuPeakMs": 72.1,
+    "peakCalls": 501,
+    "peakTriangles": 546358,
+    "peakGeometries": 196,
+    "peakTextures": 76,
+    "firstPrograms": 67,
+    "lastPrograms": 67,
+    "minDPR": 1
+  },
+  "approach": {
+    "frames": 78,
+    "fps": 15.5,
+    "p95ms": 96.1,
+    "maxMs": 101.19999980926514,
+    "renderCPUms": 40.5,
+    "gpuMeanMs": 62.5,
+    "gpuPeakMs": 96.6,
+    "peakCalls": 479,
+    "peakTriangles": 524150,
+    "peakGeometries": 196,
+    "peakTextures": 76,
+    "firstPrograms": 67,
+    "lastPrograms": 67,
+    "minDPR": 1
+  },
+  "entrance": {
+    "frames": 84,
+    "fps": 18.5,
+    "p95ms": 79.4,
+    "maxMs": 240.19999980926514,
+    "renderCPUms": 24.9,
+    "gpuMeanMs": 50.3,
+    "gpuPeakMs": 74.7,
+    "peakCalls": 166,
+    "peakTriangles": 248946,
+    "peakGeometries": 196,
+    "peakTextures": 76,
+    "firstPrograms": 67,
+    "lastPrograms": 67,
+    "minDPR": 1
+  },
+  "full": {
+    "frames": 383,
+    "fps": 20.8,
+    "p95ms": 76.8,
+    "maxMs": 240.19999980926514,
+    "renderCPUms": 29.4,
+    "gpuMeanMs": 42.5,
+    "gpuPeakMs": 96.6,
+    "peakCalls": 501,
+    "peakTriangles": 546358,
+    "peakGeometries": 196,
+    "peakTextures": 76,
+    "firstPrograms": 67,
+    "lastPrograms": 67,
+    "minDPR": 1
+  },
+  "secondaryAtStart": [],
+  "slowJobs": [],
+  "slowFrames": [],
+  "slowIntervals": [
+    {
+      "dt": 100.09999990463257,
+      "progress": 0.5138444444603392,
+      "step": 0.8244242110732608,
+      "angle": 0.018058507729628477,
+      "dpr": 1,
+      "camera": [
+        0,
+        4.018045255566257,
+        24.200157105417116
+      ],
+      "clouds": false,
+      "doors": [
+        0,
+        0
+      ],
+      "programs": 67
+    },
+    {
+      "dt": 101.19999980926514,
+      "progress": 0.5335166666772633,
+      "step": 0.4337343304951452,
+      "angle": 0.013499634771132278,
+      "dpr": 1,
+      "camera": [
+        0,
+        2.9088694103205466,
+        21.571950390052663
+      ],
+      "clouds": false,
+      "doors": [
+        0,
+        0
+      ],
+      "programs": 67
+    },
+    {
+      "dt": 240.19999980926514,
+      "progress": 0.9293833333386315,
+      "step": 0.054183651203486824,
+      "angle": 0.000552371459397108,
+      "dpr": 1,
+      "camera": [
+        0,
+        2.3323653541689278,
+        5.156302876383924
+      ],
+      "clouds": false,
+      "doors": [
+        -3.4,
+        3.4
+      ],
+      "programs": 67
+    }
+  ],
+  "criticalBytes": 13489498,
+  "duplicateCriticalAssets": [],
+  "largest": [
+    {
+      "url": "http://localhost:8002/assets/environment/urban_street_01_2k.hdr",
+      "bytes": 7286632,
+      "transfer": 0
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/asphalt-normal.webp",
+      "bytes": 1929266,
+      "transfer": 1929566
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/asphalt-arm.webp",
+      "bytes": 1074206,
+      "transfer": 1074506
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-arm.webp",
+      "bytes": 950632,
+      "transfer": 950932
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/asphalt-color-1k.webp",
+      "bytes": 545250,
+      "transfer": 545550
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-normal.webp",
+      "bytes": 394732,
+      "transfer": 395032
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-ao.webp",
+      "bytes": 389130,
+      "transfer": 389430
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.core.js",
+      "bytes": 263447,
+      "transfer": 263747
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-color-1k.webp",
+      "bytes": 137234,
+      "transfer": 137534
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.module.js",
+      "bytes": 130624,
+      "transfer": 130924
+    }
+  ],
+  "resources": [
+    {
+      "url": "http://localhost:8002/css/style.css",
+      "bytes": 37719,
+      "transfer": 38019
+    },
+    {
+      "url": "http://localhost:8002/assets/logo/logo-white.png",
+      "bytes": 25836,
+      "transfer": 26136
+    },
+    {
+      "url": "http://localhost:8002/js/main.js",
+      "bytes": 35328,
+      "transfer": 35628
+    },
+    {
+      "url": "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap",
+      "bytes": 1012,
+      "transfer": 1312
+    },
+    {
+      "url": "http://localhost:8002/assets/logo/icons.svg#arrow-up-right",
+      "bytes": 698,
+      "transfer": 998
+    },
+    {
+      "url": "http://localhost:8002/js/cars.js",
+      "bytes": 2773,
+      "transfer": 3073
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/gsap@3.14.2/index.js",
+      "bytes": 274,
+      "transfer": 574
+    },
+    {
+      "url": "http://localhost:8002/js/showroom.js",
+      "bytes": 117033,
+      "transfer": 117333
+    },
+    {
+      "url": "http://localhost:8002/js/content-utils.js",
+      "bytes": 1759,
+      "transfer": 2059
+    },
+    {
+      "url": "http://localhost:8002/js/site-config.js",
+      "bytes": 1422,
+      "transfer": 1722
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.module.js",
+      "bytes": 130624,
+      "transfer": 130924
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/geometries/RoundedBoxGeometry.js",
+      "bytes": 1935,
+      "transfer": 2235
+    },
+    {
+      "url": "http://localhost:8002/js/textures.js",
+      "bytes": 9993,
+      "transfer": 10293
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/utils/BufferGeometryUtils.js",
+      "bytes": 8962,
+      "transfer": 9262
+    },
+    {
+      "url": "http://localhost:8002/js/texture-library.js",
+      "bytes": 7031,
+      "transfer": 7331
+    },
+    {
+      "url": "http://localhost:8002/js/materials.js",
+      "bytes": 5284,
+      "transfer": 5584
+    },
+    {
+      "url": "http://localhost:8002/js/plants.js",
+      "bytes": 12524,
+      "transfer": 12824
+    },
+    {
+      "url": "http://localhost:8002/js/district.js",
+      "bytes": 26399,
+      "transfer": 26699
+    },
+    {
+      "url": "http://localhost:8002/js/frame-renderer.js",
+      "bytes": 6433,
+      "transfer": 6733
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/gsap@3.14.2/gsap-core.js",
+      "bytes": 50467,
+      "transfer": 50767
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/gsap@3.14.2/CSSPlugin.js",
+      "bytes": 19320,
+      "transfer": 19620
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.core.js",
+      "bytes": 263447,
+      "transfer": 263747
+    },
+    {
+      "url": "http://localhost:8002/js/story.js",
+      "bytes": 10342,
+      "transfer": 10642
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/loaders/HDRLoader.js",
+      "bytes": 3806,
+      "transfer": 4106
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/asphalt-color-1k.webp",
+      "bytes": 545250,
+      "transfer": 545550
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/asphalt-normal.webp",
+      "bytes": 1929266,
+      "transfer": 1929566
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/asphalt-arm.webp",
+      "bytes": 1074206,
+      "transfer": 1074506
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-color-1k.webp",
+      "bytes": 137234,
+      "transfer": 137534
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-normal.webp",
+      "bytes": 394732,
+      "transfer": 395032
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-arm.webp",
+      "bytes": 950632,
+      "transfer": 950932
+    },
+    {
+      "url": "http://localhost:8002/assets/materials/oak-ao.webp",
+      "bytes": 389130,
+      "transfer": 389430
+    },
+    {
+      "url": "http://localhost:8002/favicon.ico",
+      "bytes": 0,
+      "transfer": 300
+    },
+    {
+      "url": "http://localhost:8002/assets/environment/urban_street_01_2k.hdr",
+      "bytes": 7286632,
+      "transfer": 0
+    },
+    {
+      "url": "http://localhost:8002/js/cars3d.js",
+      "bytes": 1995,
+      "transfer": 0
+    }
+  ],
+  "memory": {
+    "geometries": 196,
+    "textures": 76,
+    "geometryBytes": 6618192,
+    "textureBytesEstimate": 135812437,
+    "renderTargetsExcluded": true
+  },
+  "lights": [
+    {
+      "type": "HemisphereLight",
+      "castShadow": false,
+      "mapSize": null
+    },
+    {
+      "type": "DirectionalLight",
+      "castShadow": true,
+      "mapSize": [
+        512,
+        512
+      ]
+    },
+    {
+      "type": "SpotLight",
+      "castShadow": false,
+      "mapSize": null
+    },
+    {
+      "type": "SpotLight",
+      "castShadow": false,
+      "mapSize": null
+    },
+    {
+      "type": "SpotLight",
+      "castShadow": false,
+      "mapSize": null
+    }
+  ],
+  "transparentMaterials": 13,
+  "transmissionMaterials": 26,
+  "postProcessing": false,
+  "renderer": "ANGLE (Intel, Intel(R) UHD Graphics 620 (0x00005917) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "focused": true,
+  "hidden": false,
+  "finalCamera": [
+    0,
+    2.35,
+    4.7
+  ],
+  "glass": {
+    "roughness": 0.006,
+    "transmission": 1,
+    "thickness": 0.008,
+    "bufferScale": 1
+  },
+  "collision": null,
+  "glError": 0,
+  "browser": "155.0.4283.62",
+  "mobileEmulation": false,
+  "stockRendererDiagnostic": true,
+  "snapshotDirectory": null,
+  "headless": true,
+  "cameraAudit": {
+    "isIntroPlaying": false,
+    "navigationLocked": false,
+    "motionActive": false,
+    "finalTarget": [
+      0,
+      2,
+      -1.4
+    ],
+    "controlsPresent": false,
+    "cameraUpdateMeanMs": 0.19610388991120573,
+    "frameSpikes": [
+      {
+        "dt": 60.200000286102295,
+        "progress": 0.007717117904336063,
+        "step": 0.014931975398706445,
+        "angle": 0.00010235630945494247,
+        "dpr": 1,
+        "camera": [
+          22.002495528731032,
+          103.94026786370858,
+          38.002491706034526
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 52.59999990463257,
+        "progress": 0.012303399272462892,
+        "step": 0.028588044021733143,
+        "angle": 0.00019586470143142864,
+        "dpr": 1,
+        "camera": [
+          22.00635117079723,
+          103.84859887706098,
+          38.006326718983075
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.09999990463257,
+        "progress": 0.17245555631409007,
+        "step": 0.4933232644970292,
+        "angle": 0.003263483146817697,
+        "dpr": 1,
+        "camera": [
+          22.973285746842024,
+          77.98624377663403,
+          39.03932793107474
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.299999713897705,
+        "progress": 0.17496666726438218,
+        "step": 0.5705097089605216,
+        "angle": 0.003698594121269969,
+        "dpr": 1,
+        "camera": [
+          22.961141850522317,
+          77.41595227560275,
+          39.04940054999373
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.80000019073486,
+        "progress": 0.17736666716519095,
+        "step": 0.5483626329976411,
+        "angle": 0.0034813303026701137,
+        "dpr": 1,
+        "camera": [
+          22.947593439194115,
+          76.86783390060954,
+          39.05858013677047
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.5,
+        "progress": 0.1798611114924587,
+        "step": 0.5731263942074413,
+        "angle": 0.003559649268720839,
+        "dpr": 1,
+        "camera": [
+          22.93148822871957,
+          76.29500506892731,
+          39.06761426796087
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.5,
+        "progress": 0.18238888919264076,
+        "step": 0.5840809842296211,
+        "angle": 0.0035499167030307666,
+        "dpr": 1,
+        "camera": [
+          22.913054162546146,
+          75.71127812586045,
+          39.07619548470273
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 48,
+        "progress": 0.18700555577722766,
+        "step": 0.5008488590045969,
+        "angle": 0.0029182802489677875,
+        "dpr": 1,
+        "camera": [
+          22.873877251920234,
+          74.6367900204809,
+          39.0902130616023
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 47.200000286102295,
+        "progress": 0.18966666682444816,
+        "step": 0.6248423527494298,
+        "angle": 0.003567825579965157,
+        "dpr": 1,
+        "camera": [
+          22.848058141972295,
+          74.01252064061418,
+          39.097218824356126
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.69999980926514,
+        "progress": 0.19228888902939623,
+        "step": 0.6193305340493639,
+        "angle": 0.0034605442493712193,
+        "dpr": 1,
+        "camera": [
+          22.82030577725997,
+          73.39384187255585,
+          39.103276762336215
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45,
+        "progress": 0.19482222233202584,
+        "step": 0.6017775765061051,
+        "angle": 0.003294673621492206,
+        "dpr": 1,
+        "camera": [
+          22.791324537305268,
+          72.792783322745,
+          39.108272662206815
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.80000019073486,
+        "progress": 0.19732777786225494,
+        "step": 0.5985426712240389,
+        "angle": 0.0032165509660112847,
+        "dpr": 1,
+        "camera": [
+          22.760575889538696,
+          72.19504474302292,
+          39.11232731982127
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 47.69999980926514,
+        "progress": 0.19987222230109006,
+        "step": 0.6113027371936063,
+        "angle": 0.0032294157749159324,
+        "dpr": 1,
+        "camera": [
+          22.727243934832202,
+          71.58465956567677,
+          39.115482089536115
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.69999980926514,
+        "progress": 0.20251666672689872,
+        "step": 0.6390944518372217,
+        "angle": 0.0033228600739634807,
+        "dpr": 1,
+        "camera": [
+          22.690374855677295,
+          70.94663321484512,
+          39.117664981158285
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.700000286102295,
+        "progress": 0.20500555561642286,
+        "step": 0.6050744528154581,
+        "angle": 0.0031022249103266086,
+        "dpr": 1,
+        "camera": [
+          22.65362529964767,
+          70.34267657410884,
+          39.118634358325714
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 49.40000009536743,
+        "progress": 0.20760000004200896,
+        "step": 0.6345045142210531,
+        "angle": 0.0032151604237983422,
+        "dpr": 1,
+        "camera": [
+          22.61323156415373,
+          69.70945916064991,
+          39.11845549487929
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.5,
+        "progress": 0.21034444448487666,
+        "step": 0.6754769244750056,
+        "angle": 0.0033889104602494095,
+        "dpr": 1,
+        "camera": [
+          22.56822386038721,
+          69.03548523564666,
+          39.116864735441936
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.5,
+        "progress": 0.2127611111467469,
+        "step": 0.5985481405867695,
+        "angle": 0.0029807923930118057,
+        "dpr": 1,
+        "camera": [
+          22.52668865997541,
+          68.43838590529002,
+          39.1142013889979
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 48.799999713897705,
+        "progress": 0.2153444444759849,
+        "step": 0.6438151424596994,
+        "angle": 0.0031917267729650836,
+        "dpr": 1,
+        "camera": [
+          22.480360725468547,
+          67.79625369084384,
+          39.109972995073704
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.90000009536743,
+        "progress": 0.21805555556781392,
+        "step": 0.6802236797509538,
+        "angle": 0.0033647530418247635,
+        "dpr": 1,
+        "camera": [
+          22.429650471364955,
+          67.11794989230665,
+          39.103916468618586
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.30000019073486,
+        "progress": 0.2206055555705983,
+        "step": 0.6442032376053387,
+        "angle": 0.0031888902755014006,
+        "dpr": 1,
+        "camera": [
+          22.380053663542295,
+          66.47570009688721,
+          39.09662481046127
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 59.19999980926514,
+        "progress": 0.22318333335165663,
+        "step": 0.6557044635277047,
+        "angle": 0.003257343288744039,
+        "dpr": 1,
+        "camera": [
+          22.328102556130922,
+          65.82211921464709,
+          39.08759949611149
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 57,
+        "progress": 0.22646666667771492,
+        "step": 0.8419495251031315,
+        "angle": 0.004214998629512557,
+        "dpr": 1,
+        "camera": [
+          22.259389816105905,
+          64.98309565227966,
+          39.0735629733259
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 53.59999990463257,
+        "progress": 0.2296277777927004,
+        "step": 0.8180818306504888,
+        "angle": 0.004149440627994708,
+        "dpr": 1,
+        "camera": [
+          22.190665331364244,
+          64.16806974622416,
+          39.05720451081054
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 54.09999990463257,
+        "progress": 0.23261666669116532,
+        "step": 0.7805626581308124,
+        "angle": 0.004028389529313319,
+        "dpr": 1,
+        "camera": [
+          22.123490661399096,
+          63.39061558086742,
+          39.03902078861839
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 52.10000038146973,
+        "progress": 0.2356166666903831,
+        "step": 0.7906694551371739,
+        "angle": 0.0041698677455332045,
+        "dpr": 1,
+        "camera": [
+          22.05404843797321,
+          62.60328289611573,
+          39.01796827299003
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 54.5,
+        "progress": 0.23852222222946337,
+        "step": 0.7639640142946599,
+        "angle": 0.004015717708886443,
+        "dpr": 1,
+        "camera": [
+          21.985851945260976,
+          61.8427138143199,
+          38.995057023892464
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 54.299999713897705,
+        "progress": 0.2415388889062645,
+        "step": 0.7639052447415715,
+        "angle": 0.0036874580574620835,
+        "dpr": 1,
+        "camera": [
+          21.91814657170002,
+          61.08223396895333,
+          38.96980608082309
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 76.09999990463257,
+        "progress": 0.24455555555668446,
+        "step": 0.7670393620000723,
+        "angle": 0.00382600943177655,
+        "dpr": 1,
+        "camera": [
+          21.850950582107597,
+          60.31864295183398,
+          38.94218651502627
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 73.30000019073486,
+        "progress": 0.2487888889055547,
+        "step": 1.0818738581787974,
+        "angle": 0.005570310148125,
+        "dpr": 1,
+        "camera": [
+          21.756492118870554,
+          59.24175221263778,
+          38.899349853543015
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 71.59999990463257,
+        "progress": 0.2528555555613886,
+        "step": 1.0455717899563808,
+        "angle": 0.005528207908313802,
+        "dpr": 1,
+        "camera": [
+          21.664260071620568,
+          58.20126095730379,
+          38.853616222742865
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 73.09999990463257,
+        "progress": 0.25684444446071253,
+        "step": 1.0318865504249797,
+        "angle": 0.005539071380172595,
+        "dpr": 1,
+        "camera": [
+          21.570925505541027,
+          57.174788432848054,
+          38.80429413580222
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 81.7000002861023,
+        "progress": 0.26090555556641115,
+        "step": 1.057369690281228,
+        "angle": 0.005701524669303996,
+        "dpr": 1,
+        "camera": [
+          21.47144185003872,
+          56.12353927514254,
+          38.74944094412874
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 64.40000009536743,
+        "progress": 0.26546111112187953,
+        "step": 1.1948210311949565,
+        "angle": 0.006394687640215962,
+        "dpr": 1,
+        "camera": [
+          21.352446999558975,
+          54.936560253508446,
+          38.68222246195568
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 58.69999980926514,
+        "progress": 0.26901111112713066,
+        "step": 0.9379280717404841,
+        "angle": 0.004925843930615325,
+        "dpr": 1,
+        "camera": [
+          21.25276729251074,
+          54.005664995431275,
+          38.6255917083757
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 52.90000009536743,
+        "progress": 0.27227777777787093,
+        "step": 0.8687384179273322,
+        "angle": 0.004445369328705666,
+        "dpr": 1,
+        "camera": [
+          21.15450446526494,
+          53.1442850127189,
+          38.57013559106678
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 56.799999713897705,
+        "progress": 0.2772111111217672,
+        "step": 0.536570559220283,
+        "angle": 0.0025750862225014585,
+        "dpr": 1,
+        "camera": [
+          20.991942877475644,
+          51.83432076476898,
+          38.48020579314731
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.5,
+        "progress": 0.2825000000000371,
+        "step": 0.5808517478106311,
+        "angle": 0.0025477245815633247,
+        "dpr": 1,
+        "camera": [
+          20.795054601676373,
+          50.41706727316444,
+          38.37538417549101
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 59.90000009536743,
+        "progress": 0.284744444449773,
+        "step": 0.6144094753509726,
+        "angle": 0.0025681025331004636,
+        "dpr": 1,
+        "camera": [
+          20.703320448261735,
+          49.81137741578076,
+          38.328228633283395
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 58.40000009536743,
+        "progress": 0.2880777777830984,
+        "step": 0.9191113128370835,
+        "angle": 0.0035738065008281486,
+        "dpr": 1,
+        "camera": [
+          20.55697887715766,
+          48.90693326184158,
+          38.2552182069243
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 72.69999980926514,
+        "progress": 0.29134444446035573,
+        "step": 0.9089486998398906,
+        "angle": 0.0031832351726354107,
+        "dpr": 1,
+        "camera": [
+          20.400767805468917,
+          48.01465801149827,
+          38.180180098957315
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 83.80000019073486,
+        "progress": 0.29536111111112273,
+        "step": 1.1297458205564759,
+        "angle": 0.003411230487680619,
+        "dpr": 1,
+        "camera": [
+          20.189514349920437,
+          46.90909116204387,
+          38.08312579471929
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 80,
+        "progress": 0.300022222227528,
+        "step": 1.3387330928893952,
+        "angle": 0.001169795251434998,
+        "dpr": 1,
+        "camera": [
+          19.914080868950162,
+          45.604571931281846,
+          37.96241014482311
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 75.19999980926514,
+        "progress": 0.3044611111217126,
+        "step": 1.321445466656885,
+        "angle": 0.004245397408056073,
+        "dpr": 1,
+        "camera": [
+          19.63093609987123,
+          44.320594838852266,
+          37.83031174510778
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 71.90000009536743,
+        "progress": 0.3086388888888924,
+        "step": 1.2669628672390485,
+        "angle": 0.004154592827100151,
+        "dpr": 1,
+        "camera": [
+          19.351914848067345,
+          43.09255050175341,
+          37.691570424212344
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 80.40000009536743,
+        "progress": 0.31263888888889135,
+        "step": 1.2311208647292735,
+        "angle": 0.004197236801910064,
+        "dpr": 1,
+        "camera": [
+          19.07120885507932,
+          41.90252380128939,
+          37.54769832387637
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 70.5,
+        "progress": 0.31711111111111273,
+        "step": 1.393695821107366,
+        "angle": 0.005047548906706036,
+        "dpr": 1,
+        "camera": [
+          18.739039064793708,
+          40.5598505345555,
+          37.376584995956264
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 62.5,
+        "progress": 0.3210166666772642,
+        "step": 1.2287826533801938,
+        "angle": 0.00481086704684304,
+        "dpr": 1,
+        "camera": [
+          18.430838956491467,
+          39.38062716243833,
+          37.22053455173016
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 67.40000009536743,
+        "progress": 0.32449444444974346,
+        "step": 1.1009138177245785,
+        "angle": 0.004680531317625796,
+        "dpr": 1,
+        "camera": [
+          18.140396108597034,
+          38.32830703744028,
+          37.078138833086754
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 66,
+        "progress": 0.3282388888994858,
+        "step": 1.189980893165564,
+        "angle": 0.005549320108643082,
+        "dpr": 1,
+        "camera": [
+          17.80901790580846,
+          37.19597386437793,
+          36.9230111501985
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 64,
+        "progress": 0.331900000015895,
+        "step": 1.1658145784277658,
+        "angle": 0.006036183161497273,
+        "dpr": 1,
+        "camera": [
+          17.46447461376726,
+          36.09260917901134,
+          36.771353897585904
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 70.39999961853027,
+        "progress": 0.3354500000211931,
+        "step": 1.1304434312710292,
+        "angle": 0.0065305653889742975,
+        "dpr": 1,
+        "camera": [
+          17.10921380153031,
+          35.02931279372714,
+          36.62611993587547
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 65.40000009536743,
+        "progress": 0.3393611111111113,
+        "step": 1.2430250148368909,
+        "angle": 0.008096297613098711,
+        "dpr": 1,
+        "camera": [
+          16.69156754671337,
+          33.868960931190244,
+          36.47034333797065
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 59.200000286102295,
+        "progress": 0.34300000000000014,
+        "step": 1.1521283482976323,
+        "angle": 0.008521734379291315,
+        "dpr": 1,
+        "camera": [
+          16.276249055708334,
+          32.80330285179605,
+          36.331479592514164
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 64.69999980926514,
+        "progress": 0.34628888890478354,
+        "step": 1.0361236552106028,
+        "angle": 0.00863866668666827,
+        "dpr": 1,
+        "camera": [
+          15.877021171031071,
+          31.854581953820347,
+          36.21274466619811
+        ],
+        "clouds": true,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 64.69999980926514,
+        "progress": 0.3498833333386316,
+        "step": 1.125306146027715,
+        "angle": 0.01060733207143808,
+        "dpr": 1,
+        "camera": [
+          15.412992298174244,
+          30.836513429232824,
+          36.09221414439075
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 63.700000286102295,
+        "progress": 0.35347777779897055,
+        "step": 1.1068644146259,
+        "angle": 0.012272368195362638,
+        "dpr": 1,
+        "camera": [
+          14.92246429262869,
+          29.85015496669734,
+          35.984380515474385
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 66.59999990463257,
+        "progress": 0.35701666667726306,
+        "step": 1.041613352757808,
+        "angle": 0.015125732648641855,
+        "dpr": 1,
+        "camera": [
+          14.421129141865547,
+          28.941027929467793,
+          35.900062822011584
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 68.5,
+        "progress": 0.3607333333492279,
+        "step": 1.1053445658412908,
+        "angle": 0.01758870246990556,
+        "dpr": 1,
+        "camera": [
+          13.847994267958589,
+          27.99851583971583,
+          35.829536328990095
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 65.59999990463257,
+        "progress": 0.3645277777777778,
+        "step": 1.1396569065659237,
+        "angle": 0.019665552058130403,
+        "dpr": 1,
+        "camera": [
+          13.220041688687187,
+          27.049171486439754,
+          35.772626560297574
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 68.7000002861023,
+        "progress": 0.3681666666666667,
+        "step": 1.1018191399389043,
+        "angle": 0.02036464463306432,
+        "dpr": 1,
+        "camera": [
+          12.583553621752891,
+          26.150874004954037,
+          35.72846784040706
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 70.59999990463257,
+        "progress": 0.37198333334922795,
+        "step": 1.1623335771703334,
+        "angle": 0.0227884789176181,
+        "dpr": 1,
+        "camera": [
+          11.886867878883594,
+          25.22131580705281,
+          35.68884616685756
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 62.5,
+        "progress": 0.3759055555661519,
+        "step": 1.1980347490666263,
+        "angle": 0.024747086750793873,
+        "dpr": 1,
+        "camera": [
+          11.147593750705848,
+          24.279353050413444,
+          35.650542270416935
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 64.90000009536743,
+        "progress": 0.3793833333386315,
+        "step": 1.06185039996943,
+        "angle": 0.022885617987207712,
+        "dpr": 1,
+        "camera": [
+          10.478943182273758,
+          23.45525415311368,
+          35.61457427464305
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 62.39999961853027,
+        "progress": 0.3829777777989705,
+        "step": 1.0933923318414867,
+        "angle": 0.02438275873488329,
+        "dpr": 1,
+        "camera": [
+          9.781449114468375,
+          22.614334856324664,
+          35.57140538545265
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 59.200000286102295,
+        "progress": 0.38645000002119273,
+        "step": 1.0487297100868653,
+        "angle": 0.02404696268740299,
+        "dpr": 1,
+        "camera": [
+          9.107705076007855,
+          21.812291837628283,
+          35.520122136548274
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 66.7999997138977,
+        "progress": 0.3897388888994852,
+        "step": 0.9833782123156393,
+        "angle": 0.02302193714274174,
+        "dpr": 1,
+        "camera": [
+          8.475215678199094,
+          21.061755386090994,
+          35.45941871794251
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 47.30000019073486,
+        "progress": 0.39346111112170745,
+        "step": 1.097519361617848,
+        "angle": 0.02607938710219735,
+        "dpr": 1,
+        "camera": [
+          7.772902932240638,
+          20.222875923223953,
+          35.37231646326305
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 64.80000019073486,
+        "progress": 0.3960777777830759,
+        "step": 0.7597135134418559,
+        "angle": 0.01818360456870863,
+        "dpr": 1,
+        "camera": [
+          7.291838009639937,
+          19.63973251902245,
+          35.296917969341536
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 70.69999980926514,
+        "progress": 0.39968333334392964,
+        "step": 1.028269447867525,
+        "angle": 0.024610501428106855,
+        "dpr": 1,
+        "camera": [
+          6.6518470906501435,
+          18.844916710706787,
+          35.170357660081855
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 66,
+        "progress": 0.40361111111111103,
+        "step": 1.0909289062323493,
+        "angle": 0.025637020551946638,
+        "dpr": 1,
+        "camera": [
+          5.993929836830239,
+          17.991909003690594,
+          34.99816992140583
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 52.19999980926514,
+        "progress": 0.40727222222752035,
+        "step": 0.8416423112582969,
+        "angle": 0.018651500585573782,
+        "dpr": 1,
+        "camera": [
+          5.489213602992285,
+          17.335097246186482,
+          34.84910074751331
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 62.10000038146973,
+        "progress": 0.4101777777936723,
+        "step": 0.6718807793768806,
+        "angle": 0.014971932646598487,
+        "dpr": 1,
+        "camera": [
+          5.077269928265214,
+          16.81791118091978,
+          34.72974931500248
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 55.39999961853027,
+        "progress": 0.4136166666878594,
+        "step": 0.7969554644851878,
+        "angle": 0.01803206145361449,
+        "dpr": 1,
+        "camera": [
+          4.581289087384878,
+          16.211069477809016,
+          34.585235768170136
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 59,
+        "progress": 0.41670000002119273,
+        "step": 0.7136681558055789,
+        "angle": 0.01641269730481342,
+        "dpr": 1,
+        "camera": [
+          4.13288134284653,
+          15.672373288318695,
+          34.45085144364686
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 73.5,
+        "progress": 0.41997777779897055,
+        "step": 0.7549966571084983,
+        "angle": 0.01763712425772503,
+        "dpr": 1,
+        "camera": [
+          3.656782619896241,
+          15.105891332487722,
+          34.30102437009863
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 55.5,
+        "progress": 0.4240555555555556,
+        "step": 0.92976346207009,
+        "angle": 0.022092308312754796,
+        "dpr": 1,
+        "camera": [
+          3.0722130464469535,
+          14.410950815620813,
+          34.10153455277797
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.10000038146973,
+        "progress": 0.4271388888888889,
+        "step": 0.6930425068552184,
+        "angle": 0.016705981369727133,
+        "dpr": 1,
+        "camera": [
+          2.6410243715082284,
+          13.893368688826373,
+          33.938767894841845
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.799999713897705,
+        "progress": 0.4297055555714501,
+        "step": 0.568643578861294,
+        "angle": 0.013829228818223686,
+        "dpr": 1,
+        "camera": [
+          2.2923731823604743,
+          13.46810579870527,
+          33.794029018337
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.09999990463257,
+        "progress": 0.43197222222222226,
+        "step": 0.4949841406753418,
+        "angle": 0.01210077668912561,
+        "dpr": 1,
+        "camera": [
+          1.9942143691185024,
+          13.097025493995332,
+          33.6583454560952
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 62.700000286102295,
+        "progress": 0.4344277777936724,
+        "step": 0.5278104856701311,
+        "angle": 0.012933177820680559,
+        "dpr": 1,
+        "camera": [
+          1.6834549123668445,
+          12.7000082527047,
+          33.50217318281748
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 66.5,
+        "progress": 0.43791666666666673,
+        "step": 0.7335466190630101,
+        "angle": 0.017937513018772416,
+        "dpr": 1,
+        "camera": [
+          1.2677547342466426,
+          12.145340708026824,
+          33.26211502500854
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 61.69999980926514,
+        "progress": 0.4416000000105964,
+        "step": 0.7524154265829287,
+        "angle": 0.018178218443406884,
+        "dpr": 1,
+        "camera": [
+          0.8677011229512215,
+          11.572510976769687,
+          32.98291584657612
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 66.2000002861023,
+        "progress": 0.4450333333545261,
+        "step": 0.6808808269948098,
+        "angle": 0.01603411128115467,
+        "dpr": 1,
+        "camera": [
+          0.5367662539228337,
+          11.051121579870772,
+          32.69615129187717
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 76.7999997138977,
+        "progress": 0.4487055555714502,
+        "step": 0.7078424993990285,
+        "angle": 0.015954452163857814,
+        "dpr": 1,
+        "camera": [
+          0.23425652349334225,
+          10.507702451256378,
+          32.35818011321409
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 71.80000019073486,
+        "progress": 0.4529777777989706,
+        "step": 0.7834128511792693,
+        "angle": 0.01655240044787865,
+        "dpr": 1,
+        "camera": [
+          -0.03603272493966964,
+          9.9091731747688,
+          31.931047671503553
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 81.69999980926514,
+        "progress": 0.45696111112170756,
+        "step": 0.6416229287382663,
+        "angle": 0.013029589819682455,
+        "dpr": 1,
+        "camera": [
+          -0.19253930375284675,
+          9.42639247896548,
+          31.538481150732196
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 69.90000009536743,
+        "progress": 0.4615000000000001,
+        "step": 0.7365836545580964,
+        "angle": 0.013275267709589068,
+        "dpr": 1,
+        "camera": [
+          -0.3025951501219726,
+          8.887043687088854,
+          31.049046710236475
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 66.5,
+        "progress": 0.46538333333863163,
+        "step": 0.6386205968723229,
+        "angle": 0.010447808500152395,
+        "dpr": 1,
+        "camera": [
+          -0.34765508448306826,
+          8.43587598884976,
+          30.59932059677343
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 72.40000009536743,
+        "progress": 0.469077777783076,
+        "step": 0.6155487870164021,
+        "angle": 0.009490048006760416,
+        "dpr": 1,
+        "camera": [
+          -0.35578863739927113,
+          8.016443588930779,
+          30.148864587364603
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 70.09999990463257,
+        "progress": 0.47310000001059643,
+        "step": 0.6780021229353931,
+        "angle": 0.010126957251776382,
+        "dpr": 1,
+        "camera": [
+          -0.3339490687950608,
+          7.571702532759259,
+          29.637576698887354
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 60.19999980926514,
+        "progress": 0.4769888888994853,
+        "step": 0.6609681003495558,
+        "angle": 0.009799483418055269,
+        "dpr": 1,
+        "camera": [
+          -0.2902179001706006,
+          7.154544819846823,
+          29.126748100306475
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 65.60000038146973,
+        "progress": 0.48043333334392974,
+        "step": 0.5872249222183662,
+        "angle": 0.008784313857988937,
+        "dpr": 1,
+        "camera": [
+          -0.2392297399929279,
+          6.7964398138172495,
+          28.664153113895445
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 70.69999980926514,
+        "progress": 0.48398333334922794,
+        "step": 0.6039602152784102,
+        "angle": 0.009191347074024725,
+        "dpr": 1,
+        "camera": [
+          -0.18061044250357772,
+          6.439329812849943,
+          28.180620109013535
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 62.30000019073486,
+        "progress": 0.4879166666666667,
+        "step": 0.6637458762876456,
+        "angle": 0.010343881268433991,
+        "dpr": 1,
+        "camera": [
+          -0.11561091680893365,
+          6.058778216711191,
+          27.640699621696584
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 60.5,
+        "progress": 0.4913722222381169,
+        "step": 0.5749012898430688,
+        "angle": 0.009211076076843266,
+        "dpr": 1,
+        "camera": [
+          -0.06468286522618105,
+          5.73837208310891,
+          27.166086372645058
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 52.799999713897705,
+        "progress": 0.4947333333492279,
+        "step": 0.5487945110049014,
+        "angle": 0.009076871446994761,
+        "dpr": 1,
+        "camera": [
+          -0.026183036490906808,
+          5.439920312176333,
+          26.70715313248515
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 81.90000009536743,
+        "progress": 0.49766666666666676,
+        "step": 0.4685561170775356,
+        "angle": 0.008064138911470618,
+        "dpr": 1,
+        "camera": [
+          -0.005495526360512759,
+          5.190601539197684,
+          26.310975128027806
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 62.5,
+        "progress": 0.5022111111217077,
+        "step": 0.6803317879132847,
+        "angle": 0.012179495723430049,
+        "dpr": 1,
+        "camera": [
+          0,
+          4.838572640887481,
+          25.728826697135982
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 48.40000009536743,
+        "progress": 0.5056888888941873,
+        "step": 0.5084264207325299,
+        "angle": 0.009583074676640364,
+        "dpr": 1,
+        "camera": [
+          0,
+          4.586882200735481,
+          25.287069583288357
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 98.09999990463257,
+        "progress": 0.5083888888888891,
+        "step": 0.4024211630150952,
+        "angle": 0.008086243401366463,
+        "dpr": 1,
+        "camera": [
+          0,
+          4.394494941323525,
+          24.933615293657606
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 100.09999990463257,
+        "progress": 0.5138444444603392,
+        "step": 0.8244242110732608,
+        "angle": 0.018058507729628477,
+        "dpr": 1,
+        "camera": [
+          0,
+          4.018045255566257,
+          24.200157105417116
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 96.09999990463257,
+        "progress": 0.5194000000158947,
+        "step": 0.8401547668199905,
+        "angle": 0.0206245062756218,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.6584327746316148,
+          23.440855521218595
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 51.30000019073486,
+        "progress": 0.5247666666772632,
+        "step": 0.7951234001144905,
+        "angle": 0.021693737284625574,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.341586712154372,
+          22.711588907350734
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 48.80000019073486,
+        "progress": 0.5275888889100818,
+        "step": 0.40607004011607006,
+        "angle": 0.011866755325104093,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.189564431400055,
+          22.335049263177478
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 58.09999990463257,
+        "progress": 0.5303000000052984,
+        "step": 0.37940359570854676,
+        "angle": 0.011502897062754461,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.054311972836866,
+          21.98057237974333
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 101.19999980926514,
+        "progress": 0.5335166666772633,
+        "step": 0.4337343304951452,
+        "angle": 0.013499634771132278,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.9088694103205466,
+          21.571950390052663
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 92.7000002861023,
+        "progress": 0.5391388888888892,
+        "step": 0.7057617923284935,
+        "angle": 0.021903505788607773,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.6983430217112674,
+          20.898319669843243
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 78.09999990463257,
+        "progress": 0.5443055555555558,
+        "step": 0.5776719199905012,
+        "angle": 0.01589106351359058,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.5599355326475104,
+          20.33747368909935
+        ],
+        "clouds": false,
+        "doors": [
+          -0.009449433272170824,
+          0.009449433272170824
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 49.299999713897705,
+        "progress": 0.5486333333386317,
+        "step": 0.387617706546219,
+        "angle": 0.006559927621276032,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.493901784798292,
+          19.95552208146674
+        ],
+        "clouds": false,
+        "doors": [
+          -0.03719370189652552,
+          0.03719370189652552
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.5,
+        "progress": 0.5513666666878597,
+        "step": 0.13650352393925982,
+        "angle": 0.0015037631534375565,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.478959289627315,
+          19.819838869955877
+        ],
+        "clouds": false,
+        "doors": [
+          -0.06359796018609808,
+          0.06359796018609808
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 63.700000286102295,
+        "progress": 0.5537277777989709,
+        "step": 0.11269435170122703,
+        "angle": 0.002064022494625023,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.4709223451889053,
+          19.70743146615411
+        ],
+        "clouds": false,
+        "doors": [
+          -0.09166090211639477,
+          0.09166090211639477
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 76.7999997138977,
+        "progress": 0.5572611111270059,
+        "step": 0.16084902992770664,
+        "angle": 0.004269105294350526,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.466560700980556,
+          19.546641583112656
+        ],
+        "clouds": false,
+        "doors": [
+          -0.14230876631905648,
+          0.14230876631905648
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 71.5,
+        "progress": 0.5615333333545264,
+        "step": 0.18426854333459705,
+        "angle": 0.006749640741472815,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.472118946646905,
+          19.36245688785334
+        ],
+        "clouds": false,
+        "doors": [
+          -0.2165618149359935,
+          0.2165618149359935
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 71.80000019073486,
+        "progress": 0.5655111111270059,
+        "step": 0.16391721696372716,
+        "angle": 0.007472167063035356,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.4863208606448834,
+          19.1991560622096
+        ],
+        "clouds": false,
+        "doors": [
+          -0.2975457627594042,
+          0.2975457627594042
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 71.80000019073486,
+        "progress": 0.5695000000000002,
+        "step": 0.1591355588035791,
+        "angle": 0.00826683873890404,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.507675337694113,
+          19.041459795970727
+        ],
+        "clouds": false,
+        "doors": [
+          -0.3892656158892174,
+          0.3892656158892174
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 70.09999990463257,
+        "progress": 0.5734888888994855,
+        "step": 0.15577610266789585,
+        "angle": 0.008709761891388767,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.534576159953501,
+          18.888024011604212
+        ],
+        "clouds": false,
+        "doors": [
+          -0.4905670017151299,
+          0.4905670017151299
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 74.2999997138977,
+        "progress": 0.5773833333386318,
+        "step": 0.15045021097762268,
+        "angle": 0.008662468869707831,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.5646976773177315,
+          18.740619940510882
+        ],
+        "clouds": false,
+        "doors": [
+          -0.5978105540741456,
+          0.5978105540741456
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 69.60000038146973,
+        "progress": 0.5815166666772633,
+        "step": 0.15948189432868048,
+        "angle": 0.009133503991525545,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.5992233481024094,
+          18.584920060371132
+        ],
+        "clouds": false,
+        "doors": [
+          -0.7196589093849767,
+          0.7196589093849767
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 73.09999990463257,
+        "progress": 0.5853777777883744,
+        "step": 0.15013451023794155,
+        "angle": 0.008317738329686197,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.6323896906046707,
+          18.438494772632268
+        ],
+        "clouds": false,
+        "doors": [
+          -0.8400395114765642,
+          0.8400395114765642
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 72.40000009536743,
+        "progress": 0.58943333334393,
+        "step": 0.1602605340531765,
+        "angle": 0.008397738702930141,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.6666582842225774,
+          18.28194094078373
+        ],
+        "clouds": false,
+        "doors": [
+          -0.9723441150325375,
+          0.9723441150325375
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 74,
+        "progress": 0.5934555555714504,
+        "step": 0.162919487058478,
+        "angle": 0.00791439363635534,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.6985730450847227,
+          18.12217796853262
+        ],
+        "clouds": false,
+        "doors": [
+          -1.108531811340849,
+          1.108531811340849
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 76,
+        "progress": 0.5975722222328188,
+        "step": 0.17598820971526213,
+        "angle": 0.007688398281296701,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.728512660050205,
+          17.948755163185393
+        ],
+        "clouds": false,
+        "doors": [
+          -1.252030504211653,
+          1.252030504211653
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 71.2999997138977,
+        "progress": 0.6017888889047838,
+        "step": 0.19192218549865087,
+        "angle": 0.007882568701153806,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.762302409861682,
+          17.759830897686605
+        ],
+        "clouds": false,
+        "doors": [
+          -1.4022528786545791,
+          1.4022528786545791
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 73.80000019073486,
+        "progress": 0.6057666666772633,
+        "step": 0.18065547311484906,
+        "angle": 0.007493935819683403,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.797074616507866,
+          17.582553449568394
+        ],
+        "clouds": false,
+        "doors": [
+          -1.5459737208845532,
+          1.5459737208845532
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 77.2999997138977,
+        "progress": 0.6098611111111114,
+        "step": 0.18593605506376054,
+        "angle": 0.007767886080107153,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.8353240873750294,
+          17.40059412842475
+        ],
+        "clouds": false,
+        "doors": [
+          -1.6949404828298622,
+          1.6949404828298622
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 73.5,
+        "progress": 0.6141444444656377,
+        "step": 0.19487671392005337,
+        "angle": 0.008181711765212249,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.8774915472517613,
+          17.21033420370117
+        ],
+        "clouds": false,
+        "doors": [
+          -1.8507997810128443,
+          1.8507997810128443
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 73.60000038146973,
+        "progress": 0.6182333333492283,
+        "step": 0.18671695144563458,
+        "angle": 0.007861889565644343,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.91931302270155,
+          17.028361172324665
+        ],
+        "clouds": false,
+        "doors": [
+          -1.9985454773499827,
+          1.9985454773499827
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 74.2999997138977,
+        "progress": 0.6223222222328189,
+        "step": 0.18769805857470068,
+        "angle": 0.007912069941489817,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.962201435001108,
+          16.845628730533026
+        ],
+        "clouds": false,
+        "doors": [
+          -2.144244435121724,
+          2.144244435121724
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 74.7000002861023,
+        "progress": 0.6264444444444447,
+        "step": 0.19051413520932764,
+        "angle": 0.008028630127280428,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.006065257893496,
+          16.660232935662098
+        ],
+        "clouds": false,
+        "doors": [
+          -2.288027598011581,
+          2.288027598011581
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 73.39999961853027,
+        "progress": 0.6305944444603393,
+        "step": 0.193387654013531,
+        "angle": 0.008138193641179677,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.0504072372130016,
+          16.4719975149919
+        ],
+        "clouds": false,
+        "doors": [
+          -2.4285803208754064,
+          2.4285803208754064
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 74,
+        "progress": 0.6346777777936725,
+        "step": 0.192108621536693,
+        "angle": 0.008065661205149092,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.09378429995757,
+          16.284850105454975
+        ],
+        "clouds": false,
+        "doors": [
+          -2.561733337112376,
+          2.561733337112376
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 69.60000038146973,
+        "progress": 0.6387833333545263,
+        "step": 0.19524681500831378,
+        "angle": 0.008172678484390626,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.1367256443638634,
+          16.09438394123815
+        ],
+        "clouds": false,
+        "doors": [
+          -2.689441078203989,
+          2.689441078203989
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 67.5,
+        "progress": 0.6426777777936725,
+        "step": 0.18738473352090368,
+        "angle": 0.007816411877742423,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.1764667816034793,
+          15.911261904422254
+        ],
+        "clouds": false,
+        "doors": [
+          -2.803931399038503,
+          2.803931399038503
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 70.69999980926514,
+        "progress": 0.6464055555661522,
+        "step": 0.18156211238609213,
+        "angle": 0.007546089471698427,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.213284861519149,
+          15.733472057565288
+        ],
+        "clouds": false,
+        "doors": [
+          -2.9066308490718105,
+          2.9066308490718105
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 66,
+        "progress": 0.6503222222328188,
+        "step": 0.22593627015589865,
+        "angle": 0.008934984844592297,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.2580608643651234,
+          15.51201707852644
+        ],
+        "clouds": false,
+        "doors": [
+          -3.0064165635014404,
+          3.0064165635014404
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 66,
+        "progress": 0.6539944444497429,
+        "step": 0.22490695388985035,
+        "angle": 0.009223671079371979,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.303700243546108,
+          15.291789503105047
+        ],
+        "clouds": false,
+        "doors": [
+          -3.0916373369598698,
+          3.0916373369598698
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 62.59999990463257,
+        "progress": 0.6576611111164096,
+        "step": 0.2298827338062954,
+        "angle": 0.009767417425953247,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.350978923954425,
+          15.066821066027522
+        ],
+        "clouds": false,
+        "doors": [
+          -3.1679282779582234,
+          3.1679282779582234
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 62.700000286102295,
+        "progress": 0.6611555555661522,
+        "step": 0.2228005832754243,
+        "angle": 0.009695075387804595,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.39699427785936,
+          14.848824077257326
+        ],
+        "clouds": false,
+        "doors": [
+          -3.231779698658949,
+          3.231779698658949
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 57.39999961853027,
+        "progress": 0.6646222222381171,
+        "step": 0.2234793172324319,
+        "angle": 0.009868554768310826,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.4429863747834837,
+          14.630128553180596
+        ],
+        "clouds": false,
+        "doors": [
+          -3.285947609269559,
+          3.285947609269559
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 58.200000286102295,
+        "progress": 0.6678166666825615,
+        "step": 0.20716149647719673,
+        "angle": 0.009205829292416678,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.485193518214693,
+          14.427312275071444
+        ],
+        "clouds": false,
+        "doors": [
+          -3.327235435036487,
+          3.327235435036487
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 50.69999980926514,
+        "progress": 0.6710444444550411,
+        "step": 0.20966626786507309,
+        "angle": 0.009310786578592795,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.5272341868367323,
+          14.22190408131501
+        ],
+        "clouds": false,
+        "doors": [
+          -3.3600421652997943,
+          3.3600421652997943
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 52.40000009536743,
+        "progress": 0.6738666666878597,
+        "step": 0.18296555481673604,
+        "angle": 0.00806916495178699,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.5631652202971793,
+          14.042501307970058
+        ],
+        "clouds": false,
+        "doors": [
+          -3.3809951624660424,
+          3.3809951624660424
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 48.19999980926514,
+        "progress": 0.6767722222275206,
+        "step": 0.18743444473547521,
+        "angle": 0.00816389284187419,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.5990503939972136,
+          13.858534122358563
+        ],
+        "clouds": false,
+        "doors": [
+          -3.3946614384518887,
+          3.3946614384518887
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 49.60000038146973,
+        "progress": 0.6794611111217077,
+        "step": 0.17213206019274893,
+        "angle": 0.0073602951129671315,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.63101143664203,
+          13.689395309842759
+        ],
+        "clouds": false,
+        "doors": [
+          -3.3998492606459454,
+          3.3998492606459454
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 48.59999990463257,
+        "progress": 0.6822111111217077,
+        "step": 0.17426713221122175,
+        "angle": 0.0072717746670413475,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.662220686521772,
+          13.517945561837498
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 49.19999980926514,
+        "progress": 0.6849111111164096,
+        "step": 0.16892534115974048,
+        "angle": 0.006829955803549781,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.6911875049439438,
+          13.351522323326671
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 48.90000009536743,
+        "progress": 0.6876444444656375,
+        "step": 0.1684022737153324,
+        "angle": 0.006542621309628534,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.7186043762312395,
+          13.18536685106858
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 50.09999990463257,
+        "progress": 0.6903611111111114,
+        "step": 0.1643795321388875,
+        "angle": 0.006071557535478713,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.7437437399074756,
+          13.022921035547977
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 68.5,
+        "progress": 0.6931500000158949,
+        "step": 0.165246848842611,
+        "angle": 0.005725495170337875,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.7671516348796645,
+          12.859340500320268
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 50.90000009536743,
+        "progress": 0.6969444444444447,
+        "step": 0.21844115426117053,
+        "angle": 0.006866817693296778,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.7947222986090314,
+          12.642646254027307
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 61.40000009536743,
+        "progress": 0.6997722222275207,
+        "step": 0.15751770486061994,
+        "angle": 0.004342696247236397,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.811791570000115,
+          12.4860561287999
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 61.40000009536743,
+        "progress": 0.70318333334393,
+        "step": 0.16886203794487092,
+        "angle": 0.0039468293328392785,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.827536439514763,
+          12.317929727116935
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 54.39999961853027,
+        "progress": 0.7066111111111115,
+        "step": 0.1522156270819329,
+        "angle": 0.0026870121609830675,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.8420045673913616,
+          12.166403259449757
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 57.30000019073486,
+        "progress": 0.7096333333386319,
+        "step": 0.13125152353563874,
+        "angle": 0.0016551915294816815,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.8547705649017012,
+          12.035774044731179
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 59,
+        "progress": 0.7128000000052985,
+        "step": 0.13478760394102832,
+        "angle": 0.0011153847576739816,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.8678221029072604,
+          11.901619821794094
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 56.59999990463257,
+        "progress": 0.7160833333333336,
+        "step": 0.1370370892208529,
+        "angle": 0.0005881478596537714,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.8806618571382305,
+          11.765185571939403
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 57.30000019073486,
+        "progress": 0.7192277777989708,
+        "step": 0.12887645710258974,
+        "angle": 0.00012211433140182798,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.89198023998808,
+          11.636807086962442
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 60.59999990463257,
+        "progress": 0.7224055555661523,
+        "step": 0.12811862871181928,
+        "angle": 0.00022274783100238813,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.90214408574996,
+          11.509092251245029
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 56.09999990463257,
+        "progress": 0.7257777777777781,
+        "step": 0.1338736438975461,
+        "angle": 0.0005242824696511168,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.9112086727613646,
+          11.375525841572838
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 56.200000286102295,
+        "progress": 0.7289111111164096,
+        "step": 0.12270048563223755,
+        "angle": 0.0006692040272152724,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.91776185678675,
+          11.253000477041585
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 55.69999980926514,
+        "progress": 0.7320166666772633,
+        "step": 0.12023138253495498,
+        "angle": 0.0007665624964507536,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.922228486141064,
+          11.132852091415819
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 60.19999980926514,
+        "progress": 0.735105555560854,
+        "step": 0.11844232736734012,
+        "angle": 0.0008028092256547914,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.9244393807477778,
+          11.014430400593444
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 58.10000038146973,
+        "progress": 0.7384555555714504,
+        "step": 0.12742534511897974,
+        "angle": 0.0008512883152873784,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.9240722294267667,
+          10.887005584413084
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 52.5,
+        "progress": 0.7416833333439299,
+        "step": 0.12203063556247543,
+        "angle": 0.0007422308466736774,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.920763456350865,
+          10.765019814601544
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 56.299999713897705,
+        "progress": 0.744605555560854,
+        "step": 0.11007515307782605,
+        "angle": 0.0005597325417036139,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.915084477179827,
+          10.655091253614502
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 61,
+        "progress": 0.7477333333492281,
+        "step": 0.1176306801526322,
+        "angle": 0.0004362998487594374,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.9060057424363768,
+          10.537811445085374
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 51.09999990463257,
+        "progress": 0.7511111111111113,
+        "step": 0.12710063418197215,
+        "angle": 0.00023500288697061067,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.892525782124098,
+          10.411427657044982
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 54,
+        "progress": 0.7539555555714502,
+        "step": 0.10731876840921116,
+        "angle": 0.00003585070740194466,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.8780722699868244,
+          10.305086629968093
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 56.10000038146973,
+        "progress": 0.7569611111217076,
+        "step": 0.11390641972172165,
+        "angle": 0.0003052494388177695,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.859590975557868,
+          10.192689502735893
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 54.5,
+        "progress": 0.7600666666825613,
+        "step": 0.1184809044706141,
+        "angle": 0.0006463672766908284,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.8369089983802027,
+          10.076399981989239
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 63.59999990463257,
+        "progress": 0.7631000000105965,
+        "step": 0.12369857799861901,
+        "angle": 0.0004092915425505213,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.8092331565414166,
+          9.955837193462285
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 51.90000009536743,
+        "progress": 0.766638888888889,
+        "step": 0.16349956533954207,
+        "angle": 0.0014433479755465368,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.7629663638926125,
+          9.799020447659384
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 52.09999990463257,
+        "progress": 0.7695111111270058,
+        "step": 0.13516853876440083,
+        "angle": 0.0018846549957917277,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.7171415966263943,
+          9.67185667696702
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 49.19999980926514,
+        "progress": 0.772405555566152,
+        "step": 0.13830248307192572,
+        "angle": 0.0024959437411804543,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.6645070455601356,
+          9.543961482147536
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 48.30000019073486,
+        "progress": 0.7751444444656372,
+        "step": 0.1325789647245187,
+        "angle": 0.002861088310203895,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.6095794931457053,
+          9.423296052660938
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 47.19999980926514,
+        "progress": 0.7778222222328187,
+        "step": 0.13096090877110447,
+        "angle": 0.0032216434709530684,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.5518075932412283,
+          9.30576662142101
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.5,
+        "progress": 0.7804611111217076,
+        "step": 0.13006571285138566,
+        "angle": 0.0035409328533064902,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.4916074657337326,
+          9.190471199536097
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.700000286102295,
+        "progress": 0.7830333333545262,
+        "step": 0.1274468625973327,
+        "angle": 0.003766910817134658,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.430407002477593,
+          9.07868029613543
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.40000009536743,
+        "progress": 0.7875111111270057,
+        "step": 0.11047425750601012,
+        "angle": 0.00365857171513104,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.3195791660952043,
+          8.885709304105394
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.30000019073486,
+        "progress": 0.7899166666666667,
+        "step": 0.11943595816380011,
+        "angle": 0.004132763591946191,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.2585911178732676,
+          8.783018476488786
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.40000009536743,
+        "progress": 0.7922666666772631,
+        "step": 0.1162933917003757,
+        "angle": 0.004182729902706928,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.1985334002470904,
+          8.683433219012032
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.89999961853027,
+        "progress": 0.7946277777883742,
+        "step": 0.11623076803676166,
+        "angle": 0.0043195375551773685,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.1380784393886794,
+          8.584161928368546
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.40000009536743,
+        "progress": 0.7969500000211929,
+        "step": 0.11350209238917112,
+        "angle": 0.004336579132479706,
+        "dpr": 1,
+        "camera": [
+          0,
+          3.078842661084369,
+          8.487343296146218
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.40000009536743,
+        "progress": 0.8014111111164094,
+        "step": 0.10656448256074737,
+        "angle": 0.004232604313682138,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.966807632919484,
+          8.303796812919753
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.19999980926514,
+        "progress": 0.8036500000158946,
+        "step": 0.10609140867301244,
+        "angle": 0.0042700287496875745,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.9119760264376486,
+          8.212973457306534
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.40000009536743,
+        "progress": 0.805888888888889,
+        "step": 0.10466146134001875,
+        "angle": 0.004251184459307819,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.858400980515471,
+          8.123063858573891
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 41.19999980926514,
+        "progress": 0.8081333333386316,
+        "step": 0.1033434360330179,
+        "angle": 0.004218623700977724,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.8061825649604315,
+          8.033883687862955
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.10000038146973,
+        "progress": 0.8104222222434151,
+        "step": 0.10362780288254217,
+        "angle": 0.004234126759309652,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.7546898273103246,
+          7.943954718673043
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.89999961853027,
+        "progress": 0.8128166666825613,
+        "step": 0.10636844509861575,
+        "angle": 0.004325638820510546,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.702956476652513,
+          7.851014380055125
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.40000009536743,
+        "progress": 0.8152000000211927,
+        "step": 0.10368350117333121,
+        "angle": 0.004175875854247993,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.6538551379179314,
+          7.75969446464763
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 42.90000009536743,
+        "progress": 0.8176666666666667,
+        "step": 0.1048952598912768,
+        "angle": 0.004154623890002455,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.6057752452792564,
+          7.666467110981917
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.59999990463257,
+        "progress": 0.8200500000052982,
+        "step": 0.09893274192945216,
+        "angle": 0.003822513131678605,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.5621663882317796,
+          7.5776642111830235
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.59999990463257,
+        "progress": 0.8224833333492279,
+        "step": 0.09848851160178686,
+        "angle": 0.0036877238984507135,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.5207177288268805,
+          7.488322196704549
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.60000038146973,
+        "progress": 0.8248944444656372,
+        "step": 0.09503431386969431,
+        "angle": 0.003400488894693977,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.4828825014498506,
+          7.401144123876503
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.39999961853027,
+        "progress": 0.8273777777883741,
+        "step": 0.09520090311235135,
+        "angle": 0.0032264837731922715,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.4474430276183705,
+          7.312785447743623
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44,
+        "progress": 0.8298388889100816,
+        "step": 0.09167060748882892,
+        "angle": 0.0028792947204586243,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.4160008041357734,
+          7.226675710432206
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.60000038146973,
+        "progress": 0.8322833333545261,
+        "step": 0.08844172172917726,
+        "angle": 0.002536996884583411,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3885270254677673,
+          7.142609488748805
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.39999961853027,
+        "progress": 0.8347055555714501,
+        "step": 0.08513108537134058,
+        "angle": 0.0021540108551655395,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3651050457667533,
+          7.060763825678684
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.40000009536743,
+        "progress": 0.8372277777989705,
+        "step": 0.08210769761926542,
+        "angle": 0.0017879742771492494,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.345660762917424,
+          6.980991688482718
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 43.90000009536743,
+        "progress": 0.8397444444497426,
+        "step": 0.06960512741208712,
+        "angle": 0.001327738907927086,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.331210596085355,
+          6.912903022461285
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.40000009536743,
+        "progress": 0.8421888888941871,
+        "step": 0.06620476104268691,
+        "angle": 0.001138584465830708,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3189611683151403,
+          6.84784134476987
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.40000009536743,
+        "progress": 0.844672222243415,
+        "step": 0.06591454715561837,
+        "angle": 0.0010103207742625045,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.308188853046621,
+          6.782813006712637
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.09999990463257,
+        "progress": 0.8471777777936723,
+        "step": 0.06519763149360165,
+        "angle": 0.0008766090700074586,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.298900809004307,
+          6.718280353038365
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.90000009536743,
+        "progress": 0.8496833333439296,
+        "step": 0.06394371393996057,
+        "angle": 0.0007464995710342121,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.2910773050876063,
+          6.654817046010596
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.299999713897705,
+        "progress": 0.8521722222434149,
+        "step": 0.06232791469006296,
+        "angle": 0.0006183525697912812,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.284639299800583,
+          6.592822521756142
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45,
+        "progress": 0.8546388888888888,
+        "step": 0.06064422777698025,
+        "angle": 0.000497686986332856,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.2794613749827426,
+          6.532399749085178
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45,
+        "progress": 0.8571444444656372,
+        "step": 0.060489789221644885,
+        "angle": 0.0003994952811662208,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.275322041473806,
+          6.472051753938853
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.700000286102295,
+        "progress": 0.859638888888889,
+        "step": 0.05914270512217741,
+        "angle": 0.0002990629584132081,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.272222121496542,
+          6.412990344665933
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.5,
+        "progress": 0.8621777777936724,
+        "step": 0.059120013165175476,
+        "angle": 0.00021092729005567446,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.2700145548528123,
+          6.353911561620206
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 56.39999961853027,
+        "progress": 0.8647166666719649,
+        "step": 0.058058695502103255,
+        "angle": 0.00012295439591280104,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.268668337744502,
+          6.2958684757020436
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 46.10000038146973,
+        "progress": 0.8678500000105964,
+        "step": 0.07021910793935364,
+        "angle": 0.00004088329032950546,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.2680611845074945,
+          6.225651992703068
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 40.19999980926514,
+        "progress": 0.8704166666666667,
+        "step": 0.056360603911759115,
+        "angle": 0.00004592088212348923,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.2683283075983054,
+          6.169292021814568
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 71.69999980926514,
+        "progress": 0.8726388888888889,
+        "step": 0.04796482556185845,
+        "angle": 0.00009348616116176887,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.26904778787263,
+          6.121332592717525
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45.30000019073486,
+        "progress": 0.8766166666878594,
+        "step": 0.08394898674717964,
+        "angle": 0.0002741579460627473,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.271305475719639,
+          6.03741397010333
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 44.19999980926514,
+        "progress": 0.8791388888888889,
+        "step": 0.05197261382649277,
+        "angle": 0.00023671085684469142,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.2732824650246224,
+          5.985478971294764
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 50.30000019073486,
+        "progress": 0.8815888889100817,
+        "step": 0.049554973760506264,
+        "angle": 0.00026976052464156887,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.2755380191489785,
+          5.9359753562752875
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 51.5,
+        "progress": 0.8843888888888889,
+        "step": 0.05551580350180887,
+        "angle": 0.0003495350695401595,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.278452711597109,
+          5.880536119209972
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 54.59999990463257,
+        "progress": 0.8872444444497426,
+        "step": 0.055390166430413765,
+        "angle": 0.00039475258349087053,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.2817239282193325,
+          5.825242632441642
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 54.59999990463257,
+        "progress": 0.8902777777777777,
+        "step": 0.05748103462810184,
+        "angle": 0.0004534899938066658,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.2854515778302837,
+          5.767882594346336
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 60,
+        "progress": 0.8933111111323038,
+        "step": 0.056080359252153614,
+        "angle": 0.00048106675361781804,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.289365169167672,
+          5.711938957561671
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 56.30000019073486,
+        "progress": 0.8966444444656371,
+        "step": 0.06000685096055406,
+        "angle": 0.0005521458680271563,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.293799056282208,
+          5.652096140053989
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 57.40000009536743,
+        "progress": 0.8997666666772629,
+        "step": 0.05466198261878805,
+        "angle": 0.0005307639941979868,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.2980095036300883,
+          5.597596557698274
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 57.90000009536743,
+        "progress": 0.9029666666719647,
+        "step": 0.05446613570767182,
+        "angle": 0.0005505341158936248,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3023203237529555,
+          5.543301283789813
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 59.299999713897705,
+        "progress": 0.9061777777936721,
+        "step": 0.05306199781581064,
+        "angle": 0.0005525112092185859,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.306587377418468,
+          5.490411134752201
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 60.80000019073486,
+        "progress": 0.9094777777989704,
+        "step": 0.052858257758356224,
+        "angle": 0.000561683962335959,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.31086194624929,
+          5.437725999518823
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 60.69999980926514,
+        "progress": 0.9128500000105964,
+        "step": 0.05225259340003927,
+        "angle": 0.0005617140311114945,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3150701399247353,
+          5.3856431364732895
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 83,
+        "progress": 0.9162166666719648,
+        "step": 0.05037749010807416,
+        "angle": 0.0005432771851960062,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3190731577810273,
+          5.335424938998357
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 78.40000009536743,
+        "progress": 0.9208555555608537,
+        "step": 0.06646318328905351,
+        "angle": 0.0007117606384970437,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.324211317016208,
+          5.2691606646675515
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 75.5,
+        "progress": 0.925188888894187,
+        "step": 0.05896854410343743,
+        "angle": 0.0006194794186725858,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3285728266652557,
+          5.210353637644752
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 240.19999980926514,
+        "progress": 0.9293833333386315,
+        "step": 0.054183651203486824,
+        "angle": 0.000552371459397108,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3323653541689278,
+          5.156302876383924
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 45,
+        "progress": 0.9461833333439298,
+        "step": 0.016475791164324308,
+        "angle": 0.00013296662419496662,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3432847589516,
+          4.9686967406800155
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 61,
+        "progress": 0.9526388888888889,
+        "step": 0.01763838973583554,
+        "angle": 0.00012537056351169906,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.345816129616426,
+          4.909190518547296
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 80.19999980926514,
+        "progress": 0.9560222222275203,
+        "step": 0.028348898793099084,
+        "angle": 0.0001887422159376845,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.346832447457694,
+          4.880859843284838
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 84.10000038146973,
+        "progress": 0.9604833333492279,
+        "step": 0.034330245789370224,
+        "angle": 0.00020803118740133836,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3478885552439546,
+          4.846545845961553
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 69.59999990463257,
+        "progress": 0.9651611111164092,
+        "step": 0.03223324016216355,
+        "angle": 0.00017436904859265704,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.348696924609343,
+          4.814322743840236
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 67.5,
+        "progress": 0.9690277777777777,
+        "step": 0.023702912275672186,
+        "angle": 0.00011325711845731956,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.349172840047404,
+          4.790624609845256
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 79.40000009536743,
+        "progress": 0.972766666677263,
+        "step": 0.020361927239549608,
+        "angle": 0.00008733031946763181,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.349498460816892,
+          4.77026528637852
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 66.89999961853027,
+        "progress": 0.9771777777936723,
+        "step": 0.02075680372916455,
+        "angle": 0.00007981515412480391,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3497488330179657,
+          4.74950999272095
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 74.60000038146973,
+        "progress": 0.9808944444656371,
+        "step": 0.014717866227238271,
+        "angle": 0.00004884462444922726,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.349875207965962,
+          4.734792669062913
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 73.39999961853027,
+        "progress": 0.9850388889047833,
+        "step": 0.01339347329414843,
+        "angle": 0.000040698265760628974,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.349952532804515,
+          4.721399418981234
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 74.10000038146973,
+        "progress": 0.9891143478377123,
+        "step": 0.01003778067028161,
+        "angle": 0.00002637897815214813,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.349986564729888,
+          4.711361696001756
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 56.39999961853027,
+        "progress": 0.9924846649436474,
+        "step": 0.005933524430458331,
+        "angle": 0.00001558920713826007,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3499969259534614,
+          4.705428180617779
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 61.10000038146973,
+        "progress": 0.9943313805392473,
+        "step": 0.002335995339908519,
+        "angle": 0.000006136529038346959,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.34999900151324,
+          4.70309218619995
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 57.19999980926514,
+        "progress": 0.9958277910984058,
+        "step": 0.0014153613277418766,
+        "angle": 0.000003717891976079594,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3499997062119053,
+          4.701676825047641
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 59.09999990463257,
+        "progress": 0.9968718380092951,
+        "step": 0.0007335414121978841,
+        "angle": 0.000001927037615815143,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3499999070024336,
+          4.700943283662924
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 52.30000019073486,
+        "progress": 0.9976639870510278,
+        "step": 0.00041696710237375034,
+        "angle": 0.0000010946016116265766,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.349999971042976,
+          4.700526316565468
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 57.5,
+        "progress": 0.9982024122850994,
+        "step": 0.0002145465495323975,
+        "angle": 5.615187788431893e-7,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.3499999898383077,
+          4.700311770016759
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      }
+    ],
+    "initialization": null,
+    "glStalls": [],
+    "resourcesDuringIntro": []
+  },
+  "longTasks": [
+    {
+      "start": 17923.199999809265,
+      "duration": 59,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 282.1
+    },
+    {
+      "start": 21847.89999961853,
+      "duration": 59,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 4206.8
+    },
+    {
+      "start": 21907.099999904633,
+      "duration": 56,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 4266
+    },
+    {
+      "start": 21964.099999904633,
+      "duration": 53,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 4323
+    },
+    {
+      "start": 22017.699999809265,
+      "duration": 53,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 4376.6
+    },
+    {
+      "start": 22071.799999713898,
+      "duration": 51,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 4430.7
+    },
+    {
+      "start": 22123.799999713898,
+      "duration": 54,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 4482.7
+    },
+    {
+      "start": 22178.39999961853,
+      "duration": 54,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 4537.3
+    },
+    {
+      "start": 22232.799999713898,
+      "duration": 75,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 4591.7
+    },
+    {
+      "start": 22308.89999961853,
+      "duration": 72,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 4667.8
+    },
+    {
+      "start": 22382,
+      "duration": 70,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 4740.9
+    },
+    {
+      "start": 22453.699999809265,
+      "duration": 69,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 4812.6
+    },
+    {
+      "start": 22526.799999713898,
+      "duration": 80,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 4885.7
+    },
+    {
+      "start": 22608.299999713898,
+      "duration": 59,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 4967.2
+    },
+    {
+      "start": 22672.89999961853,
+      "duration": 58,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 5031.8
+    },
+    {
+      "start": 22731.599999904633,
+      "duration": 52,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 5090.5
+    },
+    {
+      "start": 22820.599999904633,
+      "duration": 56,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 5179.5
+    },
+    {
+      "start": 22956.199999809265,
+      "duration": 59,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 5315.1
+    },
+    {
+      "start": 23016,
+      "duration": 56,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 5374.9
+    },
+    {
+      "start": 23072.5,
+      "duration": 74,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 5431.4
+    },
+    {
+      "start": 23147.199999809265,
+      "duration": 83,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 5506.1
+    },
+    {
+      "start": 23231,
+      "duration": 79,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 5589.9
+    },
+    {
+      "start": 23311.099999904633,
+      "duration": 74,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 5670
+    },
+    {
+      "start": 23386.199999809265,
+      "duration": 71,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 5745.1
+    },
+    {
+      "start": 23458.199999809265,
+      "duration": 79,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 5817.1
+    },
+    {
+      "start": 23538.599999904633,
+      "duration": 70,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 5897.5
+    },
+    {
+      "start": 23609,
+      "duration": 62,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 5967.9
+    },
+    {
+      "start": 23671.599999904633,
+      "duration": 67,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 6030.5
+    },
+    {
+      "start": 23738.89999961853,
+      "duration": 65,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 6097.8
+    },
+    {
+      "start": 23804.89999961853,
+      "duration": 63,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 6163.8
+    },
+    {
+      "start": 23868.89999961853,
+      "duration": 70,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 6227.8
+    },
+    {
+      "start": 23939.299999713898,
+      "duration": 65,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 6298.2
+    },
+    {
+      "start": 24004.699999809265,
+      "duration": 58,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 6363.6
+    },
+    {
+      "start": 24063.89999961853,
+      "duration": 64,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 6422.8
+    },
+    {
+      "start": 24128.5,
+      "duration": 64,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 6487.4
+    },
+    {
+      "start": 24193.39999961853,
+      "duration": 63,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 6552.3
+    },
+    {
+      "start": 24257,
+      "duration": 65,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 6615.9
+    },
+    {
+      "start": 24323.599999904633,
+      "duration": 68,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 6682.5
+    },
+    {
+      "start": 24392.099999904633,
+      "duration": 65,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 6751
+    },
+    {
+      "start": 24457.599999904633,
+      "duration": 67,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 6816.5
+    },
+    {
+      "start": 24526.299999713898,
+      "duration": 70,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 6885.2
+    },
+    {
+      "start": 24597,
+      "duration": 62,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 6955.9
+    },
+    {
+      "start": 24659.39999961853,
+      "duration": 64,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 7018.3
+    },
+    {
+      "start": 24724.299999713898,
+      "duration": 61,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 7083.2
+    },
+    {
+      "start": 24786.799999713898,
+      "duration": 58,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 7145.7
+    },
+    {
+      "start": 24846,
+      "duration": 66,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 7204.9
+    },
+    {
+      "start": 24960.099999904633,
+      "duration": 64,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 7319
+    },
+    {
+      "start": 25024.799999713898,
+      "duration": 70,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 7383.7
+    },
+    {
+      "start": 25095.5,
+      "duration": 65,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 7454.4
+    },
+    {
+      "start": 25161.599999904633,
+      "duration": 51,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 7520.5
+    },
+    {
+      "start": 25213.799999713898,
+      "duration": 61,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 7572.7
+    },
+    {
+      "start": 25275.89999961853,
+      "duration": 55,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 7634.8
+    },
+    {
+      "start": 25331.299999713898,
+      "duration": 58,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 7690.2
+    },
+    {
+      "start": 25390.299999713898,
+      "duration": 72,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 7749.2
+    },
+    {
+      "start": 25463.599999904633,
+      "duration": 55,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 7822.5
+    },
+    {
+      "start": 25650.39999961853,
+      "duration": 62,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8009.3
+    },
+    {
+      "start": 25713,
+      "duration": 64,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8071.9
+    },
+    {
+      "start": 25779.5,
+      "duration": 61,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8138.4
+    },
+    {
+      "start": 25841.299999713898,
+      "duration": 65,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8200.2
+    },
+    {
+      "start": 25907.299999713898,
+      "duration": 76,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8266.2
+    },
+    {
+      "start": 25984.099999904633,
+      "duration": 71,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8343
+    },
+    {
+      "start": 26056,
+      "duration": 81,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8414.9
+    },
+    {
+      "start": 26137.799999713898,
+      "duration": 69,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8496.7
+    },
+    {
+      "start": 26207.599999904633,
+      "duration": 65,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8566.5
+    },
+    {
+      "start": 26274.099999904633,
+      "duration": 72,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8633
+    },
+    {
+      "start": 26346.5,
+      "duration": 69,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8705.4
+    },
+    {
+      "start": 26416.599999904633,
+      "duration": 57,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8775.5
+    },
+    {
+      "start": 26476.699999809265,
+      "duration": 65,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8835.6
+    },
+    {
+      "start": 26542.299999713898,
+      "duration": 70,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8901.2
+    },
+    {
+      "start": 26613,
+      "duration": 59,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 8971.9
+    },
+    {
+      "start": 26675.199999809265,
+      "duration": 60,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 9034.1
+    },
+    {
+      "start": 26788.599999904633,
+      "duration": 71,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 9147.5
+    },
+    {
+      "start": 26870.599999904633,
+      "duration": 50,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 9229.5
+    },
+    {
+      "start": 26981,
+      "duration": 60,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 9339.9
+    },
+    {
+      "start": 27078.89999961853,
+      "duration": 53,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 9437.8
+    },
+    {
+      "start": 27274.199999809265,
+      "duration": 52,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 9633.1
+    },
+    {
+      "start": 27375.89999961853,
+      "duration": 57,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 9734.8
+    },
+    {
+      "start": 27434.099999904633,
+      "duration": 67,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 9793
+    },
+    {
+      "start": 27535.199999809265,
+      "duration": 56,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 9894.1
+    },
+    {
+      "start": 27627.699999809265,
+      "duration": 51,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 9986.6
+    },
+    {
+      "start": 28512.699999809265,
+      "duration": 51,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 10871.6
+    },
+    {
+      "start": 28586.699999809265,
+      "duration": 56,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 10945.6
+    },
+    {
+      "start": 29328.599999904633,
+      "duration": 57,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 11687.5
+    },
+    {
+      "start": 33538.09999990463,
+      "duration": 70,
+      "name": "self",
+      "attribution": [
+        {
+          "name": "unknown",
+          "containerType": "window",
+          "containerSrc": ""
+        }
+      ],
+      "sinceIntro": 15897
+    }
+  ],
+  "repeat": {
+    "timings": {
+      "stage1": 575,
+      "realism": 5,
+      "logo": 9,
+      "district": 351,
+      "wings": 39,
+      "pbrMaps": 754,
+      "panels": 80,
+      "reception": 31,
+      "lounge": 68,
+      "hdri": 2318,
+      "stair": 2,
+      "plants": 10,
+      "criticalScene": 2374,
+      "shaderCompilation": 679,
+      "programsBeforePrewarm": 58,
+      "textureUploads": 564,
+      "prewarmFrame": 1305,
+      "prewarm": 1872,
+      "programsAfterPrewarm": 67,
+      "shaderFirstUse": 10,
+      "criticalReady": 4952
+    },
+    "loadingMs": 10520.900000095367,
+    "duration": 18452.3,
+    "fps": 20.3,
+    "p95ms": 92.69999980926514,
+    "maximumFrameMs": 220.59999990463257,
+    "frameSpikesOver40": 229,
+    "slowIntervals": [
+      {
+        "dt": 102.69999980926514,
+        "progress": 0.3631777777936722,
+        "step": 1.368806226086374,
+        "angle": 0.02278298545059069,
+        "dpr": 1,
+        "camera": [
+          13.447990543673587,
+          27.385446492811692,
+          35.7913873226822
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 104.5,
+        "progress": 0.4114111111164092,
+        "step": 1.2406261387686737,
+        "angle": 0.027646752764058067,
+        "dpr": 1,
+        "camera": [
+          4.900200556103323,
+          16.599581857327955,
+          34.67843335057016
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 100.2000002861023,
+        "progress": 0.42778888890478334,
+        "step": 1.2162090721977596,
+        "angle": 0.02925708774970091,
+        "dpr": 1,
+        "camera": [
+          2.5517406820398314,
+          13.785178466098646,
+          33.902954497655166
+        ],
+        "clouds": false,
+        "doors": [
+          0,
+          0
+        ],
+        "programs": 67
+      },
+      {
+        "dt": 220.59999990463257,
+        "progress": 0.8109777777989705,
+        "step": 0.13611390958581132,
+        "angle": 0.005558467353116958,
+        "dpr": 1,
+        "camera": [
+          0,
+          2.7424839367731044,
+          7.922286032446272
+        ],
+        "clouds": false,
+        "doors": [
+          -3.4,
+          3.4
+        ],
+        "programs": 67
+      }
+    ],
+    "longTasks": [
+      {
+        "start": 13917.900000095367,
+        "duration": 57,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 3397
+      },
+      {
+        "start": 14140.300000190735,
+        "duration": 59,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 3619.4
+      },
+      {
+        "start": 14200.200000286102,
+        "duration": 51,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 3679.3
+      },
+      {
+        "start": 14808.700000286102,
+        "duration": 50,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 4287.8
+      },
+      {
+        "start": 14859.60000038147,
+        "duration": 67,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 4338.7
+      },
+      {
+        "start": 14927.10000038147,
+        "duration": 78,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 4406.2
+      },
+      {
+        "start": 15005.700000286102,
+        "duration": 66,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 4484.8
+      },
+      {
+        "start": 15072.400000095367,
+        "duration": 50,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 4551.5
+      },
+      {
+        "start": 15268.5,
+        "duration": 53,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 4747.6
+      },
+      {
+        "start": 15322.200000286102,
+        "duration": 77,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 4801.3
+      },
+      {
+        "start": 15673.700000286102,
+        "duration": 61,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 5152.8
+      },
+      {
+        "start": 15735.800000190735,
+        "duration": 50,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 5214.9
+      },
+      {
+        "start": 15853.5,
+        "duration": 59,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 5332.6
+      },
+      {
+        "start": 15990.400000095367,
+        "duration": 57,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 5469.5
+      },
+      {
+        "start": 16074.200000286102,
+        "duration": 60,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 5553.3
+      },
+      {
+        "start": 16135,
+        "duration": 52,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 5614.1
+      },
+      {
+        "start": 16268.800000190735,
+        "duration": 54,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 5747.9
+      },
+      {
+        "start": 16343.800000190735,
+        "duration": 55,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 5822.9
+      },
+      {
+        "start": 16418.60000038147,
+        "duration": 55,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 5897.7
+      },
+      {
+        "start": 16493.800000190735,
+        "duration": 56,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 5972.9
+      },
+      {
+        "start": 16643.700000286102,
+        "duration": 57,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 6122.8
+      },
+      {
+        "start": 16721.60000038147,
+        "duration": 57,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 6200.7
+      },
+      {
+        "start": 16798.10000038147,
+        "duration": 57,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 6277.2
+      },
+      {
+        "start": 16871.700000286102,
+        "duration": 54,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 6350.8
+      },
+      {
+        "start": 16945.800000190735,
+        "duration": 55,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 6424.9
+      },
+      {
+        "start": 17021.10000038147,
+        "duration": 57,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 6500.2
+      },
+      {
+        "start": 17098.800000190735,
+        "duration": 59,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 6577.9
+      },
+      {
+        "start": 17174.10000038147,
+        "duration": 72,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 6653.2
+      },
+      {
+        "start": 17256.5,
+        "duration": 67,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 6735.6
+      },
+      {
+        "start": 17453.10000038147,
+        "duration": 54,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 6932.2
+      },
+      {
+        "start": 17547.10000038147,
+        "duration": 56,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 7026.2
+      },
+      {
+        "start": 17644.5,
+        "duration": 63,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 7123.6
+      },
+      {
+        "start": 17741.400000095367,
+        "duration": 62,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 7220.5
+      },
+      {
+        "start": 17834.5,
+        "duration": 70,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 7313.6
+      },
+      {
+        "start": 18028.200000286102,
+        "duration": 54,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 7507.3
+      },
+      {
+        "start": 18124.60000038147,
+        "duration": 58,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 7603.7
+      },
+      {
+        "start": 18229.200000286102,
+        "duration": 56,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 7708.3
+      },
+      {
+        "start": 18322.300000190735,
+        "duration": 56,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 7801.4
+      },
+      {
+        "start": 18419.200000286102,
+        "duration": 57,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 7898.3
+      },
+      {
+        "start": 18609.300000190735,
+        "duration": 57,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 8088.4
+      },
+      {
+        "start": 18703.10000038147,
+        "duration": 52,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 8182.2
+      },
+      {
+        "start": 18792.700000286102,
+        "duration": 54,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 8271.8
+      },
+      {
+        "start": 18881.5,
+        "duration": 55,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 8360.6
+      },
+      {
+        "start": 18973.700000286102,
+        "duration": 67,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 8452.8
+      },
+      {
+        "start": 19058.400000095367,
+        "duration": 66,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 8537.5
+      },
+      {
+        "start": 19149.10000038147,
+        "duration": 51,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 8628.2
+      },
+      {
+        "start": 19237.5,
+        "duration": 55,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 8716.6
+      },
+      {
+        "start": 19327.10000038147,
+        "duration": 50,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 8806.2
+      },
+      {
+        "start": 19419.10000038147,
+        "duration": 57,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 8898.2
+      },
+      {
+        "start": 19512.5,
+        "duration": 65,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 8991.6
+      },
+      {
+        "start": 19601.10000038147,
+        "duration": 59,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 9080.2
+      },
+      {
+        "start": 19684.5,
+        "duration": 65,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 9163.6
+      },
+      {
+        "start": 19772.200000286102,
+        "duration": 50,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 9251.3
+      },
+      {
+        "start": 19855.400000095367,
+        "duration": 50,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 9334.5
+      },
+      {
+        "start": 19942.700000286102,
+        "duration": 55,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 9421.8
+      },
+      {
+        "start": 20026.60000038147,
+        "duration": 50,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 9505.7
+      },
+      {
+        "start": 20112.800000190735,
+        "duration": 54,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 9591.9
+      },
+      {
+        "start": 20192.300000190735,
+        "duration": 53,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 9671.4
+      },
+      {
+        "start": 20501.200000286102,
+        "duration": 52,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 9980.3
+      },
+      {
+        "start": 20575.5,
+        "duration": 51,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 10054.6
+      },
+      {
+        "start": 20871.200000286102,
+        "duration": 53,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 10350.3
+      },
+      {
+        "start": 21158.400000095367,
+        "duration": 52,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 10637.5
+      },
+      {
+        "start": 21233.300000190735,
+        "duration": 51,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 10712.4
+      },
+      {
+        "start": 21407.400000095367,
+        "duration": 51,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 10886.5
+      },
+      {
+        "start": 21500.700000286102,
+        "duration": 51,
+        "name": "self",
+        "attribution": [
+          {
+            "name": "unknown",
+            "containerType": "window",
+            "containerSrc": ""
+          }
+        ],
+        "sinceIntro": 10979.8
+      }
+    ],
+    "resourceTransferBytes": 0,
+    "assets": [
+      {
+        "url": "http://localhost:8002/assets/logo/logo-white.png",
+        "transfer": 0,
+        "duration": 0
+      },
+      {
+        "url": "http://localhost:8002/assets/materials/asphalt-color-1k.webp",
+        "transfer": 0,
+        "duration": 52.4
+      },
+      {
+        "url": "http://localhost:8002/assets/materials/asphalt-normal.webp",
+        "transfer": 0,
+        "duration": 650.8
+      },
+      {
+        "url": "http://localhost:8002/assets/materials/asphalt-arm.webp",
+        "transfer": 0,
+        "duration": 192.8
+      },
+      {
+        "url": "http://localhost:8002/assets/materials/oak-color-1k.webp",
+        "transfer": 0,
+        "duration": 178.6
+      },
+      {
+        "url": "http://localhost:8002/assets/materials/oak-normal.webp",
+        "transfer": 0,
+        "duration": 182.2
+      },
+      {
+        "url": "http://localhost:8002/assets/materials/oak-arm.webp",
+        "transfer": 0,
+        "duration": 188.6
+      },
+      {
+        "url": "http://localhost:8002/assets/materials/oak-ao.webp",
+        "transfer": 0,
+        "duration": 180.8
+      },
+      {
+        "url": "http://localhost:8002/assets/environment/urban_street_01_2k.hdr",
+        "transfer": 0,
+        "duration": 104.1
+      }
+    ],
+    "collision": null,
+    "glError": 0
+  }
+}

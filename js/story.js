@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { uiIcon } from './content-utils.js';
 
 const DURATION = 18;
 const P_DOORS = [0.54, 0.68];
@@ -199,7 +200,7 @@ export class ScrollStory {
       <img class="story-logo" src="${this.showroom.logoURL}" alt="" />
       <div class="story-chapter" id="story-chapter"><span class="no"></span><h2></h2><p></p></div>
       <div class="story-rail"><i></i></div>
-      <button class="story-skip" type="button">SKIP ↗</button>`;
+      <button class="story-skip" type="button">SKIP ${uiIcon()}</button>`;
     (document.getElementById('showroom-app') ?? document.body).append(hud);
     this.hud = hud;
     this.chapterEl = hud.querySelector('.story-chapter');
