@@ -180,7 +180,7 @@ try {
     const room = window.__showroom;
     const gl = room.renderer.getContext();
     const debug = gl.getExtension('WEBGL_debug_renderer_info');
-    return { renderer: debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER), pixelRatio: room.renderer.getPixelRatio(), drawingBuffer: [gl.drawingBufferWidth, gl.drawingBufferHeight], opaqueReuse: !!room.frameRenderer?.enabled, hidden: document.hidden, focused: document.hasFocus(), programs: room.renderer.info.programs.length };
+    return { renderer: debug ? gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER), pixelRatio: room.renderer.getPixelRatio(), drawingBuffer: [gl.drawingBufferWidth, gl.drawingBufferHeight], opaqueReuse: !!room.frameRenderer?.enabled, hidden: document.hidden, focused: document.hasFocus(), programs: room.renderer.info.programs.length, fullFrameCosts: room.fullFrameCosts?.map((cost) => +cost.toFixed(1)), travelScale: room.motionScale };
   });
   const moves = [];
   const breakdown = [];
@@ -218,7 +218,10 @@ try {
       }
       return { name: program.name, frameTime: program.frameTime, renderCpuMs: +program.cpu.toFixed(1), position: program.position.map((value) => +value.toFixed(2)), differences: closest?.slice(0, 12) ?? 'no program with this name existed' };
     });
-    const moving = raw.renders.filter((frame) => frame.motion);
+    const withMotion = raw.renders.filter((frame) => frame.motion);
+    // A travel that starts at rest first redraws the still view at the travel resolution. Frames drawn before the travel
+    // clock starts add start latency, not judder.
+    const moving = withMotion.slice(Math.max(0, withMotion.findIndex((frame) => frame.motionTime > 0)));
     const first = moving[0];
     const last = moving.at(-1);
     // Intervals between drawn camera frames; with GPU pacing the page keeps its 60 Hz callbacks but draws only when the GPU is free.
@@ -266,6 +269,7 @@ try {
       pacingError: statistics(pacing),
       stalledFrames: stalled,
       startLatencyMs: first ? +(first.frameTime - raw.click).toFixed(1) : null,
+      stillFramesBeforeStart: withMotion.length - moving.length,
       renderCpu: statistics(moving.map((frame) => frame.cpu)),
       tickCpu: statistics(raw.ticks),
       gpu: statistics(gpu),

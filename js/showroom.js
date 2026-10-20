@@ -197,6 +197,12 @@ export class Showroom {
     this.motionGaps = [];
     this.settleFrames = 0;
     this.wasMoving = false;
+    // Frame pacing: frames still on the GPU, and the cadence in display refreshes that the GPU sustains.
+    this.inFlight = [];
+    // How long the last full-resolution frames drawn on an idle GPU took to leave it, in milliseconds.
+    this.fullFrameCosts = [];
+    this.pace = { cadence: 1, refresh: 1000 / 60, gaps: new Float64Array(30), gapCount: 0, lastCallback: null, lastDraw: null, draws: 0, fast: 0, misses: 0, late: false, settle: 0, lowered: false, floor: 1, floorUntil: 0, backoff: 7500 };
+    this.resuming = false;
 
     this.lib = new TextureLibrary(this.renderer, { maxSize: this.highTier ? 2048 : 1024 });
     this.m = createMaterials(this.lib);
@@ -243,10 +249,19 @@ export class Showroom {
     // The only animation loop: the cinematic, camera routes and doors all advance from this frame's timestamp, then the frame renders.
     this.tick = (time) => {
       this.animationFrame = requestAnimationFrame(this.tick);
-      if (this.gpuBusy()) return;
+      if (!this.frameDue(time)) return;
       const gap = this.animationTime === null ? 0 : Math.max(0, time - this.animationTime);
-      const delta = gap > STALL_GAP ? STALL_STEP : gap;
+      let delta = gap > STALL_GAP ? STALL_STEP : gap;
       this.animationTime = time;
+      if (this.resuming) {
+        // The previous frame showed the still view at a new resolution; the clock starts from it with one regular step.
+        delta = Math.min(delta, this.pace.cadence * this.pace.refresh);
+        this.resuming = false;
+      }
+      if (this.beginTravel()) {
+        this.drawFrame(time);
+        return;
+      }
       this.story?.update(delta);
       this.motion?.advance(delta);
       for (const tween of this.tweens) {
@@ -254,7 +269,7 @@ export class Showroom {
         if (tween.finished) this.tweens.delete(tween);
       }
       this.updateRenderScale(gap);
-      this.renderFrame();
+      this.drawFrame(time);
     };
     this.animationFrame = requestAnimationFrame(this.tick);
     // Compile shaders without blocking, then stream the rest in while the doors open.
@@ -2367,7 +2382,29 @@ export class Showroom {
     this.basePixelRatio = Math.min(this.pixelRatio, this.viewportWidth < 640 ? 1.15 : this.maxPixelRatio);
     this.renderer.setPixelRatio(this.basePixelRatio * this.renderScale);
     this.post?.setSize(this.viewportWidth, this.viewportHeight, this.renderer.getPixelRatio());
+    this.pace.settle = 2;
     this.dirty = true;
+  }
+
+  // A travel that starts from a still view first redraws that view at the travel resolution, so the buffers are
+  // reallocated while the camera is at rest; the travel clock starts once that frame has left the GPU.
+  beginTravel() {
+    const moving = Boolean(this.motion) || this.isIntroPlaying;
+    if (!moving || this.wasMoving || !this.viewportWidth) return false;
+    this.wasMoving = true;
+    this.motionCeiling = 1;
+    this.motionGaps.length = 0;
+    this.settleFrames = 2;
+    // Before the first travel, full-resolution frames that all took over two refreshes to leave an idle GPU show that
+    // travel at full resolution would fall below 30 FPS, so travel starts with fewer pixels instead of switching mid-move.
+    // The fastest sample counts, because single frames can carry one-off uploads.
+    const cost = this.motionScale === 1 && this.fullFrameCosts.length ? Math.min(...this.fullFrameCosts) : 0;
+    if (cost > 34) this.motionScale = Math.max(Math.min(1, 0.75 / this.basePixelRatio), Math.round(Math.sqrt(28 / cost) * 20) / 20);
+    if (this.motionScale === this.renderScale) return false;
+    this.renderScale = this.motionScale;
+    this.applyPixelRatio();
+    this.resuming = true;
+    return true;
   }
 
   // While the camera travels on a GPU that cannot keep it fluid (median frame over 40 ms), travel frames render fewer
@@ -2381,6 +2418,7 @@ export class Showroom {
       this.settleFrames = 2;
     }
     this.wasMoving = moving;
+    // Changes during travel or at its end apply at once: holding a moving camera for the reallocation would also show.
     const scale = moving ? this.motionScale : 1;
     if (scale !== this.renderScale) {
       this.renderScale = scale;
@@ -2576,24 +2614,91 @@ export class Showroom {
     this.renderFrame();
   }
 
-  // True while the GPU is still drawing the previous frame. Starting another frame would only queue it: the browser then
-  // runs several frames ahead and blocks, so the camera alternates between slow motion and jumps.
-  gpuBusy() {
-    const fence = this.frameFence;
-    if (!fence) return false;
+  // Frame pacing. Frames are drawn on a steady cadence of whole display refreshes with at most two still on the GPU, so
+  // the CPU prepares one frame while the GPU draws the previous one. Without a limit the browser queued several frames
+  // ahead of a slow GPU and then blocked, which showed as slow motion followed by jumps.
+  frameDue(time) {
+    const pace = this.pace;
+    // The display refresh interval: the lower quartile of the last 30 callback gaps, so one odd gap changes nothing.
+    const gap = pace.lastCallback === null ? 0 : time - pace.lastCallback;
+    pace.lastCallback = time;
+    if (gap > 3 && gap < 100) {
+      pace.gaps[pace.gapCount++] = gap;
+      if (pace.gapCount === pace.gaps.length) {
+        pace.refresh = pace.gaps.sort()[7];
+        pace.gapCount = 0;
+      }
+    }
     const gl = this.renderer.getContext();
-    if (gl.getSyncParameter(fence, gl.SYNC_STATUS) !== gl.SIGNALED && performance.now() - this.frameFenceTime < 1000) return true;
-    gl.deleteSync(fence);
-    this.frameFence = null;
+    const now = performance.now();
+    while (this.inFlight.length) {
+      const frame = this.inFlight[0];
+      const done = gl.getSyncParameter(frame.fence, gl.SYNC_STATUS) === gl.SIGNALED;
+      if (!done && now - frame.time < 1000) break;
+      // A frame that left the GPU a refresh before the next one was due shows that a shorter cadence would hold.
+      if (done && frame.drawn !== null && time - frame.drawn < (pace.cadence - 0.5) * pace.refresh) pace.fast++;
+      if (done && frame.full) {
+        this.fullFrameCosts.push(time - frame.drawn);
+        if (this.fullFrameCosts.length > 5) this.fullFrameCosts.shift();
+      }
+      gl.deleteSync(frame.fence);
+      this.inFlight.shift();
+    }
+    if (pace.lastDraw !== null && time - pace.lastDraw < (pace.cadence - 0.5) * pace.refresh) return false;
+    if (this.inFlight.length < 2 && !(this.resuming && this.inFlight.length)) return true;
+    // A frame is due but the GPU is still two frames behind.
+    if (!pace.late && this.inFlight.length >= 2) {
+      pace.late = true;
+      pace.misses++;
+    }
     return false;
   }
 
+  drawFrame(time) {
+    if (this.renderFrame(time)) this.paceFrame(time);
+  }
+
+  // Lengthens the cadence when the GPU falls behind twice within ten frames, and shortens it when three of those frames
+  // left the GPU a refresh early. A shorter cadence that failed is not tried again for 15 s, then 30, up to 2 minutes.
+  paceFrame(time) {
+    const pace = this.pace;
+    const elapsed = pace.lastDraw === null ? Infinity : time - pace.lastDraw;
+    pace.lastDraw = time;
+    pace.late = false;
+    // Only consecutive frames of an animation show what the GPU sustains. Frames after a resolution or cadence change
+    // still carry the reallocation, the frames queued before it or a GPU clock that has not risen yet.
+    if (elapsed > (pace.cadence + 3) * pace.refresh || pace.settle > 0) {
+      pace.settle = Math.max(0, pace.settle - 1);
+      pace.draws = pace.fast = pace.misses = 0;
+      return;
+    }
+    pace.draws++;
+    if (pace.misses >= 2) {
+      if (pace.lowered) {
+        pace.backoff = Math.min(120000, pace.backoff * 2);
+        pace.floor = pace.cadence + 1;
+        pace.floorUntil = time + pace.backoff;
+      }
+      // No longer than about 33 ms: a GPU slower than that draws as many frames as it can, with two on the GPU at most.
+      pace.cadence = Math.min(Math.max(1, Math.floor(35 / pace.refresh)), pace.cadence + 1);
+      pace.lowered = false;
+      pace.settle = 2;
+    } else if (pace.draws >= 10) {
+      pace.lowered = pace.misses === 0 && pace.fast >= 3 && pace.cadence > (time < pace.floorUntil ? pace.floor : 1);
+      if (pace.lowered) {
+        pace.cadence--;
+        pace.settle = 3;
+      }
+    } else return;
+    pace.draws = pace.fast = pace.misses = 0;
+  }
+
   // Renders only when something changed; the scene is static between camera moves, so idle frames cost nothing.
-  renderFrame() {
-    if (this.startupPreparing || document.hidden) return;
+  renderFrame(time = null) {
+    if (this.startupPreparing || document.hidden) return false;
     const now = performance.now();
     this.adaptQuality(now);
-    if (!this.dirty) return;
+    if (!this.dirty) return false;
     this.dirty = false;
     if (this.shadowDirty && !this.introRendering && now - this.lastShadow > 500) {
       this.renderer.shadowMap.needsUpdate = true;
@@ -2612,10 +2717,10 @@ export class Showroom {
       }
     } else this.renderer.render(this.scene, this.camera);
     const gl = this.renderer.getContext();
-    if (this.frameFence) gl.deleteSync(this.frameFence);
-    this.frameFence = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
-    this.frameFenceTime = performance.now();
+    const full = time !== null && this.renderScale === 1 && this.inFlight.length === 0;
+    this.inFlight.push({ fence: gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0), time: performance.now(), drawn: time, full });
     if (this.shadowDirty && !this.introRendering) this.dirty = true;
+    return true;
   }
 
   dispose() {

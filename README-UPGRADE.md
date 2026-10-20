@@ -234,3 +234,62 @@ npm run test:admin
 The quality audit requires a supported native Chromium GPU and an existing local server. Native source serving still relies on remote ESM imports; connection-refused/remote-load-timeout attempts and one transient network-error audit were not counted as passes. The final clean functional/visual audit used Vite's local dependencies. Production performance runs used local production bundles. No network timeout or real-device performance issue is claimed fixed.
 
 Before production acceptance: test physical iPhone/Safari and Android GPUs, portrait/landscape interaction, context recovery and render-target memory pressure; investigate the remaining long-frame outliers and startup cost; verify live admin flows only after approved Supabase setup. Stable 60 FPS and faster loading remain unmet requirements, not hidden by reduced resolution or removed detail.
+
+## Camera, Loading and About Update: 2026-10-20
+
+### Measured Lag Causes
+
+These were measured on the owner's laptop (Intel UHD 620, viewport 1536×730 at DPR 1.25), in headless Edge on D3D11:
+
+1. Two animation clocks drove the scene.
+2. A glass shader variant compiled during camera moves.
+3. Decor and shadow programs were committed during moves.
+4. Frames queued without a bound, so the GPU fell behind in bursts.
+5. A delta clamp made routes last 4–12 s on slow GPUs.
+6. Render-target reallocation happened mid-move.
+7. Full-resolution frames cost about 50–55 ms of GPU time each.
+
+### Fixes
+
+- [js/showroom.js](js/showroom.js) now runs one loop.
+- Frames are paced with GPU fences: at most two in flight, and a cadence that steps down only on evidence.
+- When full-resolution frames measured at rest take over two refreshes, camera travel renders at 0.75 device pixels. The switch happens at rest, before the camera starts. Still views return to full resolution.
+- Visual identity, materials and still-frame quality are unchanged.
+
+### Results
+
+Navigation profile, built bundle, at the owner's viewport:
+
+| Run | FPS | Worst p95 | Worst interval | Intervals >100 ms |
+|---|---|---|---|---|
+| Before (1536×730 at DPR 1.25) | 12.8 | 366.6 ms | 1666.5 ms | 175 |
+| After (1536×730 at DPR 1.25) | 27.4 | 66.6 ms | 349.9 ms | 1 |
+| After (1280×800 at DPR 1, higher background GPU load) | 23.5 | 100 ms | 133.3 ms | 5 |
+
+Routes are now 1.8–6.1 s instead of 4.2–12.6 s.
+
+Limits:
+
+- On 60 Hz screens, travel is capped at about 30 FPS, and 60 FPS is not reached on this GPU.
+- Interior moves start about 1.3 s after the click because of the door logic.
+- Background GPU load causes run-to-run variance.
+
+### About Statistics
+
+- Four rings, with label, value, suffix, order and enabled fields, editable in the admin.
+- Hidden publicly until approved.
+- The animation runs once and respects reduced motion. The mobile layout uses two columns.
+- Migration `supabase/migrations/202610200001_about_statistics.sql` is additive and has not been applied, because there is no live project.
+- The floating Image Credits button was removed. A small licence link stays in About for the CC BY-SA attribution.
+
+### Verify
+
+```powershell
+node scripts/profile-navigation.mjs --viewport=1536x730@1.25 --label=check
+node scripts/profile-intro.mjs --built --viewport=1536x730@1.25 --camera-check --summary
+node scripts/quality-audit.mjs http://localhost:8001/ --after --functional --reduced-motion --scene-only
+node scripts/quality-audit.mjs http://localhost:8001/ --after --functional --mobile
+node scripts/test-admin.mjs
+```
+
+Still to do: test on physical phones and other GPUs.
