@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-import { gsap } from 'gsap';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { rng } from './textures.js';
@@ -25,6 +24,58 @@ UNIT_PANE.setAttribute('uv2', UNIT_PANE.attributes.uv.clone());
 export const SUN_DIRECTION = new THREE.Vector3(-24, 21, 10).normalize();
 const wait = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
 const CENTER_Z = -4.15;
+
+// Same curves as the former GSAP eases, so route timing and feel are unchanged.
+const EASES = {
+  'sine.inOut': (t) => (1 - Math.cos(Math.PI * t)) / 2,
+  'power2.inOut': (t) => (t < 0.5 ? 4 * t * t * t : 1 - ((2 - 2 * t) ** 3) / 2),
+};
+// Slow frames advance animations by real time, so routes keep their duration on any GPU. A longer gap is a stall
+// (tab switch, blocking work) and advances one nominal frame instead, as GSAP's lag smoothing did.
+const STALL_GAP = 500;
+const STALL_STEP = 1000 / 30;
+
+// Time-based tween advanced only by the showroom's frame loop, from the same timestamp the frame is rendered for.
+class FrameTween {
+  constructor(seconds, { delay = 0, ease = 'sine.inOut', onUpdate, onComplete } = {}) {
+    this.length = Math.max(0, seconds) * 1000;
+    this.elapsed = -Math.max(0, delay) * 1000;
+    this.ease = EASES[ease] ?? EASES['sine.inOut'];
+    this.onUpdate = onUpdate;
+    this.onComplete = onComplete;
+    this.speed = 1;
+    this.paused = false;
+    this.finished = false;
+  }
+
+  advance(milliseconds) {
+    if (this.paused || this.finished) return;
+    this.elapsed += milliseconds * this.speed;
+    if (this.elapsed >= 0) this.render();
+  }
+
+  render() {
+    const progress = this.progress();
+    this.onUpdate?.(this.ease(progress));
+    if (progress < 1) return;
+    this.finished = true;
+    this.onComplete?.();
+  }
+
+  progress(value) {
+    if (value === undefined) return this.length ? THREE.MathUtils.clamp(this.elapsed / this.length, 0, 1) : this.elapsed >= 0 ? 1 : 0;
+    if (!this.finished) {
+      this.elapsed = value * this.length;
+      this.render();
+    }
+    return this;
+  }
+
+  duration() { return this.length / 1000; }
+  timeScale(speed) { this.speed = speed; return this; }
+  pause() { this.paused = true; return this; }
+  kill() { this.finished = true; return this; }
+}
 
 const EVENING = {
   sunColor: ['#fff0dc', '#ffb36b', '#7f8fc8'],
@@ -113,6 +164,7 @@ export class Showroom {
     this.shadowDirty = true;
     this.lastShadow = 0;
     this.motion = null;
+    this.tweens = new Set();
     this.cameraRadius = 0.38;
     this.cameraColliders = [];
     this.lastSafeCameraPosition = this.camera.position.clone();
@@ -138,6 +190,13 @@ export class Showroom {
     this.roundedGeo = new Map();
     this.exteriorWakeLights = [];
     this.frameTimes = { average: 16, last: performance.now(), checked: performance.now() };
+    // Resolution multiplier for frames where the camera travels; it only drops on GPUs that cannot keep travel fluid.
+    this.motionScale = 1;
+    this.motionCeiling = 1;
+    this.renderScale = 1;
+    this.motionGaps = [];
+    this.settleFrames = 0;
+    this.wasMoving = false;
 
     this.lib = new TextureLibrary(this.renderer, { maxSize: this.highTier ? 2048 : 1024 });
     this.m = createMaterials(this.lib);
@@ -178,16 +237,24 @@ export class Showroom {
     }));
     this.criticalAssetsReady = Promise.all([this.shaderAssetsReady, this.environmentReady]);
     this.timings.stage1 = Math.round(performance.now() - t0);
-    this.animationTime = performance.now();
-    this.onVisibilityChange = () => { this.animationTime = performance.now(); };
+    this.animationTime = null;
+    this.onVisibilityChange = () => { this.animationTime = null; };
     document.addEventListener('visibilitychange', this.onVisibilityChange);
-    this.tick = () => {
-      const now = performance.now();
-      const delta = now - this.animationTime;
-      this.animationTime = now;
-      this.story?.update(delta);
-      this.renderFrame();
+    // The only animation loop: the cinematic, camera routes and doors all advance from this frame's timestamp, then the frame renders.
+    this.tick = (time) => {
       this.animationFrame = requestAnimationFrame(this.tick);
+      if (this.gpuBusy()) return;
+      const gap = this.animationTime === null ? 0 : Math.max(0, time - this.animationTime);
+      const delta = gap > STALL_GAP ? STALL_STEP : gap;
+      this.animationTime = time;
+      this.story?.update(delta);
+      this.motion?.advance(delta);
+      for (const tween of this.tweens) {
+        tween.advance(delta);
+        if (tween.finished) this.tweens.delete(tween);
+      }
+      this.updateRenderScale(gap);
+      this.renderFrame();
     };
     this.animationFrame = requestAnimationFrame(this.tick);
     // Compile shaders without blocking, then stream the rest in while the doors open.
@@ -1599,10 +1666,19 @@ export class Showroom {
         if ('requestIdleCallback' in window) requestIdleCallback(resolve, { timeout: 1000 });
         else setTimeout(resolve, 16);
       });
+      // Building and committing block the main thread, so both wait for a still camera instead of landing mid-move.
+      const still = () => new Promise((resolve) => {
+        const check = () => (this.motion || this.transitioning || this.isIntroPlaying || this.tweens.size ? requestAnimationFrame(check) : resolve());
+        check();
+      });
+      await still();
       const group = new THREE.Group();
       group.name = 'decor';
       this.buildDecor(group);
       await this.compilePasses(group);
+      await still();
+      // First use of a new program is a synchronous GPU round trip; pay it now rather than in the next frame.
+      for (const program of this.renderer.info.programs) program.getUniforms();
       this.uploadTextures(group);
       this.commit(group);
     })();
@@ -1626,19 +1702,20 @@ export class Showroom {
       });
       (this.compilationMaterials ??= []).push(...copies.values());
     }
-    await this.renderer.compileAsync(group, this.camera, this.scene);
     const renderer = this.renderer;
     const target = renderer.getRenderTarget();
     const toneMapping = renderer.toneMapping;
     this.linearCompileTarget ??= new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, colorSpace: THREE.LinearSRGBColorSpace });
-    const prepare = (backFaces) => {
+    const prepare = (backFaces, linear = true) => {
       const materials = new Map();
       group.traverse((object) => {
         const material = object.material;
         if (backFaces && material?.transmission > 0) materials.set(material, material.side);
       });
-      renderer.setRenderTarget(this.linearCompileTarget);
-      renderer.toneMapping = THREE.NoToneMapping;
+      if (linear) {
+        renderer.setRenderTarget(this.linearCompileTarget);
+        renderer.toneMapping = THREE.NoToneMapping;
+      }
       for (const material of materials.keys()) { material.side = THREE.BackSide; material.needsUpdate = true; }
       let pending;
       try {
@@ -1650,6 +1727,46 @@ export class Showroom {
       }
       return pending;
     };
+    // The sun's shadow pass draws casters with depth variants compileAsync never sees; left alone, the first
+    // shadow refresh after a commit links one synchronously (about 300 ms on an integrated GPU).
+    const prepareShadows = () => {
+      const flip = { [THREE.FrontSide]: THREE.BackSide, [THREE.BackSide]: THREE.FrontSide, [THREE.DoubleSide]: THREE.DoubleSide };
+      const casters = new THREE.Group();
+      const variants = new Set();
+      group.traverse((object) => {
+        if (!object.isMesh || !object.castShadow || object.isSkinnedMesh || object.isBatchedMesh) return;
+        const materials = Array.isArray(object.material) ? object.geometry.groups.map((part) => object.material[part.materialIndex]) : [object.material];
+        for (const material of materials) {
+          const key = `${material?.id}:${object.isInstancedMesh}:${!!object.instanceColor}:${!!object.morphTexture}:${object.geometry.morphAttributes.position?.length ?? 0}`;
+          if (!material?.visible || variants.has(key)) continue;
+          variants.add(key);
+          // Mirrors WebGLShadowMap's depth-material setup so these programs are the ones the shadow pass requests.
+          const depth = Object.assign(new THREE.MeshDepthMaterial(), {
+            side: material.shadowSide ?? flip[material.side],
+            map: material.map, alphaMap: material.alphaMap, alphaTest: material.alphaToCoverage ? 0.5 : material.alphaTest,
+            displacementMap: material.displacementMap, displacementScale: material.displacementScale, displacementBias: material.displacementBias,
+            clipShadows: material.clipShadows, clippingPlanes: material.clippingPlanes, clipIntersection: material.clipIntersection, wireframe: material.wireframe,
+          });
+          (this.compilationMaterials ??= []).push(depth);
+          casters.add(object.isInstancedMesh
+            ? Object.assign(new THREE.InstancedMesh(object.geometry, depth, 0), { instanceColor: object.instanceColor, morphTexture: object.morphTexture })
+            : new THREE.Mesh(object.geometry, depth));
+        }
+      });
+      renderer.setRenderTarget(this.linearCompileTarget);
+      // Shadow casters are drawn without the scene, so their programs carry no fog.
+      const fog = this.scene.fog;
+      this.scene.fog = null;
+      try {
+        return renderer.compileAsync(casters, this.camera, this.scene);
+      } finally {
+        this.scene.fog = fog;
+        renderer.setRenderTarget(target);
+      }
+    };
+    // Camera-side culling draws panes seen from behind as BackSide in the tone-mapped screen pass;
+    // compiling that variant with the screen pass keeps it from compiling mid-move.
+    await Promise.all([renderer.compileAsync(group, this.camera, this.scene), prepare(true, false), prepareShadows()]);
     await prepare(false);
     await prepare(true);
   }
@@ -2154,7 +2271,7 @@ export class Showroom {
     return built.blocked ?? { safe: true };
   }
 
-  // Glides along a pre-validated curve with a single tween; no allocations or collision work per frame.
+  // Glides along a pre-validated curve with a single frame-driven tween; no allocations or collision work per frame.
   followCameraPath(points, targetPosition, duration, onComplete, onProgress, ease = 'sine.inOut') {
     if (this.isIntroPlaying) return null;
     this.motion?.kill();
@@ -2175,19 +2292,16 @@ export class Showroom {
     const endPosition = new THREE.Vector3(...points.at(-1));
     const startRotation = this.camera.quaternion.clone();
     const endRotation = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().lookAt(endPosition, endLook, this.camera.up));
-    const state = { t: 0 };
-    this.motion = gsap.to(state, {
-      t: 1,
-      duration,
+    this.motion = new FrameTween(duration, {
       ease,
-      onUpdate: () => {
-        curve.getPointAt(state.t, this.camera.position);
-        this.lookTarget.lerpVectors(startLook, endLook, state.t);
-        this.camera.quaternion.slerpQuaternions(startRotation, endRotation, state.t);
+      onUpdate: (t) => {
+        curve.getPointAt(t, this.camera.position);
+        this.lookTarget.lerpVectors(startLook, endLook, t);
+        this.camera.quaternion.slerpQuaternions(startRotation, endRotation, t);
         this.updateCameraFraming();
         this.lastSafeCameraPosition.copy(this.camera.position);
         this.dirty = true;
-        onProgress?.(state.t);
+        onProgress?.(t);
       },
       onComplete: () => {
         this.camera.position.copy(endPosition);
@@ -2200,6 +2314,23 @@ export class Showroom {
       },
     });
     return this.motion;
+  }
+
+  // Slides a door along x in the frame loop; a newer slide replaces one still running.
+  slideDoor(door, x, seconds, delay = 0) {
+    door.slide?.kill();
+    let from = null;
+    door.slide = new FrameTween(seconds, {
+      delay,
+      ease: 'power2.inOut',
+      onUpdate: (t) => {
+        from ??= door.pivot.position.x;
+        door.pivot.position.x = t === 1 ? x : from + (x - from) * t;
+        this.dirty = true;
+      },
+    });
+    this.tweens.add(door.slide);
+    return door.slide;
   }
 
   createResizeHandling() {
@@ -2224,13 +2355,59 @@ export class Showroom {
     const height = this.canvas.clientHeight;
     if (!width || !height) return;
     this.viewportWidth = width;
+    this.viewportHeight = height;
     this.camera.aspect = width / height;
     this.updateCameraFraming();
     this.camera.updateProjectionMatrix();
-    this.renderer.setPixelRatio(Math.min(this.pixelRatio, width < 640 ? 1.15 : this.maxPixelRatio));
     this.renderer.setSize(width, height, false);
-    this.post?.setSize(width, height, this.renderer.getPixelRatio());
+    this.applyPixelRatio();
+  }
+
+  applyPixelRatio() {
+    this.basePixelRatio = Math.min(this.pixelRatio, this.viewportWidth < 640 ? 1.15 : this.maxPixelRatio);
+    this.renderer.setPixelRatio(this.basePixelRatio * this.renderScale);
+    this.post?.setSize(this.viewportWidth, this.viewportHeight, this.renderer.getPixelRatio());
     this.dirty = true;
+  }
+
+  // While the camera travels on a GPU that cannot keep it fluid (median frame over 40 ms), travel frames render fewer
+  // pixels, down to 0.75 device pixels per CSS pixel. Every still view renders at full resolution.
+  updateRenderScale(gap) {
+    if (!this.dirty || !this.viewportWidth) return;
+    const moving = Boolean(this.motion) || this.isIntroPlaying;
+    if (moving && !this.wasMoving) {
+      this.motionCeiling = 1;
+      this.motionGaps.length = 0;
+      this.settleFrames = 2;
+    }
+    this.wasMoving = moving;
+    const scale = moving ? this.motionScale : 1;
+    if (scale !== this.renderScale) {
+      this.renderScale = scale;
+      this.applyPixelRatio();
+      this.motionGaps.length = 0;
+      this.settleFrames = 2;
+      return;
+    }
+    if (!moving) return;
+    // The first frames after a start or resize still carry the previous frame's cost.
+    if (this.settleFrames > 0) {
+      this.settleFrames--;
+      return;
+    }
+    if (gap > 0 && gap < STALL_GAP) this.motionGaps.push(gap);
+    if (this.motionGaps.length < 8) return;
+    const sorted = this.motionGaps.sort((left, right) => left - right);
+    const typical = (sorted[3] + sorted[4]) / 2;
+    this.motionGaps.length = 0;
+    const floor = Math.min(1, 0.75 / this.basePixelRatio);
+    if (typical > 40 && this.motionScale > floor) {
+      // Pixel cost scales with the square of the ratio; aim near 28 ms (about 35 FPS).
+      this.motionCeiling = this.motionScale - 0.05;
+      this.motionScale = Math.max(floor, Math.min(this.motionCeiling, Math.round(this.motionScale * Math.sqrt(28 / typical) * 20) / 20));
+    } else if (typical < 22 && this.motionScale < this.motionCeiling) {
+      this.motionScale = Math.min(this.motionCeiling, this.motionScale + 0.1);
+    }
   }
 
   introduce(skip = false) {
@@ -2274,7 +2451,7 @@ export class Showroom {
       finish(false);
       return;
     }
-    const openDoor = (door, x) => gsap.to(door.pivot.position, { x, duration: reducedMotion || this.fastEntrance ? 0.15 : 2.1, delay: 0.15, ease: 'power2.inOut', onUpdate: () => { this.dirty = true; } });
+    const openDoor = (door, x) => this.slideDoor(door, x, reducedMotion || this.fastEntrance ? 0.15 : 2.1, 0.15);
     this.entranceTweens = [openDoor(this.doors[0], -3.4), openDoor(this.doors[1], 3.4)];
     this.onEntranceProgress?.('Opening glass doors...', 24);
     this.skipEntrance = () => { this.entranceTweens.forEach((t) => t.timeScale(6)); this.motion?.timeScale(6); };
@@ -2297,9 +2474,7 @@ export class Showroom {
     this.followCameraPath(route, [0, 10.5, 11], reducedMotion ? 0.2 : 6.2, (safe) => {
       this.transitioning = false;
       this.outside = true;
-      for (const door of this.doors) {
-        gsap.to(door.pivot.position, { x: 0, duration: reducedMotion ? 0.1 : 1.8, ease: 'power2.inOut', onUpdate: () => { this.dirty = true; } });
-      }
+      for (const door of this.doors) this.slideDoor(door, 0, reducedMotion ? 0.1 : 1.8);
       this.onExited?.(Boolean(safe));
     });
   }
@@ -2336,7 +2511,7 @@ export class Showroom {
     this.currentDestination = destination;
     this.transitioning = true;
     const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const duration = reducedMotion ? 0.2 : THREE.MathUtils.clamp(1.7 + plan.length * 0.17, 2.2, 4.2);
+    const duration = reducedMotion ? 0.2 : THREE.MathUtils.clamp(1.25 + plan.length * 0.125, 1.6, 3.1);
     this.followCameraPath(plan.points, route.target, duration, (safe) => {
       this.transitioning = false;
       onComplete?.(route, safe);
@@ -2401,6 +2576,18 @@ export class Showroom {
     this.renderFrame();
   }
 
+  // True while the GPU is still drawing the previous frame. Starting another frame would only queue it: the browser then
+  // runs several frames ahead and blocks, so the camera alternates between slow motion and jumps.
+  gpuBusy() {
+    const fence = this.frameFence;
+    if (!fence) return false;
+    const gl = this.renderer.getContext();
+    if (gl.getSyncParameter(fence, gl.SYNC_STATUS) !== gl.SIGNALED && performance.now() - this.frameFenceTime < 1000) return true;
+    gl.deleteSync(fence);
+    this.frameFence = null;
+    return false;
+  }
+
   // Renders only when something changed; the scene is static between camera moves, so idle frames cost nothing.
   renderFrame() {
     if (this.startupPreparing || document.hidden) return;
@@ -2424,12 +2611,17 @@ export class Showroom {
         this.renderer.render(this.scene, this.camera);
       }
     } else this.renderer.render(this.scene, this.camera);
+    const gl = this.renderer.getContext();
+    if (this.frameFence) gl.deleteSync(this.frameFence);
+    this.frameFence = gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0);
+    this.frameFenceTime = performance.now();
     if (this.shadowDirty && !this.introRendering) this.dirty = true;
   }
 
   dispose() {
     cancelAnimationFrame(this.animationFrame);
     this.motion?.kill();
+    this.tweens.clear();
     this.introTimeline?.kill();
     this.story?.dispose();
     document.removeEventListener('visibilitychange', this.onVisibilityChange);

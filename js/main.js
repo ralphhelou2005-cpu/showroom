@@ -1,8 +1,7 @@
-import { gsap } from 'gsap';
 import { CARS } from './cars.js';
 import { Showroom, DESTINATIONS } from './showroom.js';
-import { escapeHtml as escape, cssImage, safeEmail, whatsappNumber, uiIcon } from './content-utils.js';
-import { SUPABASE_CONFIG } from './site-config.js';
+import { escapeHtml as escape, cssImage, safeEmail, whatsappNumber, uiIcon, visibleStatistics } from './content-utils.js';
+import { SUPABASE_CONFIG, ABOUT_STATISTICS } from './site-config.js';
 
 const $ = (selector) => document.querySelector(selector);
 const money = (price) => `$${price.toLocaleString('en-US')}`;
@@ -23,6 +22,12 @@ let publicDataStarted = false;
 let publicDataState = 'fallback';
 let stopPublicData;
 let activeInfoSection;
+let statsPlayed = false;
+let statsObserver;
+let sectionShownAt = 0;
+const RING_LENGTH = 339.292; // circumference of the r=54 dial in a 120-unit viewBox
+const statNumber = new Intl.NumberFormat('en-US');
+const localPreview = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
 if (SUPABASE_CONFIG.url || SUPABASE_CONFIG.publishableKey) {
   CARS.splice(0);
   publicDataState = 'loading';
@@ -127,9 +132,68 @@ function sectionMarkup(section) {
   }
   if (section === 'about') {
     const values = siteContent.about?.values ?? [{title:'Curated',description:'Distinctive vehicles, thoughtfully selected.'},{title:'Personal',description:'Care and attention, at every step.'},{title:'Lebanon',description:'A local welcome. An international outlook.'}];
-    return `${heading}<div class="about-story"><div>${aboutParagraphs()}<div class="about-timeline">${values.map((value) => `<div><b>${escape(value.title)}</b><span>${escape(value.description)}</span></div>`).join('')}</div></div><figure class="about-photo"><img src="assets/photos/showroom-interior.jpg" alt="An automotive gallery with performance cars on display" loading="lazy" decoding="async"><figcaption>Space to discover. Time to decide.</figcaption></figure></div><div class="section-next-step"><span>We look forward to welcoming you.</span><button type="button" class="section-action" data-section-target="contact">Arrange a visit ${uiIcon()}</button></div>`;
+    return `${heading}<div class="about-story"><div>${aboutParagraphs()}<div class="about-timeline">${values.map((value) => `<div><b>${escape(value.title)}</b><span>${escape(value.description)}</span></div>`).join('')}</div></div><figure class="about-photo"><img src="assets/photos/showroom-interior.jpg" alt="An automotive gallery with performance cars on display" loading="lazy" decoding="async"><figcaption>Space to discover. Time to decide.</figcaption></figure></div>${aboutStatsMarkup()}<div class="section-next-step"><span>We look forward to welcoming you.</span><button type="button" class="section-action" data-section-target="contact">Arrange a visit ${uiIcon()}</button></div><p class="section-legal"><button type="button" class="legal-link" data-show-credits>Image credits &amp; licences</button></p>`;
   }
   return `${heading}${contactDetailsMarkup()}`;
+}
+
+// Published admin figures win; otherwise the site-config figures appear only once approved.
+// Unapproved placeholders render solely as a labelled localhost preview.
+function aboutStatsMarkup() {
+  const published = siteContent.stats?.items;
+  const preview = !published && !ABOUT_STATISTICS.approved;
+  if (preview && !localPreview) return '';
+  const stats = visibleStatistics(published ?? ABOUT_STATISTICS.items);
+  if (!stats.length) return '';
+  const animate = !statsPlayed && 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const items = stats.map((stat, index) => {
+    const final = statNumber.format(stat.value);
+    const offset = RING_LENGTH * (1 - (stat.suffix === '%' ? stat.value / 100 : 1));
+    return `<li class="about-stat" style="--i:${index};--offset:${offset.toFixed(3)};--chars:${final.length + (stat.suffix ? 1 : 0)}"><div class="about-stat__dial" aria-hidden="true"><svg class="about-stat__ring" viewBox="0 0 120 120" focusable="false"><circle class="about-stat__track" cx="60" cy="60" r="54"/><circle class="about-stat__progress" cx="60" cy="60" r="54"/></svg><span class="about-stat__figure"><span class="about-stat__number" data-value="${stat.value}" style="min-width:${final.length}ch">${animate ? '0' : final}</span>${stat.suffix ? `<span class="about-stat__suffix">${escape(stat.suffix)}</span>` : ''}</span></div><span class="about-stat__label" aria-hidden="true">${escape(stat.label)}</span><span class="visually-hidden">${escape(`${final}${stat.suffix} ${stat.label}`)}</span></li>`;
+  }).join('');
+  return `<div class="about-stats" data-state="${animate ? 'ready' : 'done'}" data-signature="${escape(JSON.stringify([preview, stats]))}"><ul class="about-stats__grid" aria-label="AUTO HAUS GROUP in figures">${items}</ul>${preview ? '<p class="about-stats__note">Preview only · figures pending approval · not shown on the public site</p>' : ''}</div>`;
+}
+
+// Plays once per page load, when the figures are first scrolled into view on an open About panel.
+function initAboutStats() {
+  statsObserver?.disconnect();
+  const block = document.querySelector('#section-screen-content .about-stats[data-state="ready"]');
+  if (!block) return;
+  statsObserver = new IntersectionObserver((entries) => {
+    if (statsPlayed || !entries.some((entry) => entry.isIntersecting) || !$('#screen-section').classList.contains('is-active')) return;
+    statsObserver.disconnect();
+    // Let the panel finish its own entrance before the figures begin.
+    window.setTimeout(() => playAboutStats(block), Math.max(0, sectionShownAt + 550 - performance.now()));
+  }, { threshold: 0.6 });
+  // The first ring has a bounded size, so it can always come into view even when many figures exceed a short screen.
+  statsObserver.observe(block.querySelector('.about-stat__dial'));
+}
+
+function playAboutStats(block) {
+  // A panel closed during the entrance delay is re-rendered (and re-observed) the next time About opens.
+  if (statsPlayed || !block.isConnected || !$('#screen-section').classList.contains('is-active')) return;
+  statsPlayed = true;
+  const numbers = [...block.querySelectorAll('.about-stat__number')];
+  const finish = () => {
+    block.dataset.state = 'done';
+    numbers.forEach((node) => { node.textContent = statNumber.format(Number(node.dataset.value)); });
+  };
+  block.dataset.state = 'playing';
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { finish(); return; }
+  const started = performance.now();
+  const step = (now) => {
+    if (!block.isConnected || !$('#screen-section').classList.contains('is-active')) { finish(); return; }
+    let running = false;
+    numbers.forEach((node, index) => {
+      const progress = Math.min(1, Math.max(0, (now - started - 200 - index * 100) / 1200));
+      const text = statNumber.format(Math.round(Number(node.dataset.value) * (1 - (1 - progress) ** 3)));
+      if (node.textContent !== text) node.textContent = text;
+      if (progress < 1) running = true;
+    });
+    if (running) requestAnimationFrame(step);
+    else finish();
+  };
+  requestAnimationFrame(step);
 }
 
 function renderWorldInventory() {
@@ -186,6 +250,8 @@ async function navigateTo(section) {
     $('#section-screen-content').innerHTML = sectionMarkup(section);
     $('#screen-section').classList.add('is-active');
     $('#screen-section').setAttribute('aria-hidden', 'false');
+    sectionShownAt = performance.now();
+    if (section === 'about') initAboutStats();
     if (section === 'inventory') {
       renderWorldInventory();
       ['screen-search', 'screen-brand', 'screen-style'].forEach((id) => $(`#${id}`).addEventListener(id === 'screen-search' ? 'input' : 'change', renderWorldInventory));
@@ -309,9 +375,19 @@ function openInfo(section) {
 function showCredits() {
   openInfo('about');
   activeInfoSection = 'credits';
-  $('#info-eyebrow').textContent = 'IMAGE SOURCES';
+  $('#info-eyebrow').textContent = 'IMAGE CREDITS & LICENCES';
   $('#info-title').innerHTML = 'Photographs,<br /><em>properly credited.</em>';
-  $('#info-content').innerHTML = `<div class="screen-contact-grid"><div><span>BMW Welt at night</span><a href="https://commons.wikimedia.org/wiki/File:BMW_Welt_Night.jpg" target="_blank" rel="noreferrer">Richard Bartz · CC BY-SA 2.5 ${uiIcon()}</a></div><div><span>BMW M4 at BMW Welt</span><a href="https://commons.wikimedia.org/wiki/File:BMW_M4_in_der_BMW_Welt.jpg" target="_blank" rel="noreferrer">Strubbl · CC0 ${uiIcon()}</a></div><div><span>2021 BMW M4, exterior</span><a href="https://commons.wikimedia.org/wiki/File:2021_BMW_M4_Competition_G82_front.jpg" target="_blank" rel="noreferrer">LuvsMG481 · CC BY-SA 4.0 ${uiIcon()}</a></div><div><span>Editorial category photographs</span><a href="https://unsplash.com/license" target="_blank" rel="noreferrer">Unsplash License ${uiIcon()}</a></div></div>`;
+  const link = (href, text) => `<a href="${href}" target="_blank" rel="noreferrer">${text} ${uiIcon()}</a>`;
+  const credit = (work, author, source, licence, licenceUrl) => `<div><span>${work}</span>${source ? link(source, author) : `<strong>${author}</strong>`}${link(licenceUrl, licence)}</div>`;
+  $('#info-content').innerHTML = `<div class="screen-contact-grid">${[
+    credit('BMW M4 at BMW Welt', 'Strubbl', 'https://commons.wikimedia.org/wiki/File:BMW_M4_in_der_BMW_Welt.jpg', 'CC0 1.0', 'https://creativecommons.org/publicdomain/zero/1.0/'),
+    credit('BMW M4 Competition G82, front and rear', 'LuvsMG481', 'https://commons.wikimedia.org/wiki/File:2021_BMW_M4_Competition_G82_front.jpg', 'CC BY-SA 4.0', 'https://creativecommons.org/licenses/by-sa/4.0/'),
+    credit('2021 BMW M4 Competition, road views', 'Calreyn88', '', 'CC BY-SA 4.0', 'https://creativecommons.org/licenses/by-sa/4.0/'),
+    credit('BMW Welt at night', 'Richard Bartz', 'https://commons.wikimedia.org/wiki/File:BMW_Welt_Night.jpg', 'CC BY-SA 2.5', 'https://creativecommons.org/licenses/by-sa/2.5/'),
+    credit('Showroom and editorial photographs', 'Unsplash contributors', '', 'Unsplash License', 'https://unsplash.com/license'),
+    credit('Surface materials and lighting environment', 'Poly Haven', '', 'CC0 1.0', 'https://polyhaven.com/license'),
+    credit('Interface symbols', 'Lucide contributors', '', 'ISC / MIT notices', 'assets/logo/icons-LICENSE.txt'),
+  ].join('')}</div>`;
 }
 
 function wire() {
@@ -338,6 +414,7 @@ function wire() {
   $('#section-screen-content').addEventListener('click', (event) => {
     const sectionTarget = event.target.closest('[data-section-target]');
     if (sectionTarget) navigateTo(sectionTarget.dataset.sectionTarget);
+    if (event.target.closest('[data-show-credits]')) showCredits();
     if (event.target.closest('[data-reset-inventory]')) {
       ['screen-search', 'screen-brand', 'screen-style'].forEach((id) => { $(`#${id}`).value = ''; });
       renderWorldInventory();
@@ -384,7 +461,6 @@ function wire() {
     const body = encodeURIComponent(`Hello AUTO HAUS GROUP,\n\nI would like to arrange a private viewing of the ${activeCar.year} ${activeCar.brand} ${activeCar.name}.\n\nThank you.`);
     window.location.href = `mailto:${encodeURIComponent(contactEmail())}?subject=${subject}&body=${body}`;
   });
-  $('#show-credits').addEventListener('click', showCredits);
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
       closePanels();
@@ -433,7 +509,14 @@ function applyPublicSnapshot(snapshot) {
     const filters = ['screen-search','screen-brand','screen-style'].map((id) => $(`#${id}`)?.value ?? '');
     const focusedId = document.activeElement?.id;
     const caret = focusedId === 'screen-search' ? $('#screen-search').selectionStart : null;
+    const stats = container.querySelector('.about-stats');
     container.innerHTML = sectionMarkup(currentSection);
+    if (currentSection === 'about') {
+      // Keep the existing figures (and any animation in progress) when the data is unchanged.
+      const next = container.querySelector('.about-stats');
+      if (stats && next && stats.dataset.signature === next.dataset.signature) next.replaceWith(stats);
+      else initAboutStats();
+    }
     if (currentSection === 'inventory') {
       ['screen-search','screen-brand','screen-style'].forEach((id,index) => {
         const input = $(`#${id}`);

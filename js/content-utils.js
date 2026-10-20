@@ -25,6 +25,18 @@ export function safeEmail(value) {
   return /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?\.[A-Za-z]{2,}$/.test(String(value)) ? String(value) : '';
 }
 
+// Enabled About Us figures in display order. Malformed entries are dropped rather than shown.
+export function visibleStatistics(items) {
+  if (!Array.isArray(items)) return [];
+  return items
+    .filter((item) => item?.enabled === true && typeof item.label === 'string' && item.label.trim()
+      && Number.isInteger(item.value) && item.value >= 0 && item.value <= 1000000
+      && ['', '+', '%'].includes(item.suffix) && (item.suffix !== '%' || item.value <= 100))
+    .map((item) => ({ label: item.label.trim().slice(0, 60), value: item.value, suffix: item.suffix, order: Number.isInteger(item.order) ? item.order : 0 }))
+    .sort((first, second) => first.order - second.order)
+    .slice(0, 8);
+}
+
 export function whatsappNumber(value) {
   return /^\d{8,15}$/.test(String(value)) ? String(value) : '';
 }

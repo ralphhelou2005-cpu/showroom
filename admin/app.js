@@ -3,7 +3,7 @@ import { createIcons, LayoutDashboard, CarFront, FileText, LogOut, Plus, Search,
 import { validateSupabaseConfig } from '../js/site-config.js';
 import { escapeHtml as escape, safeImageUrl } from '../js/content-utils.js';
 import { ensure, readAll, signImages, optimizePhoto, validatePhotoFile, vehiclePayload, saveVehicle, cleanupStorage } from './data.js';
-import { overview, inventory, inventoryResults, editor, photoGrid, specRow, contentEditor, contentItem } from './views.js';
+import { overview, inventory, inventoryResults, editor, photoGrid, specRow, contentEditor, contentItem, statItem } from './views.js';
 
 const app = document.querySelector('#admin-app');
 const logoUrl = new URL('../assets/logo/logo-white.png', import.meta.url).href;
@@ -202,6 +202,8 @@ function contentPayload(form) {
   new FormData(form).forEach((value,key) => { if (key !== 'published') data[key] = String(value).trim(); });
   const list = document.querySelector('#content-items');
   if (list) data[list.dataset.kind] = [...list.querySelectorAll('[data-content-item]')].map((element) => ({ title: element.querySelector('[data-item-title]').value.trim(), description: element.querySelector('[data-item-description]').value.trim() }));
+  const stats = document.querySelector('#stat-items');
+  if (stats) data.items = [...stats.querySelectorAll('[data-stat-item]')].map((element) => ({ label: element.querySelector('[data-stat-label]').value.trim(), value: Number(element.querySelector('[data-stat-value]').value), suffix: element.querySelector('[data-stat-suffix]').value, order: Number(element.querySelector('[data-stat-order]').value), enabled: element.querySelector('[data-stat-enabled]').checked }));
   return data;
 }
 async function commitContent(form) {
@@ -209,6 +211,7 @@ async function commitContent(form) {
   const record = state.contents.find((entry) => entry.section === section);
   const content = contentPayload(form);
   const published = new FormData(form).has('published');
+  if (section === 'stats' && content.items.some((item) => item.suffix === '%' && item.value > 100)) { showFormStatus('A percentage cannot exceed 100.', true); return; }
   setBusy(true); showFormStatus('Saving content...');
   try {
     const saved = ensure(await state.client.rpc('save_site_content', { section_id: section, content, is_published: published, expected_version: record.version }));
@@ -304,6 +307,15 @@ app.addEventListener('click', async (event) => {
     if (action === 'remove-content-item') {
       if (document.querySelectorAll('[data-content-item]').length < 2) { notify('Keep at least one entry.',true); return; }
       button.closest('[data-content-item]').remove(); markDirty();
+    }
+    if (action === 'add-stat-item') {
+      const items = document.querySelector('#stat-items');
+      if (items.children.length >= 8) { notify('The About section can show up to 8 figures.',true); return; }
+      items.insertAdjacentHTML('beforeend', statItem({label:'',value:0,suffix:'',order:items.children.length + 1,enabled:true},items.children.length)); icons(); markDirty();
+    }
+    if (action === 'remove-stat-item') {
+      if (document.querySelectorAll('[data-stat-item]').length < 2) { notify('Keep at least one figure. Disable it or unpublish the section to hide all figures.',true); return; }
+      button.closest('[data-stat-item]').remove(); markDirty();
     }
     if (action === 'toggle-status' || action === 'delete-vehicle') {
       const vehicle = state.vehicles.find((entry) => entry.id === button.dataset.id);

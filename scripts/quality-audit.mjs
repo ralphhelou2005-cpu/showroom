@@ -6,6 +6,8 @@ import { resolve } from 'node:path';
 import { chromium } from 'playwright-core';
 import sharp from 'sharp';
 import { installOpaqueReuse } from '../js/frame-renderer.js';
+import { visibleStatistics } from '../js/content-utils.js';
+import { ABOUT_STATISTICS } from '../js/site-config.js';
 
 for (const samples of [[],[2,1]]) {
   const renderer = {
@@ -17,7 +19,8 @@ for (const samples of [[],[2,1]]) {
 
 const url = process.argv.find((argument) => argument.startsWith('http')) ?? 'http://localhost:8002/';
 const label = process.argv.includes('--after') ? 'after' : 'before';
-const output = resolve(tmpdir(), `auto-haus-quality-${label}`);
+const reducedMotion = process.argv.includes('--reduced-motion');
+const output = resolve(tmpdir(), `auto-haus-quality-${label}${reducedMotion ? '-reduced-motion' : ''}`);
 await mkdir(output, { recursive: true });
 await rm(resolve(output,'failure.json'),{force:true});
 const executablePath = [
@@ -83,6 +86,156 @@ async function verifyCanvas(page) {
   return result;
 }
 
+const statFormat = new Intl.NumberFormat('en-US');
+const expectedStats = visibleStatistics(ABOUT_STATISTICS.items).map((stat) => {
+  const figure = `${statFormat.format(stat.value)}${stat.suffix}`;
+  return { figure, label:stat.label, spoken:`${figure} ${stat.label}`, offset:339.292 * (1 - (stat.suffix === '%' ? stat.value / 100 : 1)) };
+});
+assert.equal(expectedStats.length,4,'The About figures are designed as a 2x2 set');
+
+async function aboutStatistics(page, activate, navigate, prefix) {
+  const reduced = await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches);
+  // Recorded from the moment the About content is inserted, so no state change can be missed.
+  await page.evaluate(() => {
+    const content = document.querySelector('#section-screen-content');
+    const trace = window.__statsTrace = { initial:null, states:[], textUpdates:0, renders:[], frames:[] };
+    trace.observer = new MutationObserver((records) => {
+      const block = content.querySelector('.about-stats');
+      if (!block) return;
+      trace.initial ??= { state:block.dataset.state, numbers:[...block.querySelectorAll('.about-stat__number')].map((node) => node.textContent) };
+      records.forEach((record) => {
+        if (record.type === 'attributes' && record.target === block) trace.states.push([block.dataset.state, performance.now()]);
+        else if (record.type === 'characterData' || record.target.closest?.('.about-stat__number')) trace.textUpdates += 1;
+      });
+    });
+    trace.observer.observe(content, { subtree:true, childList:true, characterData:true, attributes:true, attributeFilter:['data-state'] });
+  });
+  await navigate('about');
+  await page.waitForFunction(() => document.querySelector('#screen-section.is-active #section-screen-content .about-stats'), null, { timeout:10000 });
+  const initial = await page.evaluate(() => window.__statsTrace.initial);
+  if (reduced) assert.equal(initial.state,'done','Reduced motion must show the final figures without animation');
+  else assert.ok(initial.state === 'ready' && initial.numbers.every((number) => number === '0'),'Figures must start hidden and count up from zero');
+  // The figures must never wake the 3D renderer; main-thread frames are sampled at the same time.
+  await page.evaluate(() => {
+    const room = window.__showroom;
+    const trace = window.__statsTrace;
+    const render = room.renderer.render;
+    room.renderer.render = (...args) => { trace.renders.push(performance.now()); return render.apply(room.renderer, args); };
+    trace.restore = () => { room.renderer.render = render; trace.stopped = true; };
+    const frame = (now) => { trace.frames.push(now); if (!trace.stopped) requestAnimationFrame(frame); };
+    requestAnimationFrame(frame);
+  });
+  await page.locator('#section-screen-content .about-stat__dial').first().scrollIntoViewIfNeeded();
+  await page.waitForFunction(() => document.querySelector('#section-screen-content .about-stats')?.dataset.state === 'done', null, { timeout:15000 });
+  await page.waitForTimeout(800);
+  const trace = await page.evaluate(() => {
+    const trace = window.__statsTrace;
+    trace.restore();
+    const playing = trace.states.find(([state]) => state === 'playing')?.[1];
+    const done = trace.states.find(([state]) => state === 'done')?.[1] ?? 0;
+    const during = (time) => playing !== undefined && time >= playing && time <= done;
+    const frames = trace.frames.filter(during);
+    const intervals = frames.slice(1).map((time, index) => time - frames[index]);
+    return { states:trace.states.map(([state]) => state), playing, done, textUpdates:trace.textUpdates, rendersAfterArrival:trace.renders.length, rendersWhileAnimating:trace.renders.filter(during).length, framesWhileAnimating:frames.length, worstFrameMs:Math.max(0,...intervals) };
+  });
+  const animation = { reduced, ...trace, durationMs:trace.playing === undefined ? 0 : trace.done - trace.playing };
+  if (reduced) assert.ok(!animation.states.includes('playing'),'Reduced motion must not animate the figures');
+  else {
+    assert.deepEqual(animation.states,['playing','done'],'Figures must play exactly once');
+    assert.ok(animation.durationMs > 1400 && animation.durationMs < 3000,`Unexpected figure animation duration ${animation.durationMs}`);
+    assert.ok(animation.textUpdates >= 8,'Figure count-up was not progressive');
+    assert.equal(animation.rendersWhileAnimating,0,'About figures woke the WebGL renderer');
+  }
+  const measure = () => page.evaluate(() => {
+    const block = document.querySelector('#section-screen-content .about-stats');
+    const content = document.querySelector('#section-screen-content');
+    const box = (element) => element.getBoundingClientRect();
+    const cells = [...block.querySelectorAll('.about-stat')];
+    const parts = cells.flatMap((cell, index) => [[`dial${index}`, box(cell.querySelector('.about-stat__dial'))], [`label${index}`, box(cell.querySelector('.about-stat__label'))]]);
+    const overlaps = [];
+    parts.forEach(([name, rect], position) => parts.slice(position + 1).forEach(([other, second]) => {
+      if (Math.min(rect.right, second.right) - Math.max(rect.left, second.left) > 1 && Math.min(rect.bottom, second.bottom) - Math.max(rect.top, second.top) > 1) overlaps.push(`${name}/${other}`);
+    }));
+    const blockBox = box(block);
+    return {
+      values:cells.map((cell) => cell.querySelector('.about-stat__figure').textContent),
+      labels:cells.map((cell) => cell.querySelector('.about-stat__label').textContent),
+      spoken:cells.map((cell) => cell.querySelector('.visually-hidden').textContent),
+      columns:new Set(cells.map((cell) => Math.round(box(cell).left))).size,
+      rows:new Set(cells.map((cell) => Math.round(box(cell).top))).size,
+      overlaps,
+      ring:box(cells[0].querySelector('.about-stat__dial')).width,
+      figuresFit:cells.every((cell) => {
+        const dial = box(cell.querySelector('.about-stat__dial'));
+        const number = box(cell.querySelector('.about-stat__number'));
+        const end = box(cell.querySelector('.about-stat__suffix') ?? cell.querySelector('.about-stat__number')).right;
+        return number.left >= dial.left + dial.width * .1 && end <= dial.right - dial.width * .1;
+      }),
+      labelsInside:cells.every((cell) => { const label = box(cell.querySelector('.about-stat__label')); return label.left >= blockBox.left && label.right <= blockBox.right; }),
+      numberSize:parseFloat(getComputedStyle(cells[0].querySelector('.about-stat__figure')).fontSize),
+      labelSize:parseFloat(getComputedStyle(cells[0].querySelector('.about-stat__label')).fontSize),
+      offsets:cells.map((cell) => parseFloat(getComputedStyle(cell.querySelector('.about-stat__progress')).strokeDashoffset)),
+      visible:cells.every((cell) => getComputedStyle(cell).opacity === '1' && getComputedStyle(cell.querySelector('.about-stat__label')).opacity === '1'),
+      contentOverflowX:content.scrollWidth > content.clientWidth,
+      pageOverflowX:document.documentElement.scrollWidth > innerWidth,
+      previewNote:block.querySelector('.about-stats__note')?.textContent ?? null,
+    };
+  });
+  const original = page.viewportSize();
+  const layouts = [];
+  for (const viewport of [original,{ width:640,height:900 },{ width:390,height:844 },{ width:320,height:568 }]) {
+    await page.setViewportSize(viewport);
+    await page.waitForTimeout(200);
+    const layout = { viewport:`${viewport.width}x${viewport.height}`, ...await measure() };
+    assert.deepEqual(layout.values,expectedStats.map((stat) => stat.figure),`Final figures changed at ${layout.viewport}`);
+    assert.deepEqual(layout.labels,expectedStats.map((stat) => stat.label));
+    assert.deepEqual(layout.spoken,expectedStats.map((stat) => stat.spoken));
+    assert.ok(layout.columns === 2 && layout.rows === 2,`Statistics are not a 2x2 grid at ${layout.viewport}`);
+    assert.deepEqual(layout.overlaps,[],`Statistics overlap at ${layout.viewport}`);
+    assert.ok(layout.figuresFit && layout.labelsInside && layout.visible,`Statistics do not fit at ${layout.viewport}`);
+    assert.ok(!layout.contentOverflowX && !layout.pageOverflowX,`Horizontal overflow at ${layout.viewport}`);
+    assert.ok(layout.labelSize >= 9 && layout.numberSize >= 20,`Statistics text too small at ${layout.viewport}`);
+    assert.ok(layout.offsets.every((offset, index) => Math.abs(offset - expectedStats[index].offset) < .01),'Ring progress is wrong');
+    assert.equal(Boolean(layout.previewNote),!ABOUT_STATISTICS.approved,'Unapproved figures must be labelled as a localhost preview');
+    const file = resolve(output,`${prefix}-about-stats-${viewport.width}.png`);
+    await page.locator('#section-screen-content .about-stats').screenshot({ path:file });
+    report.screenshots.push({ name:`${prefix}-about-stats-${viewport.width}`, file });
+    // What a visitor sees once the second row is scrolled into the panel, including surrounding controls.
+    await page.locator('#section-screen-content .about-stat').nth(2).scrollIntoViewIfNeeded();
+    const view = resolve(output,`${prefix}-about-view-${viewport.width}.png`);
+    await page.screenshot({ path:view, animations:'disabled' });
+    report.screenshots.push({ name:`${prefix}-about-view-${viewport.width}`, file:view });
+    layouts.push(layout);
+  }
+  await page.setViewportSize(original);
+  await navigate('contact');
+  await navigate('about');
+  const reopened = await page.evaluate(() => {
+    const block = document.querySelector('#section-screen-content .about-stats');
+    return { state:block.dataset.state, values:[...block.querySelectorAll('.about-stat__figure')].map((node) => node.textContent), plays:window.__statsTrace.states.filter(([state]) => state === 'playing').length };
+  });
+  assert.equal(reopened.state,'done','Statistics replayed after camera navigation');
+  assert.equal(reopened.plays,reduced ? 0 : 1,'Statistics replayed after resizing or navigation');
+  assert.deepEqual(reopened.values,expectedStats.map((stat) => stat.figure));
+  assert.equal(await page.locator('#show-credits, .image-credit').count(),0,'Floating image-credits button still present');
+  await page.locator('#section-screen-content [data-show-credits]').scrollIntoViewIfNeeded();
+  await activate('#section-screen-content [data-show-credits]');
+  await page.locator('#info-panel.is-open').waitFor();
+  const credits = await page.evaluate(() => ({
+    eyebrow:document.querySelector('#info-eyebrow').textContent,
+    entries:document.querySelectorAll('#info-content .screen-contact-grid > div').length,
+    links:[...document.querySelectorAll('#info-content a')].map((link) => ({ href:link.getAttribute('href'), rel:link.rel, target:link.target })),
+  }));
+  assert.equal(credits.entries,7,'Credits panel is incomplete');
+  assert.ok(credits.links.every((link) => link.target === '_blank' && link.rel.includes('noreferrer')),'Credits links must open safely');
+  credits.bundledLicenceStatus = await page.evaluate(async () => (await fetch(document.querySelector('#info-content a[href$="icons-LICENSE.txt"]').href)).status);
+  assert.equal(credits.bundledLicenceStatus,200,'Bundled icon licence is missing');
+  await activate('#info-close');
+  await page.locator('#info-panel.is-open').waitFor({ state:'hidden' });
+  await page.evaluate(() => window.__statsTrace.observer.disconnect());
+  return { animation, layouts:layouts.map(({ viewport, ring, numberSize, labelSize, columns, rows }) => ({ viewport, ring, numberSize, labelSize, columns, rows })), reopened:reopened.state, credits:{ eyebrow:credits.eyebrow, entries:credits.entries, links:credits.links.length, bundledLicenceStatus:credits.bundledLicenceStatus } };
+}
+
 async function functional(page,touch = false) {
   const activate = async (selector) => touch ? page.locator(selector).tap() : page.locator(selector).click();
   const navigate = async (destination) => {
@@ -94,6 +247,8 @@ async function functional(page,touch = false) {
     return page.evaluate(() => ({destination:window.__showroom.currentDestination,collision:window.__showroom.cameraCollisionAt(window.__showroom.camera.position),target:window.__showroom.lookTarget.toArray()}));
   };
   const result = {touchEmulated:touch,navigation:[]};
+  // First About visit of the page load, so the one-time figure animation is observable.
+  result.about = await aboutStatistics(page,activate,navigate,touch ? 'mobile' : 'desktop');
   for (const destination of ['inventory','brands','services','about','contact','home']) {
     const pose = await navigate(destination);
     assert.equal(pose.collision,null,`Collision at ${destination}`);
@@ -274,7 +429,7 @@ async function bench(page, variant) {
 }
 
 try {
-  const context = await browser.newContext({ viewport: { width: 1280, height: 800 }, reducedMotion: 'no-preference' });
+  const context = await browser.newContext({ viewport: { width: 1280, height: 800 }, reducedMotion: reducedMotion ? 'reduce' : 'no-preference' });
   await context.route('**/favicon.ico',(route) => route.fulfill({status:204,body:''}));
   const page = await context.newPage();
   observe(page);

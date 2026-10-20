@@ -3,6 +3,19 @@ export const SUPABASE_CONFIG = Object.freeze({
   publishableKey: '',
 });
 
+// About Us figures. These are placeholders until the business confirms them: while `approved` is false they are
+// not shown on the public site (only as a labelled preview on localhost). After confirming every figure, set
+// `approved: true`, or publish the "About statistics" section from the admin, which takes precedence.
+export const ABOUT_STATISTICS = Object.freeze({
+  approved: false,
+  items: Object.freeze([
+    { label: 'Vehicles sold', value: 500, suffix: '+', order: 1, enabled: true },
+    { label: 'Years experience', value: 20, suffix: '+', order: 2, enabled: true },
+    { label: 'Client satisfaction', value: 98, suffix: '%', order: 3, enabled: true },
+    { label: 'Premium brands', value: 50, suffix: '+', order: 4, enabled: true },
+  ]),
+});
+
 export function validateSupabaseConfig(config = SUPABASE_CONFIG) {
   const url = String(config.url ?? '').trim().replace(/\/$/, '');
   const publishableKey = String(config.publishableKey ?? '').trim();

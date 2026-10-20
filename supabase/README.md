@@ -31,12 +31,13 @@ If the PowerShell server selects another port, use its printed URL followed by `
 | 1 | [202610190001_admin_schema.sql](migrations/202610190001_admin_schema.sql) | Tables, constraints, indexes, row-level access rules and private photo bucket |
 | 2 | [202610190002_admin_commands.sql](migrations/202610190002_admin_commands.sql) | Protected transactional save/delete/content/upload-cleanup commands |
 | 3 | [202610190003_preserve_inventory.sql](migrations/202610190003_preserve_inventory.sql) | All six original vehicles, photo references/credits, pending photo views and four website-content sections |
+| 4 | [202610200001_about_statistics.sql](migrations/202610200001_about_statistics.sql) | Optional About Us figures: allows a `stats` content section, validates it, and seeds the placeholder figures **unpublished** |
 
 Alternatively, link the Supabase CLI to the project and run `supabase db push`. Do not use both methods to apply the same initial migrations without first reconciling the CLI migration history.
 
 The result is `vehicles`, `vehicle_images`, `site_content`, `admin_users`, an image-cleanup queue, admin-only commands, row-level policies, and the **private** `vehicle-images` bucket. Do not switch the bucket to public. The seed does not overwrite existing listings or content.
 
-Before connecting the website, confirm that Table Editor shows six seeded vehicles and four content sections, and Storage shows a private `vehicle-images` bucket. `admin_users` being empty at this stage is expected; ordinary signups do not become administrators. If a migration reports an error, stop and keep that error for diagnosis rather than deleting tables or relaxing policies.
+Before connecting the website, confirm that Table Editor shows six seeded vehicles and five content sections (the `stats` section unpublished), and Storage shows a private `vehicle-images` bucket. `admin_users` being empty at this stage is expected; ordinary signups do not become administrators. If a migration reports an error, stop and keep that error for diagnosis rather than deleting tables or relaxing policies.
 
 Use a current Node.js 24 LTS installation for `npm ci`, `npm run build`, and the development tests. The existing static PowerShell server still does not require Node.js.
 
@@ -92,13 +93,14 @@ GitHub Pages does not support custom response security headers. The admin HTML h
 - A vehicle and its image metadata are committed together. New uploads first reserve an unpublished vehicle when necessary. A failed upload/save remains visible as an error and can leave an unpublished draft, never an automatically published incomplete listing.
 - Removed photo references and deleted vehicles queue private files for cleanup. Use **Overview > Clean unused photos**. Interrupted uploads have a 24-hour grace period before cleanup; the operation never deletes a currently linked file. Cleanup is manual, not an unattended scheduled job.
 - Website content edits company paragraphs/values, service entries, contact details/WhatsApp and section headings. These are plain text/structured fields, not executable HTML or JavaScript.
+- **Website content > About statistics** edits the circular About Us figures: label, whole-number value, optional `+` or `%` suffix (percentages up to 100), display order and enabled/disabled, up to 8 figures. The placeholder figures are seeded unpublished; publish the section only after confirming every figure is accurate. While it is unpublished, the public site falls back to `ABOUT_STATISTICS` in `js/site-config.js`, which also stays hidden until its `approved` flag is set to `true`. If this option reports that the section is unavailable, apply migration 4.
 - Concurrent saves use version numbers. If another staff member saves first, reload before applying your changes; the stale save does not overwrite their work.
 
 Private storage uses five-minute signed image URLs. Already issued URLs can remain usable until expiry after a listing is unpublished/sold; RLS prevents issuing new public URLs immediately. Uploaded objects are immutable through the client (no upsert/update permission).
 
 ## Verification
 
-`npm run test:admin` executes the migrations on embedded PostgreSQL and runs 13 checks covering anonymous, ordinary authenticated and explicit-admin permissions, storage policies, transactional saves and rollback, sold/draft visibility, conflicts, image constraints and seed preservation. The Auth and Storage service tables are test fixtures; this is not a claim of live Supabase service verification. Verify a real login, upload, recovery email and public update against your configured project before granting staff production access.
+`npm run test:admin` executes the migrations on embedded PostgreSQL and runs 15 checks covering anonymous, ordinary authenticated and explicit-admin permissions, storage policies, transactional saves and rollback, sold/draft visibility, conflicts, image constraints, seed preservation and About statistics validation/visibility. The Auth and Storage service tables are test fixtures; this is not a claim of live Supabase service verification. Verify a real login, upload, recovery email and public update against your configured project before granting staff production access.
 
 ### First Live Verification
 
