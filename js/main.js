@@ -329,6 +329,34 @@ function setPhoto(index) {
   renderGallery(activeCar);
 }
 
+function bindPhotoSwipe() {
+  const photo = $('#detail-photo');
+  let start = null;
+  const release = () => {
+    start = null;
+    photo.style.transition = '';
+    photo.style.transform = '';
+  };
+  photo.addEventListener('pointerdown', (event) => {
+    if (event.pointerType === 'mouse' || (activeCar?.photographs.length ?? 0) < 2) return;
+    start = { x: event.clientX, y: event.clientY, time: performance.now(), id: event.pointerId };
+    photo.style.transition = 'none';
+  });
+  photo.addEventListener('pointermove', (event) => {
+    if (!start || event.pointerId !== start.id) return;
+    photo.style.transform = `translateX(${(event.clientX - start.x) * 0.4}px)`;
+  });
+  photo.addEventListener('pointerup', (event) => {
+    if (!start || event.pointerId !== start.id) return;
+    const dx = event.clientX - start.x;
+    const dy = event.clientY - start.y;
+    const flick = Math.abs(dx) > 25 && performance.now() - start.time < 250;
+    release();
+    if (Math.abs(dx) > Math.abs(dy) && (Math.abs(dx) > 50 || flick)) setPhoto(activePhoto + (dx < 0 ? 1 : -1));
+  });
+  photo.addEventListener('pointercancel', release);
+}
+
 function stepVehicle(direction) {
   if (!activeCar) return;
   const index = CARS.findIndex((car) => car.id === activeCar.id);
@@ -453,6 +481,7 @@ function wire() {
   });
   $('#close-detail-panel').addEventListener('click', () => { $('#vehicle-view').classList.remove('is-open'); $('#vehicle-view').setAttribute('aria-hidden', 'true'); });
   $('#next-photo').addEventListener('click', () => setPhoto(activePhoto + 1));
+  bindPhotoSwipe();
   $('#previous-vehicle').addEventListener('click', () => stepVehicle(-1));
   $('#next-vehicle').addEventListener('click', () => stepVehicle(1));
   $('#request-drive').addEventListener('click', () => {
