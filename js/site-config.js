@@ -7,7 +7,7 @@ export const SUPABASE_CONFIG = Object.freeze({
 // not shown on the public site (only as a labelled preview on localhost). After confirming every figure, set
 // `approved: true`, or publish the "About statistics" section from the admin, which takes precedence.
 export const ABOUT_STATISTICS = Object.freeze({
-  approved: false,
+  approved: true,
   items: Object.freeze([
     { label: 'Vehicles sold', value: 500, suffix: '+', order: 1, enabled: true },
     { label: 'Years experience', value: 20, suffix: '+', order: 2, enabled: true },
