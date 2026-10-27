@@ -27,7 +27,8 @@ let statsObserver;
 let sectionShownAt = 0;
 const RING_LENGTH = 339.292; // circumference of the r=54 dial in a 120-unit viewBox
 const statNumber = new Intl.NumberFormat('en-US');
-const localPreview = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
+// Includes private network addresses, so a phone on the same Wi-Fi sees the same preview as the desktop.
+const localPreview = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname) || /^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(location.hostname) || location.hostname.endsWith('.local');
 if (SUPABASE_CONFIG.url || SUPABASE_CONFIG.publishableKey) {
   CARS.splice(0);
   publicDataState = 'loading';

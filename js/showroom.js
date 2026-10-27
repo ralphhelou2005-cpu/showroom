@@ -140,7 +140,11 @@ export class Showroom {
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
     const coarsePointer = matchMedia('(pointer: coarse)').matches;
     this.highTier = !coarsePointer && innerWidth >= 1200 && (navigator.deviceMemory ?? 8) >= 8 && (navigator.hardwareConcurrency ?? 4) >= 12;
-    this.maxPixelRatio = Math.max(1, Math.min(devicePixelRatio, this.highTier ? 1.5 : coarsePointer ? 1.15 : 1.25));
+    this.coarsePointer = coarsePointer;
+    // Phone screens are dense (2-3x), so still views render sharper there; travel frames drop resolution to stay fluid.
+    this.maxPixelRatio = Math.max(1, Math.min(devicePixelRatio, this.highTier ? 1.5 : coarsePointer ? 1.6 : 1.25));
+    // Travel frame budgets in ms: phones aim near 60 FPS, other devices near 35 FPS.
+    this.motionBudget = coarsePointer ? { slow: 26, target: 18, fast: 18, initial: 22 } : { slow: 40, target: 28, fast: 22, initial: 34 };
     this.pixelRatio = this.maxPixelRatio;
     this.renderer.setPixelRatio(this.pixelRatio);
     this.renderer.transmissionResolutionScale = 1;
@@ -2379,7 +2383,7 @@ export class Showroom {
   }
 
   applyPixelRatio() {
-    this.basePixelRatio = Math.min(this.pixelRatio, this.viewportWidth < 640 ? 1.15 : this.maxPixelRatio);
+    this.basePixelRatio = Math.min(this.pixelRatio, this.viewportWidth < 640 && !this.coarsePointer ? 1.15 : this.maxPixelRatio);
     this.renderer.setPixelRatio(this.basePixelRatio * this.renderScale);
     this.post?.setSize(this.viewportWidth, this.viewportHeight, this.renderer.getPixelRatio());
     this.pace.settle = 2;
@@ -2399,7 +2403,8 @@ export class Showroom {
     // travel at full resolution would fall below 30 FPS, so travel starts with fewer pixels instead of switching mid-move.
     // The fastest sample counts, because single frames can carry one-off uploads.
     const cost = this.motionScale === 1 && this.fullFrameCosts.length ? Math.min(...this.fullFrameCosts) : 0;
-    if (cost > 34) this.motionScale = Math.max(Math.min(1, 0.75 / this.basePixelRatio), Math.round(Math.sqrt(28 / cost) * 20) / 20);
+    const budget = this.motionBudget;
+    if (cost > budget.initial) this.motionScale = Math.max(Math.min(1, 0.75 / this.basePixelRatio), Math.round(Math.sqrt(budget.target / cost) * 20) / 20);
     if (this.motionScale === this.renderScale) return false;
     this.renderScale = this.motionScale;
     this.applyPixelRatio();
@@ -2407,7 +2412,7 @@ export class Showroom {
     return true;
   }
 
-  // While the camera travels on a GPU that cannot keep it fluid (median frame over 40 ms), travel frames render fewer
+  // While the camera travels on a GPU that cannot keep it fluid (median frame over the budget's slow limit), travel frames render fewer
   // pixels, down to 0.75 device pixels per CSS pixel. Every still view renders at full resolution.
   updateRenderScale(gap) {
     if (!this.dirty || !this.viewportWidth) return;
@@ -2439,11 +2444,12 @@ export class Showroom {
     const typical = (sorted[3] + sorted[4]) / 2;
     this.motionGaps.length = 0;
     const floor = Math.min(1, 0.75 / this.basePixelRatio);
-    if (typical > 40 && this.motionScale > floor) {
-      // Pixel cost scales with the square of the ratio; aim near 28 ms (about 35 FPS).
+    const budget = this.motionBudget;
+    if (typical > budget.slow && this.motionScale > floor) {
+      // Pixel cost scales with the square of the ratio; aim near the budget's target frame time.
       this.motionCeiling = this.motionScale - 0.05;
-      this.motionScale = Math.max(floor, Math.min(this.motionCeiling, Math.round(this.motionScale * Math.sqrt(28 / typical) * 20) / 20));
-    } else if (typical < 22 && this.motionScale < this.motionCeiling) {
+      this.motionScale = Math.max(floor, Math.min(this.motionCeiling, Math.round(this.motionScale * Math.sqrt(budget.target / typical) * 20) / 20));
+    } else if (typical < budget.fast && this.motionScale < this.motionCeiling) {
       this.motionScale = Math.min(this.motionCeiling, this.motionScale + 0.1);
     }
   }
